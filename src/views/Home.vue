@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <v-container fluid>
     <p>SWEET HOME ALABAMA</p>
-  </div>
+  </v-container>
 </template>
 
 <script>
