@@ -18,88 +18,88 @@
 <!--    </div>-->
 <!--  </div>-->
   <v-layout fill-height>
-  <v-container
-    fluid
-    class="align-center"
-  >
-  <v-card
-    class="mx-auto"
-    max-width="500"
-  >
-    <v-card-title class="title font-weight-regular justify-space-between">
-      <span>{{title}}</span>
-      <v-avatar
-        color="primary lighten-2"
-        class="subheading white--text"
-        size="24"
-        v-text="registrationStep"
-        ></v-avatar>
-    </v-card-title>
+    <v-container
+      fluid
+      class="align-self-center"
+    >
+      <v-card
+        class="mx-auto"
+        max-width="500"
+      >
+        <v-card-title class="title font-weight-regular justify-space-between">
+          <span>{{title}}</span>
+          <v-avatar
+            color="primary lighten-2"
+            class="subheading white--text"
+            size="24"
+            v-text="registrationStep"
+            ></v-avatar>
+        </v-card-title>
 
-    <v-window v-model="registrationStep">
-      <v-window-item :value="1">
-        <v-card-text>
-          <v-text-field
-            label="Email"
-              value=""
-            ></v-text-field>
-            <span class="caption grey--text text--darken-1">
-              Wprowadź adres e-mail pod którym będziemy mogli się z tobą kontaktować!
-            </span>
-          </v-card-text>
-        </v-window-item>
+        <v-window v-model="registrationStep">
+          <v-window-item :value="1">
+            <v-card-text>
+              <v-text-field
+                label="Email"
+                  value=""
+              ></v-text-field>
+              <span class="caption grey--text text--darken-1">
+                  Wprowadź adres e-mail pod którym będziemy mogli się z tobą kontaktować!
+              </span>
+            </v-card-text>
+          </v-window-item>
 
-        <v-window-item :value="2">
-          <v-card-text>
-            <v-text-field
-              label="Hasło"
-              type="password"
-            ></v-text-field>
-            <v-text-field
-              label="Potwierdź hasło"
-              type="password"
-            ></v-text-field>
-            <span class="caption grey--text text--darken-1">
-              Utwórz hasło dla twojego konta
-            </span>
-          </v-card-text>
-        </v-window-item>
+          <v-window-item :value="2">
+            <v-card-text>
+              <v-text-field
+                label="Hasło"
+                type="password"
+              ></v-text-field>
+              <v-text-field
+                label="Potwierdź hasło"
+                type="password"
+              ></v-text-field>
+              <span class="caption grey--text text--darken-1">
+                Utwórz hasło dla twojego konta
+              </span>
+            </v-card-text>
+          </v-window-item>
 
-        <v-window-item :value="3">
-          <div class="pa-4 text-center">
-            <v-img
-              class="mb-4"
-              contain
-              height="128"
-              src="https://cdn.vuetifyjs.com/images/logos/v.svg"
-            ></v-img>
-            <h3 class="title font-weight-light mb-2">
-              Witamy w Exbook
-            </h3>
-            <span class="caption grey--text">
-              Dziękujemy za utworzenie konta!
-            </span>
-          </div>
-        </v-window-item>
-      </v-window>
+          <v-window-item :value="3">
+            <div class="pa-4 text-center">
+              <v-img
+                class="mb-4"
+                contain
+                height="128"
+                src="https://cdn.vuetifyjs.com/images/logos/v.svg"
+              ></v-img>
+              <h3 class="title font-weight-light mb-2">
+                Witamy w Exbook
+              </h3>
+              <span class="caption grey--text">
+                Dziękujemy za utworzenie konta!
+              </span>
+            </div>
+          </v-window-item>
+        </v-window>
 
-      <v-divider></v-divider>
+        <v-divider></v-divider>
 
-      <v-card-actions>
-        <v-btn
-          :disabled="registrationStep ===1"
-          text
-          @click="registrationStep--"
-        >Back</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn
-          :disabled="registrationStep === 3"
-          color="primary"
-          depressed
-          @click="registrationStep++"
-        >Next</v-btn>
-      </v-card-actions>
-    </v-card>
+        <v-card-actions>
+          <v-btn
+            :disabled="registrationStep ===1"
+            text
+            @click="registrationStep--"
+          >Back</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn
+            :disabled="registrationStep === 3"
+            color="primary"
+            depressed
+            @click="registrationStep++"
+          >Next</v-btn>
+        </v-card-actions>
+      </v-card>
     </v-container>
   </v-layout>
 </template>
