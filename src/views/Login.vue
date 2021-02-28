@@ -1,20 +1,4 @@
 <template>
-<!--  <div class="login">-->
-<!--    <div>-->
-<!--      <form @submit.prevent="submit">-->
-<!--        <div>-->
-<!--          <label for="username">Username:</label>-->
-<!--          <input type="text" name="username" id="username" v-model="form.username" autocomplete="username" required>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <label for="password">Password:</label>-->
-<!--          <input type="password" name="password" id="password" v-model="form.password" autocomplete="current-password" required>-->
-<!--        </div>-->
-<!--        <button type="submit">Submit</button>-->
-<!--      </form>-->
-<!--      <p v-if="showError" id="error">Username or Password is incorrect</p>-->
-<!--    </div>-->
-<!--  </div>-->
   <v-layout fill-height>
     <v-container
       class="align-self-center"
@@ -32,8 +16,6 @@
               <v-text-field
                 autofocus
                 v-model="form.username"
-                :error-messages="nameErrors"
-                :rules="nameRules"
                 label="Nazwa użytkownika"
                 autocomplete="username"
                 required
@@ -57,6 +39,7 @@
                 ></v-checkbox>
                 <v-btn
                   class="mr-4"
+                  @click="submit"
                 >Zaloguj</v-btn>
               </v-layout>
             </v-card-text>
@@ -87,7 +70,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions(['login', 'getUserInfo']),
     async submit() {
       const user = {
         login: this.form.username,
@@ -95,6 +78,8 @@ export default {
       }
       try {
         await this.login(user)
+        await this.$router.push('/')
+        await this.getUserInfo()
         this.showError = false
       } catch (error) {
         this.showError = true

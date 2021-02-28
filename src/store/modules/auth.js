@@ -2,12 +2,12 @@ import axios from "axios";
 
 const state = {
     user: {
-        id: 1,
-        email: '',
-        username: 'Adrian',
+        id: null,
+        email: null,
+        username: null,
         name: null,
         lastname: null,
-        img: '',
+        img: null ,
     }
 }
 
@@ -27,19 +27,29 @@ const actions = {
         await dispatch('login', userForm)
     },
 
-    async login({commit}, user) {
-        await axios.post('api/v1/auth/login', user)
-        await commit('setUser', user.get('username'))
+    async login(state, userForm) {
+        // Get token for current user credentials
+        await axios.post('api/v1/auth/login', userForm, {withCredentials: true})
+        // let user = await axios.get('api/v1/users/me', {withCredentials: true})
+        // Set received user information to app state
+        // await commit('setUser', user)
     },
 
     async logout({commit}) {
         await commit('logout')
+    },
+
+    async getUserInfo({commit}) {
+        let response = (await axios.get('api/v1/users/me', {withCredentials: true})).data
+        console.log(response)
+        await commit('setUser', response)
     }
 }
 
 const mutations = {
-    setUser(state, username) {
-        state.user = username
+    setUser(state, user) {
+        state.user.id = user.id
+        console.log('Sent request, got user with id = ' + user.id)
     },
     logout(state) {
         state.user.id = null
