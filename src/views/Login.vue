@@ -4,7 +4,7 @@
       class="align-self-center"
     >
       <v-card
-          class="mx-auto"
+        class="mx-auto"
         max-width="500"
       >
         <v-card-title>
@@ -25,6 +25,7 @@
                 label="Hasło"
                 autocomplete="current-password"
                 required
+                type="password"
               ></v-text-field>
               <span>
                 <router-link to="password-reset">Zapomniałeś hasła?</router-link>

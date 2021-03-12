@@ -3,8 +3,8 @@
     app
     color="white"
     flat
+    elevation="1"
   >
-
     <router-link to="/">
       <v-img
           src="img/Exbook_cr.svg"
@@ -20,133 +20,45 @@
           flat
           hide-details
           solo-inverted
-          label="Czego szukasz, cwelu?"
+          label="Czego szukasz?"
         ></v-text-field>
       </v-responsive>
 
     </v-container>
+    <v-btn
+        outlined
+        plain
+        v-if="isUserLoggedIn"
+        to="/add-offer"
+    >
+      <span>Dodaj ofertę</span>
+    </v-btn>
     <div>
-      <v-menu offset-y min-width="100pt">
-        <template v-slot:activator="{on, attrs}">
-          <v-avatar
-              class="mr-10 ml-10"
-              color="grey darken-1"
-              size="32"
-              v-bind="attrs"
-              v-on="on"
-          >
-            <span class="user-avatar-name">{{userAvatarName}}</span>
-          </v-avatar>
-        </template>
-        <v-list>
-          <v-list-item>
-            Witaj, {{userName}}
-          </v-list-item>
-          <v-list-item
-            v-for="link in menuItemsToShow"
-            :key="link.name"
-          >
-            <v-list-item-title>
-              <router-link :to="link.url">{{link.name}}</router-link>
-            </v-list-item-title>
-          </v-list-item
-              >
-          <v-list-item
-            v-if="isLoggedIn">
-            <v-list-item-title>
-              <v-btn elevation="0" @click="logout">Wyloguj</v-btn>
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-
+      <Menu/>
     </div>
 
   </v-app-bar>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import Menu from "@/components/navbar/Menu";
 
 export default {
   name: "NavBar",
+  components: {Menu},
   data() {
     return {
-      links: [
-        {
-          name: 'Moje konto',
-          url: 'my-account',
-          loginRequired: true
-        },
-        {
-          name: 'Wiadomości',
-          url: '/messages',
-          loginRequired: true
-        },
-        {
-          name: 'Zaloguj',
-          url: 'login',
-          loginRequired: false
-        },
-        {
-          name: 'Utwórz konto',
-          url: '/register',
-          loginRequired: false
-        }
-      ]
+
     }
   },
   computed: {
-    ...mapGetters({
-      stateUser: 'stateUser'
-    }),
-    isLoggedIn : function() {
+    isUserLoggedIn() {
       return this.$store.getters.isAuthenticated
-    },
-    userImg : function() {
-      return this.$store.getters.stateUser.img;
-    },
-    userName: function() {
-      return (this.$store.getters.stateUser.username === null) ? 'Gościu' : this.$store.getters.stateUser.username
-    },
-    menuItemsToShow: function() {
-      return this.links.filter((link) => this.isLoggedIn === link.loginRequired)
-    },
-    userAvatarName: function () {
-      if (this.stateUser.name === null)
-          return 'G'
-      else
-          return  this.stateUser.name[0] + this.stateUser.name[1]
-    }
-  },
-  methods: {
-    async logout() {
-      await this.$store.dispatch('logout')
-      await this.$router.push('/login')
     }
   }
 }
 </script>
 
 <style scoped>
-  .menu-link {
-    font-weight: bold;
-    color: #ffffff;
 
-    :hover {
-      cursor: pointer;
-    }
-
-    :visited {
-      color: white;
-    }
-  }
-
-  a.router-link-exact-active {
-    color: #42b983;
-  }
-
-  .user-avatar-name {
-    color: #c7c7c7
-  }
 </style>

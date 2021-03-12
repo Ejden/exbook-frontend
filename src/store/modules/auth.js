@@ -5,9 +5,9 @@ const state = {
         id: null,
         email: null,
         username: null,
-        name: null,
-        lastname: null,
-        img: null ,
+        firstName: null,
+        lastName: null,
+        img: null
     }
 }
 
@@ -49,16 +49,19 @@ const actions = {
 const mutations = {
     setUser(state, user) {
         state.user.id = user.id
-        console.log('Sent request, got user with id = ' + user.id)
+        state.user.email = user.email
+        state.user.username = user.login
+        state.user.firstName = user.firstName
+        state.user.lastName = user.lastName
     },
     logout(state) {
         state.user.id = null
-        state.user.id = null
         state.user.email = null
         state.user.username = null
-        state.user.name = null
+        state.user.firstName = null
         state.user.lastname = null
         state.user.img = null
+        document.cookie = "Authorization= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
     }
 }
 
