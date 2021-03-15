@@ -31,6 +31,7 @@
           <v-text-field
             outlined
             :rules="rules"
+            v-model="offerFormIsbn"
           />
         </v-card-text>
 
@@ -40,18 +41,23 @@
           <label class="form-label">Tytuł książki*</label>
           <v-text-field
             outlined
+            v-model="offerFormTitle"
           />
           <label class="form-label">Autor książki*</label>
           <v-text-field
             outlined
+            v-model="offerFormAuthor"
           />
           <label class="form-label">Opis</label>
-          <v-textarea outlined/>
+          <v-textarea
+              outlined
+              v-model="offerFormDescription"
+          />
         </v-card-text>
 
         <v-card-text>
           <label class="form-label">Kategoria*</label>
-          <CategoriesSelectableList/>
+          <CategoriesSelectableList v-on:modifiedSelectedCategoriesEvent="pushCategoryFromChildTreeToForm"/>
         </v-card-text>
 
         <v-card-text class="d-flex flex-column">
@@ -60,14 +66,14 @@
           <v-btn-toggle
             mandatory
             class="d-flex flex-column"
-            v-model="selectedCondition"
+            v-model="offerFormCondition"
           >
             <v-btn
                 outlined
                 color="blue-lighten-4"
                 v-for="(condition, index) in conditions" :key="index"
-                :value="condition"
-            >{{ condition }}</v-btn>
+                :value="condition.condition"
+            >{{ condition.name }}</v-btn>
           </v-btn-toggle>
         </v-card-text>
 
@@ -79,20 +85,27 @@
           <v-btn-toggle
             mandatory
             class="d-flex flex-column"
-            v-model="selectedOfferType"
+            v-model="offerFormType"
           >
             <v-btn
               outlined
               v-for="offerType in offerTypes" :key="offerType.type"
-              :value="offerType"
+              :value="offerType.type"
             >
-              {{ offerType.type }}
+              {{ offerType.name }}
             </v-btn>
           </v-btn-toggle>
 
           <div v-if="selectedOfferType.buyAbility" class="mt-6">
             <span class="form-label">Cena książki*</span>
-            <v-text-field suffix="zł" placeholder="0,00" outlined label="Cena" class="price-input"/>
+            <v-text-field
+                v-model="offerFormPrice"
+                suffix="zł"
+                placeholder="0,00"
+                outlined
+                label="Cena"
+                class="price-input"
+            />
           </div>
         </v-card-text>
 
@@ -100,9 +113,11 @@
 
         <v-card-text>
           <label class="form-label">Lokalizacja*</label>
-          <v-text-field outlined placeholder="Wpisz miasto">
-
-          </v-text-field>
+          <v-text-field
+              v-model="offerFormLocation"
+              outlined
+              placeholder="Wpisz miasto"
+          ></v-text-field>
         </v-card-text>
 
         <v-divider/>
@@ -111,26 +126,25 @@
           <span class="form-label">Metody dostawy*</span>
 
           <div>
-            <div class="d-flex justify-space-between" v-for="category in shippingMethods" :key="category.id">
+            <div class="d-flex justify-space-between" v-for="shippingMethod in shippingMethods" :key="shippingMethod.id">
               <v-checkbox
-                v-model="selectedShippingMethods"
-                :label="category.methodName"
-                :value="category"
+                v-model="offerFormShippingMethods"
+                :label="shippingMethod.methodName"
+                :value="shippingMethod"
               ></v-checkbox>
-              <v-text-field class="shipping-price-input"
+              <v-text-field
+                class="shipping-price-input"
                 outlined
                 dense
+                type="number"
                 suffix="zł"
-                :value="category.recommendedPrice / 100"
+                v-model="shippingMethod.price"
               ></v-text-field>
             </div>
           </div>
         </v-card-text>
 
         <v-divider/>
-
-
-
       </v-window-item>
     </v-window>
   </v-card>
@@ -148,29 +162,135 @@ export default {
 
     ],
     pictures: [],
-    conditions: ['NOWA', 'UŻYWANA', 'WIDOCZNE ŚLADY UŻYTKOWANIA', 'ZNISZCZONA'],
+    conditions: [
+      {
+        condition: 'NEW',
+        name: 'Nowa'
+      },
+      {
+        condition: 'PERFECT',
+        name: 'Brak śladów użytkowania'
+      },
+      {
+        condition: 'LIGHTLY_USED',
+        name: 'Nosi ślady użytkowania'
+      },
+      {
+        condition: 'MODERATELY_USED',
+        name: 'Nosi liczne ślady użytkowania'
+      },
+      {
+        condition: 'BAD',
+        name: 'W złym stanie'
+      }
+    ],
     selectedCondition: '',
     price: 0,
     offerTypes: [
       {
-        type: 'KUPNO I WYMIANA',
+        name: 'KUPNO I WYMIANA',
+        type: 'EXCHANGE_AND_BUY',
         buyAbility: true
       },
       {
-        type: 'TYLKO KUPNO',
+        name: 'TYLKO KUPNO',
+        type: 'BUY_ONLY',
         buyAbility: true
       },
       {
-        type: 'TYLKO WYMIANA',
+        name: 'TYLKO WYMIANA',
+        type: 'EXCHANGE_ONLY',
         buyAbility: false
       }
     ],
     selectedOfferType: '',
-    shippingMethods: [],
-    selectedShippingMethods: []
+    shippingMethods: []
   }),
+  methods: {
+    pushCategoryFromChildTreeToForm(payload) {
+      this.$store.commit('updateSelectedCategoriesInNewOfferForm', payload)
+    }
+  },
+  computed: {
+    offerFormIsbn: {
+      get() {
+        return this.$store.getters.newOfferForm.book.isbn
+      },
+      set(value) {
+        this.$store.commit('updateIsbnInNewOfferForm', value)
+      }
+    },
+    offerFormTitle: {
+      get() {
+        return this.$store.getters.newOfferForm.book.title
+      },
+      set(value) {
+        this.$store.commit('updateBookTitleInNewOfferForm', value)
+      }
+    },
+    offerFormAuthor: {
+      get() {
+        return this.$store.getters.newOfferForm.book.author
+      },
+      set(value) {
+        this.$store.commit('updateBookAuthorInNewOfferForm', value)
+      }
+    },
+    offerFormDescription: {
+      get() {
+        return this.$store.getters.newOfferForm.description
+      },
+      set(value) {
+        this.$store.commit('updateDescriptionInNewOfferForm', value)
+      }
+    },
+    offerFormCondition: {
+      get() {
+        return this.$store.getters.newOfferForm.book.condition
+      },
+      set(value) {
+        this.$store.commit('updateBookConditionInNewOfferForm', value)
+      }
+    },
+    offerFormType: {
+      get() {
+        return this.$store.getters.newOfferForm.type
+      },
+      set(value) {
+        this.$store.commit('updateTypeInNewOfferForm', value)
+      }
+    },
+    offerFormPrice: {
+      get() {
+        return this.$store.getters.newOfferForm.price
+      },
+      set(value) {
+        this.$store.commit('updatePriceInNewOfferForm', value)
+      }
+    },
+    offerFormLocation: {
+      get() {
+        return this.$store.getters.newOfferForm.location
+      },
+      set(value) {
+        this.$store.commit('updateLocationInNewOfferForm', value)
+      }
+    },
+    offerFormShippingMethods: {
+      get() {
+        return this.$store.getters.newOfferForm.shippingMethods
+      },
+      set(value) {
+        this.$store.commit('updateShippingMethodsInNewOfferForm', value)
+      }
+    }
+  },
   mounted() {
     axios.get('api/v1/shipping').then(response => {
+      response.data.forEach(shippingMethod => {
+        shippingMethod.price = shippingMethod.recommendedPrice / 100
+        delete shippingMethod.recommendedPrice
+      })
       this.shippingMethods = response.data
     }).catch(error => {
       console.log(error)

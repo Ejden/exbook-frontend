@@ -1,5 +1,5 @@
 <template>
-  <v-menu offset-y min-width="100pt">
+  <v-menu offset-y>
     <template v-slot:activator="{on, attrs}">
       <v-avatar
           class="mr-10 ml-10"

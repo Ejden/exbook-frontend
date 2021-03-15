@@ -1,15 +1,22 @@
 <template>
-  <v-card class="d-flex column">
+  <v-card>
     <v-card-text>
-      <div>
-        <span>Wpisanie numeru ISBN ułatwi znalezienie innym użytkownikom twojej oferty!</span>
-      </div>
+      <h1 class="mb-7">Wystaw ofertę</h1>
 
-      <div>
-        <span>Dodanie zdjęć książki powoduje większe zainteresowanie ofertą!</span>
-      </div>
+      <h3 class="mb-1">Porady</h3>
+      <ul>
+        <li>
+          <span>Wpisanie numeru ISBN ułatwi znalezienie innym użytkownikom twojej oferty!</span>
+        </li>
+        <li>
+          <span>Dodanie zdjęć książki powoduje większe zainteresowanie ofertą!</span>
+        </li>
+        <li>
+          <span>W opisie możesz wpisać książki, które Cię najbardziej interesują do wymiany!</span>
+        </li>
+      </ul>
 
-      <v-btn class="submit-button" @click="addOffer">
+      <v-btn class="submit-button mt-7" @click="addOffer" block large color="primary">
         Dodaj ogłoszenie
       </v-btn>
     </v-card-text>
@@ -21,7 +28,7 @@ export default {
   name: "NewOfferTips",
   methods: {
     addOffer() {
-
+      this.$emit('createOffer')
     }
   }
 }

@@ -30,6 +30,7 @@
               selected-color="indigo"
               open-all
               return-object
+              @input="modifiedSelectedCategoriesEventHandler"
           ></v-treeview>
         </v-card-text>
       </v-col>
@@ -66,30 +67,8 @@ export default {
         }
       }
     },
-    selectAllParentsOfCategory(category) {
-      if (category.parent != null) {
-        this.selectedCategories.push(category.parent)
-        this.selectAllParentsOfCategory(category.parent)
-      }
-    },
     modifiedSelectedCategoriesEventHandler() {
-      // this.selectedCategories.forEach((category) => {})
-      let lengthOfSelectedCategories = this.selectedCategories.length
-
-      for (let i = 0; i < lengthOfSelectedCategories; i++) {
-        let currentCategory = this.selectedCategories[i];
-
-        let parent = this.selectedCategories.filter(function (e) {
-          return e.parent = currentCategory
-        });
-
-        console.log(parent)
-
-        if (parent === null) {
-          this.selectAllParentsOfCategory(this.selectedCategories[i])
-          lengthOfSelectedCategories = this.selectedCategories.length
-        }
-      }
+      this.$emit('modifiedSelectedCategoriesEvent', this.selectedCategories)
     }
   },
   mounted() {

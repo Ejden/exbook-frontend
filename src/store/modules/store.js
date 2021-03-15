@@ -8,12 +8,31 @@ const state = {
         firstName: null,
         lastName: null,
         img: null
+    },
+    newOfferForm: {
+        book: {
+            author: '',
+            title: '',
+            isbn: '',
+            condition: ''
+        },
+        description: null,
+        images: {
+            thumbnail: null,
+            otherImages: []
+        },
+        categories: [],
+        type: '',
+        price: null,
+        location: '',
+        shippingMethods: []
     }
 }
 
 const getters = {
     isAuthenticated: state => !!state.user.id,
-    stateUser: state => state.user
+    stateUser: state => state.user,
+    newOfferForm: state => state.newOfferForm
 }
 
 const actions = {
@@ -62,6 +81,36 @@ const mutations = {
         state.user.lastname = null
         state.user.img = null
         document.cookie = "Authorization= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
+    },
+    updateIsbnInNewOfferForm(state, isbn) {
+        state.newOfferForm.book.isbn = isbn
+    },
+    updateBookTitleInNewOfferForm(state, title) {
+        state.newOfferForm.book.title = title
+    },
+    updateBookAuthorInNewOfferForm(state, author) {
+        state.newOfferForm.book.author = author
+    },
+    updateDescriptionInNewOfferForm(state, description) {
+        state.newOfferForm.description = description
+    },
+    updateBookConditionInNewOfferForm(state, condition) {
+        state.newOfferForm.book.condition = condition
+    },
+    updateTypeInNewOfferForm(state, type) {
+        state.newOfferForm.type = type
+    },
+    updatePriceInNewOfferForm(state, price) {
+        state.newOfferForm.price = price
+    },
+    updateLocationInNewOfferForm(state, location) {
+        state.newOfferForm.location = location
+    },
+    updateShippingMethodsInNewOfferForm(state, shippingMethods) {
+        state.newOfferForm.shippingMethods = shippingMethods
+    },
+    updateSelectedCategoriesInNewOfferForm(state, categories) {
+        state.newOfferForm.categories = categories
     }
 }
 
