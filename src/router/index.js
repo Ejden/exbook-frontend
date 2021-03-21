@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Register from '../views/Register'
 import Login from '../views/Login'
 import NewOffer from "@/views/NewOffer";
+import CreatedOffer from "@/views/CreatedOffer";
 
 Vue.use(VueRouter)
 
@@ -12,7 +13,8 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
+        meta: {guest: true}
     },
     {
         path: '/register',
@@ -30,6 +32,12 @@ const routes = [
         path: '/add-offer',
         name: 'NewOffer',
         component: NewOffer,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/offer/:id/new',
+        name: 'CreatedOffer',
+        component: CreatedOffer,
         meta: {requiresAuth: true}
     }
 ]

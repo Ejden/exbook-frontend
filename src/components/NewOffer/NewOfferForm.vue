@@ -90,13 +90,13 @@
             <v-btn
               outlined
               v-for="offerType in offerTypes" :key="offerType.type"
-              :value="offerType.type"
+              :value="offerType"
             >
               {{ offerType.name }}
             </v-btn>
           </v-btn-toggle>
 
-          <div v-if="selectedOfferType.buyAbility" class="mt-6">
+          <div v-if="offerFormType.buyAbility" class="mt-6">
             <span class="form-label">Cena książki*</span>
             <v-text-field
                 v-model="offerFormPrice"
@@ -128,17 +128,18 @@
           <div>
             <div class="d-flex justify-space-between" v-for="shippingMethod in shippingMethods" :key="shippingMethod.id">
               <v-checkbox
-                v-model="offerFormShippingMethods"
+                v-model="selectedShippingMethods"
                 :label="shippingMethod.methodName"
                 :value="shippingMethod"
+                @change="updateSelectedShippingMethods"
               ></v-checkbox>
               <v-text-field
                 class="shipping-price-input"
                 outlined
                 dense
-                type="number"
                 suffix="zł"
                 v-model="shippingMethod.price"
+                @change="updateSelectedShippingMethods"
               ></v-text-field>
             </div>
           </div>
@@ -203,12 +204,15 @@ export default {
         buyAbility: false
       }
     ],
-    selectedOfferType: '',
-    shippingMethods: []
+    shippingMethods: [],
+    selectedShippingMethods: []
   }),
   methods: {
     pushCategoryFromChildTreeToForm(payload) {
       this.$store.commit('updateSelectedCategoriesInNewOfferForm', payload)
+    },
+    updateSelectedShippingMethods() {
+      this.$store.commit('updateShippingMethodsInNewOfferForm', this.selectedShippingMethods)
     }
   },
   computed: {
@@ -286,6 +290,8 @@ export default {
     }
   },
   mounted() {
+    this.updateSelectedShippingMethods()
+
     axios.get('api/v1/shipping').then(response => {
       response.data.forEach(shippingMethod => {
         shippingMethod.price = shippingMethod.recommendedPrice / 100
