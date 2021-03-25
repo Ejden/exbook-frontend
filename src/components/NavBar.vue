@@ -1,7 +1,7 @@
 <template>
   <v-app-bar
     app
-    color="white"
+    color="#ffffff"
     elevation="1"
   >
     <div class="app-bar">

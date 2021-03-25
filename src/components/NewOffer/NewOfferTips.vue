@@ -28,7 +28,7 @@ export default {
   name: "NewOfferTips",
   methods: {
     addOffer() {
-      this.$store.dispatch('addOffer')
+      this.$emit('createOffer')
     }
   }
 }

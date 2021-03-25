@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import store from '../store'
 import Home from '../views/Home.vue'
 import Register from '../views/Register'
 import Login from '../views/Login'
 import NewOffer from "@/views/NewOffer";
 import CreatedOffer from "@/views/CreatedOffer";
+import Offer from "@/views/Offer";
 
 Vue.use(VueRouter)
 
@@ -35,10 +35,16 @@ const routes = [
         meta: {requiresAuth: true}
     },
     {
-        path: '/offer/:id/new',
+        path: '/offer/:offerId/new',
         name: 'CreatedOffer',
         component: CreatedOffer,
         meta: {requiresAuth: true}
+    },
+    {
+        path: '/offer/:offerId',
+        name: 'Offer',
+        component: Offer,
+        meta: {requiresAuth: false}
     }
 ]
 

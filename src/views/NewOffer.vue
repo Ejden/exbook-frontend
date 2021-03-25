@@ -10,13 +10,13 @@
 <script>
 import NewOfferForm from "@/components/NewOffer/NewOfferForm";
 import NewOfferTips from "@/components/NewOffer/NewOfferTips";
+
 export default {
 name: "NewOffer",
   components: {NewOfferTips, NewOfferForm},
   methods: {
     createOffer() {
-      console.log(2)
-      // this.$broadcast('createOffer')
+      this.$store.dispatch('addOffer')
     }
   }
 }
