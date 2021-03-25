@@ -11,7 +11,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="img/logo.jpg" alt="Logo" width="228">
+    <img src="img/logo.jpg" alt="Logo" width="114">
   </a>
 
 <h3 align="center">Exbook</h3>
