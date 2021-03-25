@@ -57,7 +57,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](img/add-offer-screen.png)
+![Product Name Screen Shot][product-screenshot]
 
 #### Note that this project is in early development!
 This is frontend part of Exbook web application. 
@@ -171,3 +171,4 @@ Adrian Stypiński - [adrian.stypinski+github@gmail.com](mailto:adrian.stypinski+
 [license-url]: https://github.com/Ejden/exbook-frontend/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/adrian-stypi%C5%84ski-74b319198/
+[product-screenshot]: img/add-offer-screen.png
