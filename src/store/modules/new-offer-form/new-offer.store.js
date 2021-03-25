@@ -2,14 +2,6 @@ import axios from "axios";
 import router from "@/router";
 
 const state = {
-    user: {
-        id: null,
-        email: null,
-        username: null,
-        firstName: null,
-        lastName: null,
-        img: null
-    },
     newOfferForm: {
         book: {
             author: '',
@@ -31,41 +23,11 @@ const state = {
 }
 
 const getters = {
-    isAuthenticated: state => !!state.user.id,
-    stateUser: state => state.user,
     newOfferForm: state => state.newOfferForm
 }
 
 const actions = {
-    async register({dispatch}, form) {
-        await axios.post('api/v1/auth/signup', form)
-        let userForm = new FormData()
-        userForm.append('email', form.email)
-        userForm.append('login', form.username)
-        userForm.append('password', form.password)
-
-        await dispatch('login', userForm)
-    },
-
-    async login(state, userForm) {
-        // Get token for current user credentials
-        await axios.post('api/v1/auth/login', userForm, {withCredentials: true})
-        // let user = await axios.get('api/v1/users/me', {withCredentials: true})
-        // Set received user information to app state
-        // await commit('setUser', user)
-    },
-
-    async logout({commit}) {
-        await commit('logout')
-    },
-
-    async getUserInfo({commit}) {
-        let response = (await axios.get('api/v1/users/me', {withCredentials: true})).data
-        console.log(response)
-        await commit('setUser', response)
-    },
-
-    async addOffer({ state, commit }) {
+    async addOffer(state) {
         class ShippingMethod{
             constructor(methodName, price) {
                 this.methodName = methodName
@@ -92,44 +54,31 @@ const actions = {
             shippingMethods: []
         }
 
-        body.book.author = state.newOfferForm.book.author
-        body.book.title = state.newOfferForm.book.title
-        body.book.isbn = state.newOfferForm.book.isbn
-        body.book.condition = state.newOfferForm.book.condition
-        body.description = state.newOfferForm.description
-        body.type = state.newOfferForm.type.type
-        body.price = state.newOfferForm.price.parseInt * 100
-        body.location = state.newOfferForm.location
-        body.categories = state.newOfferForm.categories.map(category => category.id)
-        body.shippingMethods = state.newOfferForm.shippingMethods.map(shippingMethod => new ShippingMethod(shippingMethod.methodName, shippingMethod.price * 100))
-        console.log(body)
+        body.book.author = state.getters.newOfferForm.book.author
+        body.book.title = state.getters.newOfferForm.book.title
+        body.book.isbn = state.getters.newOfferForm.book.isbn
+        body.book.condition = state.getters.newOfferForm.book.condition
+        body.description = state.getters.newOfferForm.description
+        body.type = state.getters.newOfferForm.type.type
+        body.price = parseInt(parseFloat(state.getters.newOfferForm.price) * 100)
+        body.location = state.getters.newOfferForm.location
+        body.categories = state.getters.newOfferForm.categories.map(category => category.id)
+        body.shippingMethods = state.getters.newOfferForm.shippingMethods.map(shippingMethod => new ShippingMethod(shippingMethod.methodName, shippingMethod.price * 100))
 
         await axios.post('api/v1/offers', body, {withCredentials: true})
             .then((response) => {
-                commit('clearNewOfferForm')
-                router.push('offer/'+response.data.id+'/created')
+                this.commit('clearNewOfferForm')
+                router.push('offer/'+response.data.id+'/new')
             })
             .catch(() => router.push('error'))
+    },
+
+    validateForm() {
+
     }
 }
 
 const mutations = {
-    setUser(state, user) {
-        state.user.id = user.id
-        state.user.email = user.email
-        state.user.username = user.login
-        state.user.firstName = user.firstName
-        state.user.lastName = user.lastName
-    },
-    logout(state) {
-        state.user.id = null
-        state.user.email = null
-        state.user.username = null
-        state.user.firstName = null
-        state.user.lastname = null
-        state.user.img = null
-        document.cookie = "Authorization= ; expires = Thu, 01 Jan 1970 00:00:00 GMT"
-    },
     clearNewOfferForm(state) {
         state.newOfferForm.book.author = ''
         state.newOfferForm.book.title = ''

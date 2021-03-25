@@ -30,8 +30,8 @@
           <label class="form-label">ISBN</label>
           <v-text-field
             outlined
-            :rules="rules"
             v-model="offerFormIsbn"
+            :rules="[rules.counter(offerFormIsbn, 9)]"
           />
         </v-card-text>
 
@@ -42,16 +42,25 @@
           <v-text-field
             outlined
             v-model="offerFormTitle"
+            :rules="[rules.required, rules.counter(offerFormTitle, 30)]"
+            maxlength="30"
+            counter
           />
           <label class="form-label">Autor książki*</label>
           <v-text-field
             outlined
             v-model="offerFormAuthor"
+            counter
+            :rules="[rules.required, rules.counter(offerFormTitle, 25)]"
+            maxlength="25"
           />
           <label class="form-label">Opis</label>
           <v-textarea
               outlined
               v-model="offerFormDescription"
+              counter
+              :rules="[rules.counter(offerFormDescription, 300)]"
+              maxlength="300"
           />
         </v-card-text>
 
@@ -154,14 +163,20 @@
 <script>
 import CategoriesSelectableList from "@/components/NewOffer/CategoriesSelectableList";
 import axios from "axios";
+import inputValidator from '@/mixin/validate-input.mixin'
 
 export default {
+  mixins: [inputValidator],
   name: "NewOfferForm",
   components: {CategoriesSelectableList},
   data: () => ({
-    rules: [
-
-    ],
+    rules: {
+      required: value => !!value || 'Wymagane',
+      counter: (value, max) => {
+        if (value === null) return true
+        return value.length <= max || 'Max ' + max + ' characters'
+      }
+    },
     pictures: [],
     conditions: [
       {

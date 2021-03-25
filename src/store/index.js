@@ -1,13 +1,21 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 import createPersistedState from 'vuex-persistedstate';
-import store from './modules/store'
+import userStore from './modules/new-offer-form/user-store'
+import newOfferStore from './modules/new-offer-form/new-offer.store'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
-        store
+        userStore,
+        newOfferStore
+    },
+    state: {
+        homeUrl: window.location.origin
+    },
+    getters: {
+        homeUrl: state => state.homeUrl
     },
     plugins: [createPersistedState()]
 })
