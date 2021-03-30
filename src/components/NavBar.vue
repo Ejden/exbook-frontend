@@ -8,7 +8,7 @@
       <router-link class="home-logo-button" to="/">
         <v-img
             content-class="site-logo"
-            src="img/Exbook_cr.svg"
+            src="/img/Exbook_cr.svg"
             height="32"
             alt="Logo"
             contain

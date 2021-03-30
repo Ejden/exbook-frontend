@@ -40,7 +40,7 @@ const actions = {
     },
 
     async getUserInfo({commit}) {
-        let response = (await axios.get('api/v1/users/me', {withCredentials: true})).data
+        let response = (await axios.get('api/v1/me', {withCredentials: true})).data
         console.log(response)
         await commit('setUser', response)
     }
