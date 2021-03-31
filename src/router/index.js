@@ -6,6 +6,7 @@ import Login from '../views/Login'
 import NewOffer from "@/views/NewOffer";
 import CreatedOffer from "@/views/CreatedOffer";
 import Offer from "@/views/Offer";
+import Listing from "@/views/Listing";
 
 Vue.use(VueRouter)
 
@@ -44,6 +45,16 @@ const routes = [
         path: '/offer/:offerId',
         name: 'Offer',
         component: Offer,
+        meta: {requiresAuth: false}
+    },
+    {
+        path: '/listing',
+        name: 'Listing',
+        component: Listing,
+        props: route => ({
+            query: route.query.value,
+            color: route.query.color
+        }),
         meta: {requiresAuth: false}
     }
 ]

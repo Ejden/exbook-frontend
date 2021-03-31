@@ -2,7 +2,7 @@
   <v-menu offset-y>
     <template v-slot:activator="{on, attrs}">
       <v-avatar
-          class="mr-10 ml-10"
+          class="ml-10"
           color="grey darken-1"
           size="32"
           v-bind="attrs"
@@ -44,7 +44,7 @@ export default {
       links: [
         {
           name: 'Moje konto',
-          url: 'my-account',
+          url: '/my-account',
           loginRequired: true
         },
         {

@@ -4,10 +4,9 @@
     color="#ffffff"
     elevation="1"
   >
-    <div class="app-bar">
+    <v-container class="app-bar">
       <router-link class="home-logo-button" to="/">
         <v-img
-            content-class="site-logo"
             src="/img/Exbook_cr.svg"
             height="32"
             alt="Logo"
@@ -17,13 +16,15 @@
       </router-link>
 
       <v-text-field
+        v-model="searchText"
         class="search-bar"
         dense
         flat
         hide-details
         solo-inverted
         label="Czego szukasz?"
-      ></v-text-field>
+        @keydown.enter="search"
+      />
 
       <div>
         <v-btn
@@ -38,7 +39,7 @@
 
         <Menu/>
       </div>
-    </div>
+    </v-container>
   </v-app-bar>
 </template>
 
@@ -50,7 +51,12 @@ export default {
   components: {Menu},
   data() {
     return {
-
+      searchText: ''
+    }
+  },
+  methods: {
+    search() {
+      this.$router.push('/listing')
     }
   },
   computed: {
@@ -65,11 +71,13 @@ export default {
   .app-bar {
     display: flex;
     justify-content: space-between;
-    width: 100%;
   }
-  .search-bar {
-    max-width: 700px;
 
+  .search-bar-container {
+  }
+
+  .search-bar {
+    max-width: 600px;
   }
 
   @media only screen and (max-width: 768px) {
@@ -82,9 +90,6 @@ export default {
     .app-bar {
       display: flex !important;
       justify-content: flex-start !important;
-    }
-    .site-logo {
-
     }
   }
 </style>

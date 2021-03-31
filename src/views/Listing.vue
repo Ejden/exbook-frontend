@@ -1,13 +1,17 @@
 <template>
   <div>
-
+    Hi
+    {{ query }}
   </div>
 </template>
 
 <script>
 export default {
   name: "Listing",
-  props: ['query']
+  props: ['query'],
+  methods: {
+
+  }
 }
 </script>
 
