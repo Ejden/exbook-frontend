@@ -52,8 +52,15 @@ const routes = [
         name: 'Listing',
         component: Listing,
         props: route => ({
-            query: route.query.value,
-            color: route.query.color
+            search: route.query.search,
+            categoryId: route.query.categoryId,
+            condition: route.query.condition,
+            type: route.query.type,
+            priceFrom: route.query.priceFrom,
+            priceTo: route.query.priceTo,
+            location: route.query.location,
+            sort: route.query.sort,
+            page: route.query.page
         }),
         meta: {requiresAuth: false}
     }

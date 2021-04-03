@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     search() {
-      this.$router.push('/listing')
+      this.$router.push({ name: 'Listing', query: { search: this.searchText }})
     }
   },
   computed: {
