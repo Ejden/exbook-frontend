@@ -20,10 +20,11 @@
 
     <v-card-text>
       <div v-for="offer in offers" :key="offer.id">
-        <Offer
+        <offer-row
+            :id="offer.id"
             :title="offer.book.title"
             :author="offer.book.author"
-            :price="offer.price"
+            :cost="offer.cost"
             :thumbnail-url="offer.images.thumbnail.url"
             :seller-username="offer.seller.username"
             :type="offer.type"
@@ -35,11 +36,10 @@
 </template>
 
 <script>
-import Offer from "@/components/listing/offerlisting/Offer";
-
+import OfferRow from "./OfferRow";
 export default {
   name: "OfferListing",
-  components: {Offer},
+  components: {OfferRow},
   props: ['offers', 'pageable', 'pages'],
   data: () => {
     return {

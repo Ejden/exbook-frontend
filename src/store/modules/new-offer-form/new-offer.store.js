@@ -28,10 +28,17 @@ const getters = {
 
 const actions = {
     async addOffer(state) {
+        class Cost {
+            constructor(value, currency) {
+                this.value = value
+                this.currency = currency
+            }
+        }
+
         class ShippingMethod{
-            constructor(methodName, price) {
-                this.methodName = methodName
-                this.price = price
+            constructor(id, cost) {
+                this.id = id
+                this.cost = cost
             }
         }
 
@@ -49,21 +56,30 @@ const actions = {
             },
             category: '',
             type: '',
-            price: null,
+            cost: null,
             location: '',
             shippingMethods: []
         }
 
+        console.log(body)
+
         body.book.author = state.getters.newOfferForm.book.author
         body.book.title = state.getters.newOfferForm.book.title
-        body.book.isbn = state.getters.newOfferForm.book.isbn
+        body.book.isbn = parseInt(state.getters.newOfferForm.book.isbn)
         body.book.condition = state.getters.newOfferForm.book.condition
         body.description = state.getters.newOfferForm.description
         body.type = state.getters.newOfferForm.type.type
-        body.price = parseInt(parseFloat(state.getters.newOfferForm.price) * 100)
+        body.cost = new Cost(state.getters.newOfferForm.price, 'PLN')
         body.location = state.getters.newOfferForm.location
         body.category = state.getters.newOfferForm.category.id
-        body.shippingMethods = state.getters.newOfferForm.shippingMethods.map(shippingMethod => new ShippingMethod(shippingMethod.methodName, shippingMethod.price * 100))
+        body.shippingMethods = state.getters.newOfferForm.shippingMethods
+            .map(shippingMethod => new ShippingMethod(
+                    shippingMethod.id,
+                    new Cost(shippingMethod.price.amount, 'PLN')
+                )
+            )
+
+        console.log(body)
 
         await axios.post('api/offers', body, { withCredentials: true })
             .then((response) => {
@@ -117,7 +133,7 @@ const mutations = {
         state.newOfferForm.shippingMethods = shippingMethods
     },
     updateSelectedCategoriesInNewOfferForm(state, category) {
-        state.newOfferForm.categories = category
+        state.newOfferForm.category = category
     }
 }
 

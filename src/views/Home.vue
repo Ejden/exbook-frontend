@@ -11,6 +11,7 @@
 <script>
 import Categories from "@/components/category/Categories";
 import RecommendedOffers from "@/components/home/RecommendedOffers";
+
 export default {
   name: "Home",
   data() {
@@ -21,6 +22,9 @@ export default {
   components: {
     RecommendedOffers,
     Categories
+  },
+  methods: {
+
   }
 }
 </script>

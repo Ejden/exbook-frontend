@@ -9,7 +9,7 @@
           :offer-images="offer.images.otherImages"
           :seller-name="offer.seller.username"
           :offer-type="offer.type"
-          :price="offer.price"
+          :cost="offer.cost"
           :shipping="offer.shippingMethods"
           :isbn="offer.book.isbn"
           :condition="offer.book.condition"
@@ -50,11 +50,11 @@
 
 <script>
 import axios from "axios";
-import OfferSnippet from "@/components/offer/OfferSnippet";
-import OfferDescription from "@/components/offer/OfferDescription";
-import OtherSellerOffers from "@/components/offer/OtherSellerOffers";
-import OfferDelivery from "@/components/offer/OfferDelivery";
-import SellerInfo from "@/components/offer/SellerInfo";
+import OfferSnippet from "../components/offer/OfferSnippet";
+import OfferDescription from "../components/offer/OfferDescription";
+import OtherSellerOffers from "../components/offer/OtherSellerOffers";
+import OfferDelivery from "../components/offer/OfferDelivery";
+import SellerInfo from "../components/offer/SellerInfo";
 
 export default {
   name: "Offer",
@@ -79,11 +79,14 @@ export default {
 
   },
   beforeCreate() {
-    let offerUrl = 'api/v1/offers/' + this.$route.params.offerId
+    let offerUrl = 'api/offers/' + this.$route.params.offerId
     axios.get(offerUrl).then(response => {
       this.offer = response.data
       console.log(response)
     }).catch(error => {
+      if (error.response.status === 404) {
+        this.$router.push({ name: 'NotFound' })
+      }
       console.log(error)
     })
   }

@@ -66,7 +66,7 @@
 
         <v-card-text>
           <label class="form-label">Kategoria*</label>
-          <CategoriesSelectableList v-on:modifiedSelectedCategoriesEvent="pushCategoryFromChildTreeToForm"/>
+          <CategoriesSelectableList v-on:changedCategory="pushCategoryFromChildTreeToForm"/>
         </v-card-text>
 
         <v-card-text class="d-flex flex-column">
@@ -110,7 +110,7 @@
             <v-text-field
                 v-model="offerFormPrice"
                 suffix="zł"
-                placeholder="0,00"
+                placeholder="0.00"
                 outlined
                 label="Cena"
                 class="price-input"
@@ -131,28 +131,7 @@
 
         <v-divider/>
 
-        <v-card-text>
-          <span class="form-label">Metody dostawy*</span>
-
-          <div>
-            <div class="d-flex justify-space-between" v-for="shippingMethod in shippingMethods" :key="shippingMethod.id">
-              <v-checkbox
-                v-model="selectedShippingMethods"
-                :label="shippingMethod.name"
-                :value="shippingMethod"
-                @change="updateSelectedShippingMethods"
-              ></v-checkbox>
-              <v-text-field
-                class="shipping-price-input"
-                outlined
-                dense
-                suffix="zł"
-                v-model="shippingMethod.defaultCost.value"
-                @change="updateSelectedShippingMethods"
-              ></v-text-field>
-            </div>
-          </div>
-        </v-card-text>
+        <shipping-methods @changeShipping="updateSelectedShippingMethods"/>
 
         <v-divider/>
       </v-window-item>
@@ -164,11 +143,12 @@
 import CategoriesSelectableList from "@/components/NewOffer/CategoriesSelectableList";
 import axios from "axios";
 import inputValidator from '@/mixin/validate-input.mixin'
+import ShippingMethods from "./ShippingMethods";
 
 export default {
   mixins: [inputValidator],
   name: "NewOfferForm",
-  components: {CategoriesSelectableList},
+  components: {ShippingMethods, CategoriesSelectableList},
   data: () => ({
     rules: {
       required: value => !!value || 'Wymagane',
@@ -201,7 +181,7 @@ export default {
       }
     ],
     selectedCondition: '',
-    price: 0,
+    price: "0.00",
     offerTypes: [
       {
         name: 'KUPNO I WYMIANA',
@@ -219,15 +199,14 @@ export default {
         buyAbility: false
       }
     ],
-    shippingMethods: [],
-    selectedShippingMethods: []
   }),
   methods: {
     pushCategoryFromChildTreeToForm(payload) {
       this.$store.commit('updateSelectedCategoriesInNewOfferForm', payload)
     },
-    updateSelectedShippingMethods() {
-      this.$store.commit('updateShippingMethodsInNewOfferForm', this.selectedShippingMethods)
+    updateSelectedShippingMethods(selectedShippingMethods) {
+      console.log('UPDATE: ' + selectedShippingMethods)
+      this.$store.commit('updateShippingMethodsInNewOfferForm', selectedShippingMethods)
     }
   },
   computed: {
@@ -323,20 +302,5 @@ export default {
 <style scoped>
   .form-label {
     font-weight: 500;
-  }
-
-  .condition-button {
-    border-width: thick;
-    border-color: #45A049;
-  }
-
-  .active-condition-button {
-    border-color: cornflowerblue;
-  }
-
-  .shipping-price-input {
-    flex-basis: 80pt;
-    flex-shrink: 0;
-    flex-grow: 0;
   }
 </style>

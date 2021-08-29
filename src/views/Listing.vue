@@ -2,9 +2,9 @@
   <v-container class="body">
     <span class="searching-text">szukana fraza: "{{ search }}"</span>
     <div class="mt-3 main-box">
-      <LeftPanel class="left-panel"/>
+      <left-panel class="left-panel"/>
 
-      <OfferListing
+      <offer-listing
           class="offer-listing"
           :offers="this.offers"
           :pages="this.pages"
@@ -16,10 +16,9 @@
 </template>
 
 <script>
-import LeftPanel from "@/components/listing/leftpanel/LeftPanel";
-import OfferListing from "@/components/listing/offerlisting/OfferListing";
-
 import axios from "axios";
+import LeftPanel from "../components/listing/leftpanel/LeftPanel";
+import OfferListing from "../components/listing/offerlisting/OfferListing";
 
 export default {
   name: "Listing",
@@ -39,7 +38,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('api/offers').then(response => {
+    axios.get('api/listing').then(response => {
       this.offers = response.data.content
       this.pageable = response.data.pageable
       this.pages = response.data.totalPages

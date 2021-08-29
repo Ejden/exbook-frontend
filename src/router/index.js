@@ -9,6 +9,7 @@ import Offer from "@/views/Offer";
 import Listing from "@/views/Listing";
 import CategoryDetailsView from "@/views/CategoryDetailsView";
 import Error from "@/views/Error";
+import NotFound from "../views/NotFound";
 
 Vue.use(VueRouter)
 
@@ -76,6 +77,18 @@ const routes = [
         path: '/error',
         name: 'Error',
         component: Error,
+        meta: { requiresAuth: false }
+    },
+    {
+        path: '/not-found',
+        name: 'NotFound',
+        component: NotFound,
+        meta: { requiresAuth: false }
+    },
+    {
+        path: '*',
+        name: 'NotFound',
+        component: NotFound,
         meta: { requiresAuth: false }
     }
 ]

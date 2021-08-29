@@ -50,7 +50,8 @@
 
         <div class="price-block">
           <div v-if="canBuy">
-            <span>cena zakupu: </span><span style="font-size: 20pt; font-weight: bold">{{ price/100 }}</span>zł
+            <span>cena zakupu: </span><span style="font-size: 20pt; font-weight: bold; margin-left: 3pt">{{ cost.amount }}</span>
+            <span class="ml-2">zł</span>
           </div>
           <div v-else>
             <span>Ten przedmiot nie ma ceny. Sprzedawca zgodził się jedynie na wymianę</span>
@@ -70,8 +71,6 @@
         </div>
 
         <v-divider/>
-
-
 
         <div class="offer-button-block">
           <v-btn
@@ -98,7 +97,7 @@
 <script>
 export default {
   name: "OfferSnippet",
-  props: ['bookTitle', 'bookAuthor', 'offerImages', 'offerIssuer', 'thumbnail', 'sellerName', 'offerType', 'price', 'shipping', 'isbn', 'condition', 'grade'],
+  props: ['bookTitle', 'bookAuthor', 'offerImages', 'offerIssuer', 'thumbnail', 'sellerName', 'offerType', 'cost', 'shipping', 'isbn', 'condition', 'grade'],
   methods: {
 
   },

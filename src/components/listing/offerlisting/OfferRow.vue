@@ -1,5 +1,5 @@
 <template>
-  <v-card class="offer" flat>
+  <v-card class="offer" flat @click="goToOffer">
     <div class="thumbnail">
       <img
         class="image"
@@ -22,7 +22,7 @@
         </v-chip-group>
       </div>
 
-      <span class="price"> {{ price / 100 }} <span style="font-size: 1rem; font-weight:500">zł</span></span>
+      <span class="price"> {{ cost.amount }} <span style="font-size: 1rem; font-weight:500">zł</span></span>
     </div>
 
     <div class="seller-info">
@@ -33,10 +33,12 @@
 
 <script>
 export default {
-  name: "Offer",
-  props: ['title', 'author','thumbnailUrl', 'price', 'type', 'sellerUsername'],
+  name: "OfferRow",
+  props: ['id', 'title', 'author','thumbnailUrl', 'cost', 'type', 'sellerUsername'],
   methods: {
-
+    goToOffer() {
+      this.$router.push({ name: 'Offer', params: { offerId: this.id} })
+    }
   },
   computed: {
     offerTypes() {
