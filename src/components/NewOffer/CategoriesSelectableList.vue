@@ -56,26 +56,18 @@ export default {
     }
   },
   methods: {
-    addChildren(categories, parent) {
-      for (let i = 0; i < categories.length; i++) {
-        categories[i].children = categories[i].subcategories
-        categories[i].parent = parent
-        delete categories[i].subcategories
-
-        if (categories[i].children.length > 0) {
-          this.addChildren(categories[i].children, categories[i])
-        }
-      }
-    },
     modifiedSelectedCategoriesEventHandler() {
-      this.$emit('modifiedSelectedCategoriesEvent', this.selectedCategories)
+      console.log(this.selectedTreeCategories[0])
+      this.$emit('modifiedSelectedCategoriesEvent', this.selectedCategories[0])
     }
   },
   mounted() {
-    axios.get('api/v1/categories').then((response) => {
-      this.addChildren(response.data, null)
+    axios.get('api/categories?structure=tree', {headers: {
+        'Accept': 'application/vnd.exbook.v1+json'
+      }
+    }).then((response) => {
       this.categories = response.data
-    }).catch(() => console.log('error'))
+    }).catch(() => console.log('error getting categories'))
   }
 }
 </script>

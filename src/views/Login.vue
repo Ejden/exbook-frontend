@@ -79,8 +79,8 @@ export default {
       }
       try {
         await this.login(user)
-        await this.$router.push('/')
-        await this.getUserInfo()
+        // await this.$router.push('/')
+        // await this.getUserInfo()
         this.showError = false
       } catch (error) {
         this.showError = true

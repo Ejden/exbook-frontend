@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <v-layout justify-center>
-      <h3>Polecane oferty</h3>
-    </v-layout>
+  <div class="recommended-offers">
+    <v-subheader>Polecane oferty</v-subheader>
+
+    <v-divider/>
   </div>
 </template>
 
@@ -18,5 +18,8 @@ export default {
 </script>
 
 <style scoped>
+  .recommended-offers {
+    background: white;
 
+  }
 </style>

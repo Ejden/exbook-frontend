@@ -84,8 +84,9 @@ export default {
     userAvatarName: function () {
       if (this.stateUser.firstName === null)
         return 'G'
-      else
-        return  this.stateUser.firstName[0].toUpperCase() + this.stateUser.lastName[1].toUpperCase()
+      else {
+        return this.stateUser.firstName[0].toUpperCase() + this.stateUser.lastName[0].toUpperCase()
+      }
     }
   },
   methods: {

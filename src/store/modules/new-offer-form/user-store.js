@@ -18,21 +18,26 @@ const getters = {
 
 const actions = {
     async register({dispatch}, form) {
-        await axios.post('api/v1/auth/signup', form)
-        let userForm = new FormData()
-        userForm.append('email', form.email)
-        userForm.append('login', form.username)
-        userForm.append('password', form.password)
+        await axios.post('api/v1/auth/signup', {
+            email: form.email,
+            login: form.login,
+            firstName: form.firstName,
+            lastName: form.lastName,
+            password: form.password
+        }, {headers: {'Content-Type': 'application/json'}})
 
-        await dispatch('login', userForm)
+        await dispatch('login', {
+            login: form.login,
+            password: form.password
+        })
     },
 
-    async login(state, userForm) {
+    async login({dispatch}, userForm) {
         // Get token for current user credentials
-        await axios.post('api/v1/auth/login', userForm, {withCredentials: true})
-        // let user = await axios.get('api/v1/users/me', {withCredentials: true})
+        await axios.post('api/auth/login', userForm, {withCredentials: true, headers: {'Content-Type': 'application/json'}})
+        console.log("f")
+        await dispatch('getUserInfo')
         // Set received user information to app state
-        // await commit('setUser', user)
     },
 
     async logout({commit}) {
@@ -40,7 +45,8 @@ const actions = {
     },
 
     async getUserInfo({commit}) {
-        let response = (await axios.get('api/v1/me', {withCredentials: true})).data
+        console.log("gi")
+        let response = (await axios.get('api/me', {withCredentials: true})).data
         console.log(response)
         await commit('setUser', response)
     }

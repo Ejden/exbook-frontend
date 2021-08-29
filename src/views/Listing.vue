@@ -39,7 +39,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('api/v1/offers').then(response => {
+    axios.get('api/offers').then(response => {
       this.offers = response.data.content
       this.pageable = response.data.pageable
       this.pages = response.data.totalPages

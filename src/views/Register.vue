@@ -1,22 +1,4 @@
 <template>
-<!--  <div class="register">-->
-<!--    <div>-->
-<!--      <form @submit.prevent="submit">-->
-<!--        <div class="mb-3">-->
-<!--          <label for="username">Username:</label>-->
-<!--          <input type="text" name="username" id="username" class="form-control" v-model="form.username">-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <label for="email">Email:</label>-->
-<!--          <input type="email" name="email" id="email" v-model="form.email">-->
-<!--        </div>-->
-<!--        <div>-->
-<!--          <label for="password">Password:</label>-->
-<!--          <input type="password" name="password" id="password" v-model="form.password">-->
-<!--        </div>-->
-<!--      </form>-->
-<!--    </div>-->
-<!--  </div>-->
   <v-layout fill-height>
     <v-container
       fluid
@@ -27,78 +9,52 @@
         max-width="500"
       >
         <v-card-title class="title font-weight-regular justify-space-between">
-          <span>{{title}}</span>
-          <v-avatar
-            color="primary lighten-2"
-            class="subheading white--text"
-            size="24"
-            v-text="registrationStep"
-            ></v-avatar>
+          <span>{{ title }}</span>
         </v-card-title>
 
-        <v-window v-model="registrationStep">
-          <v-window-item :value="1">
-            <v-card-text>
-              <v-text-field
-                label="Email"
-                  value=""
-              ></v-text-field>
-              <span class="caption grey--text text--darken-1">
-                  Wprowadź adres e-mail pod którym będziemy mogli się z tobą kontaktować!
-              </span>
-            </v-card-text>
-          </v-window-item>
+        <v-card-text>
+          <v-text-field
+              label="Imię"
+              v-model="form.firstName"
+          />
 
-          <v-window-item :value="2">
-            <v-card-text>
-              <v-text-field
-                label="Hasło"
-                type="password"
-              ></v-text-field>
-              <v-text-field
-                label="Potwierdź hasło"
-                type="password"
-              ></v-text-field>
-              <span class="caption grey--text text--darken-1">
-                Utwórz hasło dla twojego konta
-              </span>
-            </v-card-text>
-          </v-window-item>
+          <v-text-field
+              label="Nazwisko"
+              v-model="form.lastName"
+          />
 
-          <v-window-item :value="3">
-            <div class="pa-4 text-center">
-              <v-img
-                class="mb-4"
-                contain
-                height="128"
-                src="https://cdn.vuetifyjs.com/images/logos/v.svg"
-              ></v-img>
-              <h3 class="title font-weight-light mb-2">
-                Witamy w Exbook
-              </h3>
-              <span class="caption grey--text">
-                Dziękujemy za utworzenie konta!
-              </span>
-            </div>
-          </v-window-item>
-        </v-window>
+          <v-text-field
+            label="Nazwa użytkownika"
+            v-model="form.login"
+          />
+
+          <v-text-field
+            label="Email"
+            v-model="form.email"
+          ></v-text-field>
+
+          <v-text-field
+              label="Hasło"
+              type="password"
+              v-model="form.password"
+          ></v-text-field>
+
+          <v-text-field
+              label="Potwierdź hasło"
+              type="password"
+              v-model="form.reenteredPassword"
+          ></v-text-field>
+        </v-card-text>
 
         <v-divider></v-divider>
 
-        <v-card-actions>
+        <v-card-text>
           <v-btn
-            :disabled="registrationStep ===1"
-            text
-            @click="registrationStep--"
-          >Back</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn
-            :disabled="registrationStep === 3"
-            color="primary"
-            depressed
-            @click="registrationStep++"
-          >Next</v-btn>
-        </v-card-actions>
+            @click="submit"
+            block
+            color="accent"
+          >Zarejestruj</v-btn>
+        </v-card-text>
       </v-card>
     </v-container>
   </v-layout>
@@ -114,12 +70,14 @@ export default {
   },
   data() {
     return {
-      registrationStep: 1,
       title: 'Formularz rejestracyjny',
       form: {
-        username: '',
+        firstName: '',
+        lastName: '',
+        login: '',
         email: '',
-        password: ''
+        password: '',
+        reenteredPassword: ''
       },
       showError: false
     };
@@ -128,8 +86,12 @@ export default {
     ...mapActions(["register"]),
     async submit() {
       try {
-        await this.register(this.form);
-        this.showError = false
+        if (this.form?.password === this.form?.reenteredPassword) {
+          await this.register(this.form);
+          this.showError = false
+        } else {
+          console.log('Password validation failed')
+        }
       } catch (error) {
         this.showError = true
       }

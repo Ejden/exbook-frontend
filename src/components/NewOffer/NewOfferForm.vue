@@ -138,7 +138,7 @@
             <div class="d-flex justify-space-between" v-for="shippingMethod in shippingMethods" :key="shippingMethod.id">
               <v-checkbox
                 v-model="selectedShippingMethods"
-                :label="shippingMethod.methodName"
+                :label="shippingMethod.name"
                 :value="shippingMethod"
                 @change="updateSelectedShippingMethods"
               ></v-checkbox>
@@ -147,7 +147,7 @@
                 outlined
                 dense
                 suffix="zł"
-                v-model="shippingMethod.price"
+                v-model="shippingMethod.defaultCost.value"
                 @change="updateSelectedShippingMethods"
               ></v-text-field>
             </div>
@@ -307,10 +307,10 @@ export default {
   mounted() {
     this.updateSelectedShippingMethods()
 
-    axios.get('api/v1/shipping').then(response => {
+    axios.get('api/shipping', {headers: {'Accept': 'application/vnd.exbook.v1+json'}}).then(response => {
       response.data.forEach(shippingMethod => {
-        shippingMethod.price = shippingMethod.recommendedPrice / 100
-        delete shippingMethod.recommendedPrice
+        shippingMethod.price = shippingMethod.defualtPrice
+        delete shippingMethod.defualtPrice
       })
       this.shippingMethods = response.data
     }).catch(error => {

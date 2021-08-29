@@ -7,6 +7,8 @@ import NewOffer from "@/views/NewOffer";
 import CreatedOffer from "@/views/CreatedOffer";
 import Offer from "@/views/Offer";
 import Listing from "@/views/Listing";
+import CategoryDetailsView from "@/views/CategoryDetailsView";
+import Error from "@/views/Error";
 
 Vue.use(VueRouter)
 
@@ -63,6 +65,18 @@ const routes = [
             page: route.query.page
         }),
         meta: {requiresAuth: false}
+    },
+    {
+        path: '/category/:categoryName',
+        name: 'CategoryDetailsView',
+        component: CategoryDetailsView,
+        meta: { requiresAuth: false }
+    },
+    {
+        path: '/error',
+        name: 'Error',
+        component: Error,
+        meta: { requiresAuth: false }
     }
 ]
 

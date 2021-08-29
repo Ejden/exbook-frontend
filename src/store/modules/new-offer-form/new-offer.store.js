@@ -14,7 +14,7 @@ const state = {
             thumbnail: null,
             otherImages: []
         },
-        categories: [],
+        category: '',
         type: '',
         price: null,
         location: '',
@@ -47,7 +47,7 @@ const actions = {
                 thumbnail: null,
                 otherImages: []
             },
-            categories: [],
+            category: '',
             type: '',
             price: null,
             location: '',
@@ -62,19 +62,15 @@ const actions = {
         body.type = state.getters.newOfferForm.type.type
         body.price = parseInt(parseFloat(state.getters.newOfferForm.price) * 100)
         body.location = state.getters.newOfferForm.location
-        body.categories = state.getters.newOfferForm.categories.map(category => category.id)
+        body.category = state.getters.newOfferForm.category.id
         body.shippingMethods = state.getters.newOfferForm.shippingMethods.map(shippingMethod => new ShippingMethod(shippingMethod.methodName, shippingMethod.price * 100))
 
-        await axios.post('api/v1/offers', body, {withCredentials: true})
+        await axios.post('api/offers', body, { withCredentials: true })
             .then((response) => {
                 this.commit('clearNewOfferForm')
                 router.push('offer/'+response.data.id+'/new')
             })
             .catch(() => router.push('error'))
-    },
-
-    validateForm() {
-
     }
 }
 
@@ -87,7 +83,7 @@ const mutations = {
         state.newOfferForm.description = null
         state.newOfferForm.images.thumbnail = null
         state.newOfferForm.images.otherImages = []
-        state.newOfferForm.categories = []
+        state.newOfferForm.category = ''
         state.newOfferForm.type = ''
         state.newOfferForm.price = ''
         state.newOfferForm.location = ''
@@ -120,8 +116,8 @@ const mutations = {
     updateShippingMethodsInNewOfferForm(state, shippingMethods) {
         state.newOfferForm.shippingMethods = shippingMethods
     },
-    updateSelectedCategoriesInNewOfferForm(state, categories) {
-        state.newOfferForm.categories = categories
+    updateSelectedCategoriesInNewOfferForm(state, category) {
+        state.newOfferForm.categories = category
     }
 }
 
