@@ -1,8 +1,7 @@
 <template>
   <div>
-    <v-container>
+    <v-container v-if="offer">
       <OfferSnippet
-          v-if="offer"
           :book-title="offer.book.title"
           :book-author="offer.book.author"
           :thumnbail="offer.images.thumbnail"
@@ -10,10 +9,11 @@
           :seller-name="offer.seller.username"
           :offer-type="offer.type"
           :cost="offer.cost"
-          :shipping="offer.shippingMethods"
+          :shipping="offer.shipping.shippingMethods"
           :isbn="offer.book.isbn"
           :condition="offer.book.condition"
           :grade="offer.seller.grade"
+          :the-cheapest-shipping-method="offer.shipping.cheapestMethod"
       />
     </v-container>
 
@@ -29,9 +29,9 @@
       />
     </v-container>
 
-    <v-container>
+    <v-container v-if="offer">
       <OfferDelivery
-        :deliveries="offer.shippingMethods"
+        :deliveries="offer.shipping.shippingMethods"
       />
     </v-container>
 
@@ -58,7 +58,7 @@ import SellerInfo from "../components/offer/SellerInfo";
 
 export default {
   name: "Offer",
-  components: {SellerInfo, OfferDelivery, OtherSellerOffers, OfferDescription, OfferSnippet},
+  components: {SellerInfo, OfferSnippet, OfferDelivery, OtherSellerOffers, OfferDescription},
   data() {
     return {
       offer: {
@@ -71,6 +71,9 @@ export default {
         description: '',
         seller: {
           username: ''
+        },
+        shipping: {
+
         }
       }
     }
@@ -79,7 +82,7 @@ export default {
 
   },
   beforeCreate() {
-    let offerUrl = 'api/offers/' + this.$route.params.offerId
+    let offerUrl = 'api/listing/' + this.$route.params.offerId
     axios.get(offerUrl).then(response => {
       this.offer = response.data
       console.log(response)

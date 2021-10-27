@@ -4,7 +4,7 @@
       {{ name }}
     </td>
     <td>
-      {{ price / 100 }} zł
+      {{ cost.amount }} zł
     </td>
   </tr>
 </template>
@@ -12,7 +12,7 @@
 <script>
 export default {
   name: "OfferDeliveryOption",
-  props: ['name', 'price']
+  props: ['name', 'cost']
 }
 </script>
 

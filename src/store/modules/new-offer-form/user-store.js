@@ -18,7 +18,7 @@ const getters = {
 
 const actions = {
     async register({dispatch}, form) {
-        await axios.post('api/v1/auth/signup', {
+        await axios.post('api/auth/signup', {
             email: form.email,
             login: form.login,
             firstName: form.firstName,

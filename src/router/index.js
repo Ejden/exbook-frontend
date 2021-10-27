@@ -10,6 +10,7 @@ import Listing from "@/views/Listing";
 import CategoryDetailsView from "@/views/CategoryDetailsView";
 import Error from "@/views/Error";
 import NotFound from "../views/NotFound";
+import MyAccount from "../views/MyAccount";
 
 Vue.use(VueRouter)
 
@@ -84,6 +85,12 @@ const routes = [
         name: 'NotFound',
         component: NotFound,
         meta: { requiresAuth: false }
+    },
+    {
+        path: '/my-account',
+        name: 'MyAccount',
+        component: MyAccount,
+        meta: { requiresAuth: true }
     },
     {
         path: '*',

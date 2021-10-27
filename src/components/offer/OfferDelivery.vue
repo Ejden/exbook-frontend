@@ -11,8 +11,8 @@
             <OfferDeliveryOption
                 v-for="(delivery, i) in deliveries"
                 :key="i"
-                :name="delivery.methodName"
-                :price="delivery.price"
+                :name="delivery.name"
+                :cost="delivery.cost"
             />
           </tbody>
         </template>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import OfferDeliveryOption from "@/components/offer/OfferDeliveryOption";
+import OfferDeliveryOption from "./OfferDeliveryOption";
 export default {
   name: "OfferDelivery",
   components: {OfferDeliveryOption},
