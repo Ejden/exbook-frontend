@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <v-container v-if="offer">
+  <div class="transparent">
+    <v-container v-if="offer" class="transparent">
       <OfferSnippet
+          class="glass"
           :book-title="offer.book.title"
           :book-author="offer.book.author"
           :thumnbail="offer.images.thumbnail"
@@ -19,24 +20,28 @@
 
     <v-container>
       <OfferDescription
+          class="glass"
           :description="offer.description"
       />
     </v-container>
 
     <v-container>
       <OtherSellerOffers
+          class="glass"
         :offers="[]"
       />
     </v-container>
 
     <v-container v-if="offer">
       <OfferDelivery
+          class="glass"
         :deliveries="offer.shipping.shippingMethods"
       />
     </v-container>
 
     <v-container>
       <SellerInfo
+          class="glass"
         :id="offer.seller.id"
         :first-name="offer.seller.firstName"
         :last-name="offer.seller.lastName"
@@ -97,5 +102,16 @@ export default {
 </script>
 
 <style scoped>
+ .glass {
+   background: linear-gradient(
+      to right bottom,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.7)
+   );
+   backdrop-filter: blur(10px);
+ }
 
+ .transparent {
+   background: transparent;
+ }
 </style>

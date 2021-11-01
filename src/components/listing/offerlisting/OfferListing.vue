@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="offers-container">
     <v-card-text class="actions">
       <v-select
         :items="sortingMethods"
@@ -25,10 +25,10 @@
             :title="offer.book.title"
             :author="offer.book.author"
             :cost="offer.cost"
-            :thumbnail-url="offer.images.thumbnail.url"
+            :thumbnail-url="offer.images.thumbnail ? offer.images.thumbnail.url : ''"
             :seller-username="offer.seller.username"
             :type="offer.type"
-            class="offer"
+            class="offer transparent"
         />
       </div>
     </v-card-text>
@@ -93,5 +93,18 @@ export default {
 
   .top-pagination-button {
     margin-top: 0;
+  }
+
+  .glass {
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.7)
+    );
+    backdrop-filter: blur(10px);
+  }
+
+  .transparent {
+    background: transparent;
   }
 </style>

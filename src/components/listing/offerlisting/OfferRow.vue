@@ -79,6 +79,7 @@ export default {
 
   .image {
     height: 100%;
+    border-radius: 5pt 0 0 5pt;
   }
 
   .offer {

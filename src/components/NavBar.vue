@@ -1,8 +1,9 @@
 <template>
   <v-app-bar
     app
-    color="#ffffff"
-    elevation="1"
+    color="rgba(255, 255, 255, 0.7)"
+    elevation="3"
+    elevate-on-scroll
   >
     <v-container class="app-bar">
       <router-link class="home-logo-button" to="/">
@@ -27,15 +28,14 @@
       />
 
       <div>
-        <v-btn
-            outlined
-            plain
-            v-if="isUserLoggedIn"
-            to="/add-offer"
-            class="new-offer-button"
-        >
-          <span>Dodaj ofertę</span>
-        </v-btn>
+<!--        <v-btn-->
+<!--            plain-->
+<!--            v-if="isUserLoggedIn"-->
+<!--            to="/checkout"-->
+<!--            class="new-offer-button"-->
+<!--        >-->
+          <v-icon v-on:click="$router.push('/checkout')">fas fa-shopping-basket</v-icon>
+<!--        </v-btn>-->
 
         <Menu/>
       </div>

@@ -2,10 +2,10 @@
   <v-container class="body">
     <span class="searching-text">szukana fraza: "{{ search }}"</span>
     <div class="mt-3 main-box">
-      <left-panel class="left-panel"/>
+      <left-panel class="left-panel glass"/>
 
       <offer-listing
-          class="offer-listing"
+          class="offer-listing glass"
           :offers="this.offers"
           :pages="this.pages"
           :pageable="this.pageable"
@@ -71,5 +71,14 @@ export default {
   .offer-listing {
     margin-left: 1rem;
     flex: 1;
+  }
+
+  .glass {
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.7)
+    );
+    backdrop-filter: blur(10px);
   }
 </style>

@@ -2,12 +2,14 @@
   <div class="main">
     <v-subheader>Szybkie akcje</v-subheader>
 
-    <v-list>
+    <v-divider/>
+
+    <v-list class="list">
       <v-list-item-group>
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
-              Moje zamówienia
+              <v-btn plain height="20" small>Moje zamówienia</v-btn>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -15,7 +17,7 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
-              Obserwowane oferty
+              <v-btn plain height="20" small>Obserwowane oferty</v-btn>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -25,7 +27,7 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
-              Moje oferty
+              <v-btn plain height="20" small>Moje oferty</v-btn>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -33,7 +35,12 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
-              Wystaw ofertę
+              <v-btn
+                  plain
+                  height="20"
+                  small
+                  to="/add-offer"
+              >Wystaw ofertę</v-btn>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -50,8 +57,17 @@ export default {
 
 <style scoped>
   .main {
-    background: white;
     display: flex;
     flex-direction: column;
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.8)
+    );
+  }
+
+  .list {
+    border-radius: 5pt;
+    background: rgba(255, 255, 255, 0);
   }
 </style>

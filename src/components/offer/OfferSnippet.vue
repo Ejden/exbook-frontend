@@ -84,7 +84,8 @@
                   style="margin-top: 0.5rem"
                   block
                   large
-                  color="#DCB374"
+                  outlined
+                  color="rgba(220, 179, 116)"
               >
                 Zaproponuj wymianę
               </v-btn>
@@ -142,9 +143,10 @@
                   v-bind="attrs"
                   v-on="on"
                   style="margin-top: 0.5rem"
+                  outlined
                   block
                   large
-                  color="#00B88D"
+                  color="rgba(0, 184, 141)"
               >
                 Kup
               </v-btn>

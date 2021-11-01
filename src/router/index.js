@@ -11,6 +11,7 @@ import CategoryDetailsView from "@/views/CategoryDetailsView";
 import Error from "@/views/Error";
 import NotFound from "../views/NotFound";
 import MyAccount from "../views/MyAccount";
+import Checkout from "@/views/Checkout";
 
 Vue.use(VueRouter)
 
@@ -81,15 +82,15 @@ const routes = [
         meta: { requiresAuth: false }
     },
     {
-        path: '/not-found',
-        name: 'NotFound',
-        component: NotFound,
-        meta: { requiresAuth: false }
-    },
-    {
         path: '/my-account',
         name: 'MyAccount',
         component: MyAccount,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/checkout',
+        name: 'Checkout',
+        component: Checkout,
         meta: { requiresAuth: true }
     },
     {

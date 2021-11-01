@@ -2,6 +2,8 @@
   <div class="main">
     <v-subheader>Twoje statystyki</v-subheader>
 
+    <v-divider/>
+
     <div class="statistics">
       <div class="stat-tile">
         <h3 class="stat-value">{{ daysFromRegistration }}</h3>
@@ -37,6 +39,11 @@
         <h3 class="stat-value">{{ totalOffersMonthViews }}</h3>
         <span>Wyświetleń ofert w tym miesiącu</span>
       </div>
+
+      <div class="stat-tile">
+        <h3 class="stat-value">{{ savedMoney }} zł</h3>
+        <span>Tyle zaoszczędziłeś</span>
+      </div>
     </div>
   </div>
 </template>
@@ -53,7 +60,7 @@ export default {
       totalGain: "10.00",
       activeOffers: 5,
       totalOffersMonthViews: 15556,
-
+      savedMoney: 10.55
     }
   }
 }
@@ -61,7 +68,6 @@ export default {
 
 <style scoped>
   .main {
-    background: white;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
