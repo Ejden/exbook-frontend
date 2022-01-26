@@ -1,19 +1,19 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import VueRouter, {Route} from 'vue-router'
 import Home from '../views/Home.vue'
-import Register from '../views/Register'
-import Login from '../views/Login'
-import NewOffer from "@/views/NewOffer";
-import CreatedOffer from "@/views/CreatedOffer";
-import Offer from "@/views/Offer";
-import Listing from "@/views/Listing";
-import CategoryDetailsView from "@/views/CategoryDetailsView";
-import Error from "@/views/Error";
-import NotFound from "../views/NotFound";
-import MyAccount from "../views/MyAccount";
-import Checkout from "@/views/Checkout";
+import Register from '../views/Register.vue'
+import Login from '../views/Login.vue'
+import NewOffer from '@/views/NewOffer.vue';
+import CreatedOffer from '@/views/CreatedOffer.vue';
+import Offer from '@/views/Offer.vue';
+import Listing from '@/views/Listing.vue';
+import CategoryDetailsView from '@/views/CategoryDetailsView.vue';
+import Error from '@/views/Error.vue';
+import NotFound from '@/views/NotFound.vue';
+import MyAccount from '../views/MyAccount.vue';
+import Checkout from '@/views/Basket.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
     {
@@ -56,7 +56,7 @@ const routes = [
         path: '/listing',
         name: 'Listing',
         component: Listing,
-        props: route => ({
+        props: (route: Route) => ({
             search: route.query.search,
             categoryId: route.query.categoryId,
             condition: route.query.condition,
@@ -99,12 +99,12 @@ const routes = [
         component: NotFound,
         meta: { requiresAuth: false }
     }
-]
+];
 
 const router = new VueRouter({
     mode: 'history',
     base: process.env.baseURL,
     routes
-})
+});
 
-export default router
+export default router;

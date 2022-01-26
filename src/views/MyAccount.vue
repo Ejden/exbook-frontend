@@ -12,10 +12,10 @@
   </div>
 </template>
 
-<script>
-import AccountMenu from '../components/account/AccountMenu'
-import AccountStatistics from "../components/account/AccountStatistics";
-import LatestOrders from "@/components/account/LatestOrders";
+<script lang="ts">
+import AccountMenu from '../components/account/AccountMenu.vue'
+import AccountStatistics from '../components/account/AccountStatistics.vue';
+import LatestOrders from '@/components/account/LatestOrders.vue';
 export default {
   name: "MyAccount",
   components: {LatestOrders, AccountStatistics, AccountMenu }

@@ -1,5 +1,5 @@
 <template>
-  <div class="recommended-offers">
+  <div class="recommended-offers glass rounded">
     <v-subheader>Polecane oferty</v-subheader>
 
     <v-divider/>
@@ -19,7 +19,6 @@ export default {
 
 <style scoped>
   .recommended-offers {
-    background: white;
 
   }
 </style>

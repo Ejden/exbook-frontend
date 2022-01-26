@@ -15,13 +15,12 @@
   </v-app>
 </template>
 
-<script>
+<script lang="ts">
 
-import Footer from "@/components/Footer";
-import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer.vue";
+import NavBar from "@/components/NavBar.vue";
 export default {
   name: 'App',
-
   components: {
     NavBar,
     Footer

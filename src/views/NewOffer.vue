@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import NewOfferForm from "@/components/NewOffer/NewOfferForm";
-import NewOfferTips from "@/components/NewOffer/NewOfferTips";
+import NewOfferForm from "@/components/NewOffer/NewOfferForm.vue";
+import NewOfferTips from "@/components/NewOffer/NewOfferTips.vue";
 
 export default {
 name: "NewOffer",

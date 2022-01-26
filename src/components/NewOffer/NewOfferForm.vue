@@ -142,11 +142,9 @@
 <script>
 import CategoriesSelectableList from "@/components/NewOffer/CategoriesSelectableList";
 import axios from "axios";
-import inputValidator from '@/mixin/validate-input.mixin'
 import ShippingMethods from "./ShippingMethods";
 
 export default {
-  mixins: [inputValidator],
   name: "NewOfferForm",
   components: {ShippingMethods, CategoriesSelectableList},
   data: () => ({

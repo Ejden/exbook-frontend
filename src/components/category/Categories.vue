@@ -1,9 +1,12 @@
 <template>
-  <div class="categories">
+  <div class="categories glass rounded">
     <v-subheader>Kategorie</v-subheader>
     <v-divider/>
-    <v-list dense>
-      <v-list-item-group>
+    <v-list
+        dense
+        color="transparent"
+    >
+      <v-list-item-group color="transparent">
         <Category
           v-for="category in categories"
           :key="category.id"
@@ -19,13 +22,15 @@
 import axios from "axios";
 import { categoryComparator } from "@/mixin/categoryComparator";
 import Category from "@/components/category/Category";
+import {CategoryClient} from "@/api/CategoryApi";
 
 export default {
   name: "Categories",
   components: {Category},
   data() {
     return {
-      categories: []
+      categories: [],
+      categoryApi: new CategoryClient()
     }
   },
   methods: {
@@ -43,6 +48,5 @@ export default {
 
 <style scoped>
   .categories {
-    background: white;
   }
 </style>

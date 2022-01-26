@@ -1,5 +1,5 @@
 <template>
-  <v-list-item @click="goToCategory" >
+  <v-list-item @click="goToCategory" class="main">
     <v-list-item-content>
       <v-list-item-title v-text="name"/>
     </v-list-item-content>
@@ -21,3 +21,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .main {
+    background: transparent;
+  }
+</style>
