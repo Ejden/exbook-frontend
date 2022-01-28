@@ -39,20 +39,31 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import axios from "axios";
 
-export default {
+interface Data {
+  parentCategory: any;
+  selectedCategory: any;
+  pickedCategory: any;
+  categories: any[];
+  activeCategories: any[];
+}
+
+export default Vue.extend({
   name: "CategoriesSelectableList",
-  data: () => ({
-    parentCategory: null,
-    selectedCategory: null,
-    pickedCategory: false,
-    categories: [],
-    activeCategories: []
-  }),
+  data(): Data {
+    return {
+      parentCategory: null,
+      selectedCategory: null,
+      pickedCategory: false,
+      categories: [],
+      activeCategories: []
+    }
+  },
   computed: {
-    backCategoryName() {
+    backCategoryName(): any {
       if (this.parentCategory === null) {
         return 'Wszystkie kategorie'
       } else {
@@ -64,10 +75,10 @@ export default {
     modifiedSelectedCategoriesEventHandler() {
       this.$emit('changedCategory', this.selectedCategory)
     },
-    countCategoryChildren(id) {
-      return this.categories.filter(category => category.parentId === id).length
+    countCategoryChildren(id: any): any {
+      return this.categories.filter((category: any) => category.parentId === id).length
     },
-    pickCategory(category) {
+    pickCategory(category: any) {
       if (category === null) {
         this.parentCategory = null
       } else {
@@ -111,7 +122,7 @@ export default {
       this.updateActiveCategories()
     }).catch((e) => console.log('error getting categories' + e))
   }
-}
+})
 </script>
 
 <style scoped>

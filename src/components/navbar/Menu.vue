@@ -8,115 +8,100 @@
           v-bind="attrs"
           v-on="on"
       >
-        <span class="user-avatar-name">{{userAvatarName}}</span>
+        <span class="user-avatar-name">{{ userAvatarName }}</span>
       </v-avatar>
     </template>
     <v-list>
       <v-list-item>
-        Witaj, {{userFirstName}}
+        Witaj, {{ userFirstName }}
       </v-list-item>
       <v-list-item
-          v-for="link in menuItemsToShow"
+          v-for="link in menuItems"
           :key="link.name"
       >
         <v-list-item-title>
-          <router-link :to="link.url">{{link.name}}</router-link>
+          <router-link :to="link.url">{{ link.name }}</router-link>
         </v-list-item-title>
       </v-list-item
       >
       <v-list-item
-          v-if="isLoggedIn">
+          v-if="isUserAuthenticated">
         <v-list-item-title>
-          <v-btn elevation="0" @click="logout">Wyloguj</v-btn>
+          <v-btn elevation="0" @click="logout()">Wyloguj</v-btn>
         </v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
 </template>
 
-<script>
-import {mapGetters} from "vuex";
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { UserModule } from "@/store/modules/user-store/user-store";
 
-export default {
-  name: "Menu",
-  data() {
-    return {
-      links: [
-        {
-          name: 'Moje konto',
-          url: '/my-account',
-          loginRequired: true
-        },
-        {
-          name: 'Wiadomości',
-          url: '/messages',
-          loginRequired: true
-        },
-        {
-          name: 'Zaloguj',
-          url: 'login',
-          loginRequired: false
-        },
-        {
-          name: 'Utwórz konto',
-          url: '/register',
-          loginRequired: false
-        }
-      ]
+interface MenuLink {
+  name: string;
+  url: string;
+  loginRequired: boolean;
+}
+
+@Component
+export default class Menu extends Vue {
+  private menuLinks: MenuLink[] = [
+    {
+      name: 'Moje konto',
+      url: '/my-account',
+      loginRequired: true
+    },
+    {
+      name: 'Wiadomości',
+      url: '/messages',
+      loginRequired: true
+    },
+    {
+      name: 'Zaloguj',
+      url: 'login',
+      loginRequired: false
+    },
+    {
+      name: 'Utwórz konto',
+      url: '/register',
+      loginRequired: false
     }
-  },
-  computed: {
-    ...mapGetters({
-      stateUser: 'stateUser'
-    }),
-    isLoggedIn : function() {
-      return this.$store.getters.isAuthenticated
-    },
-    userImg : function() {
-      return this.$store.getters.stateUser.img;
-    },
-    userFirstName: function() {
-      return (this.$store.getters.stateUser.firstName === null) ? 'Gościu' : this.$store.getters.stateUser.firstName
-    },
-    menuItemsToShow: function() {
-      return this.links.filter((link) => this.isLoggedIn === link.loginRequired)
-    },
-    userAvatarName: function () {
-      if (this.stateUser.firstName === null)
-        return 'G'
-      else {
-        return this.stateUser.firstName[0].toUpperCase() + this.stateUser.lastName[0].toUpperCase()
-      }
+  ];
+
+  get user() {
+    return UserModule.loggedUser;
+  }
+
+  get menuItems(): MenuLink[] {
+    return this.menuLinks.filter((link: MenuLink) => (this.user !== undefined) === link.loginRequired);
+  }
+
+  get userFirstName(): string {
+    return (this.user?.firstName === undefined) ? 'Gościu' : this.user.firstName;
+  }
+
+  get isUserAuthenticated(): boolean {
+    return UserModule.loggedUser !== undefined;
+  }
+
+  get userAvatarName(): string {
+    if (this.user === undefined)
+      return 'G';
+    else {
+      return this.user.firstName[0].toUpperCase() + this.user.lastName[0].toUpperCase();
     }
-  },
-  methods: {
-    async logout() {
-      await this.$store.dispatch('logout')
-      await this.$router.push('/login')
-    }
+   }
+
+  async logout(): Promise<void> {
+    this.$store.dispatch('logout')
+      .then(() => this.$router.push('/login'));
   }
 }
 </script>
 
 <style scoped>
-  .menu-link {
-    font-weight: bold;
-    color: #ffffff;
-
-    :hover {
-      cursor: pointer;
-    }
-
-    :visited {
-      color: white;
-    }
-  }
-
-  a.router-link-exact-active {
-    color: #42b983;
-  }
-
-  .user-avatar-name {
-    color: #c7c7c7
-  }
+.user-avatar-name {
+  color: #c7c7c7
+}
 </style>

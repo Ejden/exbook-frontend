@@ -47,7 +47,7 @@ interface Money {
 const state: OfferStoreState = {
     newOfferForm: {
         book: {
-            author: '',
+            author: 'aa',
             title: '',
             isbn: '',
             condition: ''
@@ -157,5 +157,7 @@ export default {
     state,
     getters,
     actions,
-    mutations
+    mutations,
+    namespaced: true,
+    name: 'OfferStore'
 }

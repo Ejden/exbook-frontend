@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import VueRouter, {Route} from 'vue-router'
-import Home from '../views/Home.vue'
-import Register from '../views/Register.vue'
-import Login from '../views/Login.vue'
+import Vue from 'vue';
+import VueRouter, {Route} from 'vue-router';
+import Home from '../views/Home.vue';
+import Register from '../views/Register.vue';
+import Login from '../views/Login.vue';
 import NewOffer from '@/views/NewOffer.vue';
 import CreatedOffer from '@/views/CreatedOffer.vue';
 import Offer from '@/views/Offer.vue';

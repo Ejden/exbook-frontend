@@ -60,10 +60,11 @@
   </v-layout>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import {mapActions} from 'vuex'
 
-export default {
+export default Vue.extend({
   name: "Register",
   components: {
 
@@ -87,7 +88,7 @@ export default {
     async submit() {
       try {
         if (this.form?.password === this.form?.reenteredPassword) {
-          await this.register(this.form);
+          await this.$store.dispatch('register', this.form);
           this.showError = false
         } else {
           console.log('Password validation failed')
@@ -97,7 +98,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style scoped>

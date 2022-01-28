@@ -10,14 +10,14 @@ interface UserApi {
 
 interface RegisterUserForm {
     email: string;
-    login: string;
+    username: string;
     firstName: string;
     lastName: string;
     password: string;
 }
 
 interface LoginUserForm {
-    login: string;
+    username: string;
     password: string;
 }
 
@@ -34,7 +34,8 @@ class UserClient implements UserApi {
     private serviceUrl = 'http://localhost:8082';
 
     async getLoggedUserInfo(): Promise<UserInfo> {
-        return axios.get('api/me', { withCredentials: true });
+        return axios.get('api/me', { withCredentials: true })
+            .then((r) => r.data as UserInfo);
     }
 
     async login(loginUserForm: LoginUserForm): Promise<void> {
@@ -48,7 +49,7 @@ class UserClient implements UserApi {
     async register(registerUserForm: RegisterUserForm): Promise<void> {
         return axios.post('api/auth/signup', {
             email: registerUserForm.email,
-            login: registerUserForm.login,
+            username: registerUserForm.username,
             firstName: registerUserForm.firstName,
             lastName: registerUserForm.lastName,
             password: registerUserForm.password

@@ -4,10 +4,11 @@
  </div>
 </template>
 
-<script>
-export default {
-name: "RecommendedOffer"
-}
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component
+export default class RecommendedOffer extends Vue {}
 </script>
 
 <style scoped>

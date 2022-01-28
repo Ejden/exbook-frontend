@@ -6,7 +6,7 @@
     elevate-on-scroll
   >
     <v-container class="app-bar">
-      <router-link class="home-logo-button" to="/">
+      <router-link to="/">
         <v-img
             src="/img/Exbook_cr.svg"
             height="32"
@@ -28,41 +28,27 @@
       />
 
       <div>
-<!--        <v-btn-->
-<!--            plain-->
-<!--            v-if="isUserLoggedIn"-->
-<!--            to="/checkout"-->
-<!--            class="new-offer-button"-->
-<!--        >-->
-          <v-icon v-on:click="$router.push('/checkout')">fas fa-shopping-basket</v-icon>
-<!--        </v-btn>-->
-
+        <v-icon v-on:click="$router.push('/checkout')">fas fa-shopping-basket</v-icon>
         <Menu/>
       </div>
     </v-container>
   </v-app-bar>
 </template>
 
-<script>
-import Menu from "@/components/navbar/Menu";
+<script lang="ts">
+import Menu from "@/components/navbar/Menu.vue";
+import { Component, Vue } from 'vue-property-decorator'
 
-export default {
-  name: "NavBar",
-  components: {Menu},
-  data() {
-    return {
-      searchText: ''
-    }
-  },
-  methods: {
-    search() {
-      this.$router.push({ name: 'Listing', query: { search: this.searchText }})
-    }
-  },
-  computed: {
-    isUserLoggedIn() {
-      return this.$store.getters.isAuthenticated
-    }
+@Component({
+  components: {
+    Menu
+  }
+})
+export default class NavBar extends Vue {
+  private searchText: string = '';
+
+  search(): void {
+    this.$router.push({ name: 'Listing', query: { search: this.searchText} });
   }
 }
 </script>
@@ -73,20 +59,11 @@ export default {
     justify-content: space-between;
   }
 
-  .search-bar-container {
-  }
-
   .search-bar {
     max-width: 600px;
   }
 
   @media only screen and (max-width: 768px) {
-    .new-offer-button {
-      display: none;
-    }
-    .home-logo-button {
-
-    }
     .app-bar {
       display: flex !important;
       justify-content: flex-start !important;
