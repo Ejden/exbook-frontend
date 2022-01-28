@@ -282,12 +282,12 @@ export default {
     }
   },
   mounted() {
-    this.updateSelectedShippingMethods()
+    this.updateSelectedShippingMethods();
 
     axios.get('api/shipping', {headers: {'Accept': 'application/vnd.exbook.v1+json'}}).then(response => {
       response.data.forEach(shippingMethod => {
-        shippingMethod.price = shippingMethod.defualtPrice
-        delete shippingMethod.defualtPrice
+        shippingMethod.price = shippingMethod.defaultPrice
+        delete shippingMethod.defaualtPrice
       })
       this.shippingMethods = response.data
     }).catch(error => {

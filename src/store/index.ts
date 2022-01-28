@@ -1,29 +1,22 @@
-import Vuex from 'vuex';
+import Vuex, {Store} from 'vuex';
 import Vue from 'vue';
 import createPersistedState from 'vuex-persistedstate';
-import { IUserStore } from './modules/user-store/user-store';
-//import newOfferStore from './modules/offer-store/OfferStore';
+import UserModule, {IUserState} from "@/store/modules/user-store/user-store";
+import {initializeStores} from "@/utils/store-accessor";
+import OfferStore from "@/store/modules/offer-store/OfferStore";
 
 Vue.use(Vuex);
 
 export interface IRootState {
-    userM: IUserStore;
+    user: IUserState;
 }
 
-export default new Vuex.Store<IRootState>({
-    plugins: [createPersistedState()]
-});
+const initializer = (store: Store<any>) => initializeStores(store);
 
-// export default new Vuex.Store({
-//     modules: {
-//         UserStore,
-//         //newOfferStore
-//     },
-//     state: {
-//         homeUrl: window.location.origin
-//     },
-//     getters: {
-//         homeUrl: state => state.homeUrl
-//     },
-//     plugins: [createPersistedState()],
-// });
+export default new Vuex.Store<IRootState>({
+    modules: {
+        user: UserModule,
+        offer: OfferStore
+    },
+    plugins: [createPersistedState(), initializer]
+});

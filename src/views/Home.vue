@@ -8,24 +8,17 @@
   </v-container>
 </template>
 
-<script>
-import Categories from "@/components/category/Categories";
-import RecommendedOffers from "@/components/home/RecommendedOffers";
+<script lang="ts">
+import Vue from 'vue';
+import { Component } from "vue-property-decorator";
+import Categories from "@/components/category/Categories.vue";
+import RecommendedOffers from "@/components/home/RecommendedOffers.vue";
 
-export default {
-  name: "Home",
-  data() {
-    return {
+@Component({
+  components: { RecommendedOffers, Categories }
+})
+export default class extends Vue {
 
-    }
-  },
-  components: {
-    RecommendedOffers,
-    Categories
-  },
-  methods: {
-
-  }
 }
 </script>
 

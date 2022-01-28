@@ -33,12 +33,12 @@ interface UserInfo {
 class UserClient implements UserApi {
     private serviceUrl = 'http://localhost:8082';
 
-    async getLoggedUserInfo(): Promise<UserInfo> {
+    public async getLoggedUserInfo(): Promise<UserInfo> {
         return axios.get('api/me', { withCredentials: true })
             .then((r) => r.data as UserInfo);
     }
 
-    async login(loginUserForm: LoginUserForm): Promise<void> {
+    public async login(loginUserForm: LoginUserForm): Promise<void> {
         return axios.post(
             'api/auth/login',
             loginUserForm,
@@ -46,7 +46,7 @@ class UserClient implements UserApi {
         );
     }
 
-    async register(registerUserForm: RegisterUserForm): Promise<void> {
+    public async register(registerUserForm: RegisterUserForm): Promise<void> {
         return axios.post('api/auth/signup', {
             email: registerUserForm.email,
             username: registerUserForm.username,
@@ -57,4 +57,27 @@ class UserClient implements UserApi {
     }
 }
 
-export { UserApi, UserClient, RegisterUserForm, LoginUserForm, UserInfo };
+async function getLoggedUserInfo(): Promise<UserInfo> {
+    return axios.get('api/me', { withCredentials: true })
+        .then((r) => r.data as UserInfo);
+}
+
+async function login(loginUserForm: LoginUserForm): Promise<void> {
+    return axios.post(
+        'api/auth/login',
+        loginUserForm,
+        { withCredentials: true, headers: {'Content-Type': 'application/json'}}
+    );
+}
+
+async function register(registerUserForm: RegisterUserForm): Promise<void> {
+    return axios.post('api/auth/signup', {
+        email: registerUserForm.email,
+        username: registerUserForm.username,
+        firstName: registerUserForm.firstName,
+        lastName: registerUserForm.lastName,
+        password: registerUserForm.password
+    }, {headers: {'Content-Type': 'application/json'}});
+}
+
+export { getLoggedUserInfo, login, register, RegisterUserForm, LoginUserForm, UserInfo };

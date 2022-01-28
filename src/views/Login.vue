@@ -53,10 +53,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-// eslint-disable-next-line no-unused-vars
-import { LoginUserForm } from "@/api/UserApi";
-import { UserModule } from "@/store/modules/user-store/user-store";
-
+import { userModuleStore } from "@/utils/store-accessor";
 interface LoginForm {
   username: string;
   password: string;
@@ -69,15 +66,10 @@ export default class Login extends Vue {
     username: '',
     password: ''
   }
-  private showError: boolean = false;
 
-  submit() {
-    UserModule.login(this.form as LoginUserForm)
-      .then(() => {
-        this.showError = false;
-        this.$router.push('/');
-      })
-      .catch(() => this.showError = true);
+  private submit() {
+    userModuleStore.login(this.form)
+      .then(() => this.$router.push('/'));
   }
 }
 </script>

@@ -34,38 +34,37 @@
   </div>
 </template>
 
-<script>
-import axios from "axios";
-import OffersRecommendations from "@/components/offer/OffersRecommendations";
-import BasketItem from "@/components/basket/BasketItem";
-import BasketPriceContainer from "@/components/basket/BasketPriceContainer";
-export default {
-  name: "Checkout",
-  components: {BasketPriceContainer, BasketItem, OffersRecommendations},
-  data() {
-    return {
-      basket: null
-    }
-  },
-  computed: {
-    basketIsLoading() {
-      return this.basket == null
-    },
-    basketIsEmpty() {
-      return this.basket.items.length === 0
-    }
-  },
-  methods: {
+<script lang="ts">
+import OffersRecommendations from "@/components/offer/OffersRecommendations.vue";
+import BasketItem from "@/components/basket/BasketItem.vue";
+import BasketPriceContainer from "@/components/basket/BasketPriceContainer.vue";
+import { defineComponent, onBeforeMount, computed } from "@vue/composition-api";
+import { ref } from "@vue/composition-api";
+// eslint-disable-next-line no-unused-vars
+import { Basket, getUserBasket } from "@/api/BasketApi";
 
+export default defineComponent({
+  components: {
+    OffersRecommendations,
+    BasketItem,
+    BasketPriceContainer
   },
-  beforeMount() {
-    axios.get('api/basket').then(response => {
-      this.basket = response.data
-    }).catch(e => {
-      console.log(e)
-    })
+  setup() {
+    const basket = ref<Basket | undefined>(undefined);
+    const basketIsLoading = computed(() => basket.value === undefined);
+    const basketIsEmpty = computed(() => basket.value?.items.length === 0);
+
+    onBeforeMount(() => getUserBasket()
+        .then((data) => basket.value = data)
+    );
+
+    return {
+      basket,
+      basketIsLoading,
+      basketIsEmpty
+    }
   }
-}
+})
 </script>
 
 <style scoped>

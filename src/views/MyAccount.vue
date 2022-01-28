@@ -13,12 +13,16 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue';
+import { Component } from "vue-property-decorator";
 import AccountMenu from '../components/account/AccountMenu.vue'
 import AccountStatistics from '../components/account/AccountStatistics.vue';
 import LatestOrders from '@/components/account/LatestOrders.vue';
-export default {
-  name: "MyAccount",
-  components: {LatestOrders, AccountStatistics, AccountMenu }
+
+@Component({
+  components: { AccountMenu, AccountStatistics, LatestOrders }
+})
+export default class extends Vue {
 }
 </script>
 

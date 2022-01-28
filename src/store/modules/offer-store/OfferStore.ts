@@ -5,6 +5,7 @@ import {ActionContext} from "vuex";
 interface OfferStoreState {
     newOfferForm: OfferForm;
     offerApi: OfferApi;
+    hel: Hel;
 }
 
 interface OfferForm {
@@ -44,6 +45,12 @@ interface Money {
     currency: string;
 }
 
+class Hel {
+    hello() {
+        console.log('HI');
+    }
+}
+
 const state: OfferStoreState = {
     newOfferForm: {
         book: {
@@ -63,11 +70,14 @@ const state: OfferStoreState = {
         location: '',
         shippingMethods: []
     },
-    offerApi: new OfferClient()
+    offerApi: new OfferClient(),
+    hel: new Hel()
 }
 
 const getters = {
-    newOfferForm: (state: OfferStoreState) => state.newOfferForm
+    newOfferForm: (state: OfferStoreState) => state.newOfferForm,
+    offerApi: (state: OfferStoreState) => state.offerApi,
+    hel: (state: OfferStoreState) => state.hel
 }
 
 function parseToShippingMethod(shippingMethod: ShippingMethod) {
@@ -157,7 +167,5 @@ export default {
     state,
     getters,
     actions,
-    mutations,
-    namespaced: true,
-    name: 'OfferStore'
+    mutations
 }

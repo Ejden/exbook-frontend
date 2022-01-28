@@ -36,7 +36,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { UserModule } from "@/store/modules/user-store/user-store";
+// eslint-disable-next-line no-unused-vars
+import { LoggedUser } from "@/store/modules/user-store/types/user";
+import { userModuleStore } from "@/utils/store-accessor";
 
 interface MenuLink {
   name: string;
@@ -69,23 +71,23 @@ export default class Menu extends Vue {
     }
   ];
 
-  get user() {
-    return UserModule.loggedUser;
+  private get user(): LoggedUser | undefined {
+    return userModuleStore.getLoggedUser;
   }
 
-  get menuItems(): MenuLink[] {
+  private get menuItems(): MenuLink[] {
     return this.menuLinks.filter((link: MenuLink) => (this.user !== undefined) === link.loginRequired);
   }
 
-  get userFirstName(): string {
+  private get userFirstName(): string {
     return (this.user?.firstName === undefined) ? 'Gościu' : this.user.firstName;
   }
 
-  get isUserAuthenticated(): boolean {
-    return UserModule.loggedUser !== undefined;
+  private get isUserAuthenticated(): boolean {
+    return this.user !== undefined;
   }
 
-  get userAvatarName(): string {
+  private get userAvatarName(): string {
     if (this.user === undefined)
       return 'G';
     else {
@@ -93,9 +95,8 @@ export default class Menu extends Vue {
     }
    }
 
-  async logout(): Promise<void> {
-    this.$store.dispatch('logout')
-      .then(() => this.$router.push('/login'));
+  private async logout(): Promise<void> {
+    await userModuleStore.logout();
   }
 }
 </script>
