@@ -1,22 +1,19 @@
 <template>
-  <div>
-    <v-layout justify-center>
-      <h3>Polecane oferty</h3>
-    </v-layout>
+  <div class="recommended-offers glass rounded">
+    <v-subheader>Polecane oferty</v-subheader>
+
+    <v-divider/>
   </div>
 </template>
 
-<script>
-export default {
-  name: "RecommendedOffers",
-  data() {
-    return {
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 
-    }
-  }
-}
+export default defineComponent({})
 </script>
 
 <style scoped>
+  .recommended-offers {
 
+  }
 </style>

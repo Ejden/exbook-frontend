@@ -1,14 +1,14 @@
 <template>
   <v-app-bar
     app
-    color="#ffffff"
-    elevation="1"
+    color="rgba(255, 255, 255, 0.7)"
+    elevation="3"
+    elevate-on-scroll
   >
-    <div class="app-bar">
-      <router-link class="home-logo-button" to="/">
+    <v-container class="app-bar">
+      <router-link to="/">
         <v-img
-            content-class="site-logo"
-            src="img/Exbook_cr.svg"
+            src="/img/Exbook_cr.svg"
             height="32"
             alt="Logo"
             contain
@@ -17,74 +17,58 @@
       </router-link>
 
       <v-text-field
+        v-model="searchText"
         class="search-bar"
         dense
         flat
         hide-details
         solo-inverted
         label="Czego szukasz?"
-      ></v-text-field>
+        @keydown.enter="search"
+      />
 
       <div>
-        <v-btn
-            outlined
-            plain
-            v-if="isUserLoggedIn"
-            to="/add-offer"
-            class="new-offer-button"
-        >
-          <span>Dodaj ofertę</span>
-        </v-btn>
-
-        <Menu/>
+        <v-icon v-on:click="$router.push('/checkout')">fas fa-shopping-basket</v-icon>
+        <menu-modal/>
       </div>
-    </div>
+    </v-container>
   </v-app-bar>
 </template>
 
-<script>
-import Menu from "@/components/navbar/Menu";
+<script lang="ts">
+import { defineComponent, ref } from '@vue/composition-api';
+import MenuModal from '@/components/navbar/MenuModal.vue';
 
-export default {
-  name: "NavBar",
-  components: {Menu},
-  data() {
-    return {
-
-    }
+export default defineComponent({
+  components: {
+    MenuModal
   },
-  computed: {
-    isUserLoggedIn() {
-      return this.$store.getters.isAuthenticated
+  setup(_, { root }) {
+    const searchText = ref<string>('');
+    const search = () => root.$router.push({ name: 'Listing', query: { search: searchText.value }})
+
+    return {
+      searchText,
+      search
     }
   }
-}
+})
 </script>
 
 <style scoped>
   .app-bar {
     display: flex;
     justify-content: space-between;
-    width: 100%;
   }
-  .search-bar {
-    max-width: 700px;
 
+  .search-bar {
+    max-width: 600px;
   }
 
   @media only screen and (max-width: 768px) {
-    .new-offer-button {
-      display: none;
-    }
-    .home-logo-button {
-
-    }
     .app-bar {
       display: flex !important;
       justify-content: flex-start !important;
-    }
-    .site-logo {
-
     }
   }
 </style>
