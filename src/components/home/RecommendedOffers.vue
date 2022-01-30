@@ -7,10 +7,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { defineComponent } from '@vue/composition-api';
 
-@Component
-export default class RecommendedOffers extends Vue {}
+export default defineComponent({})
 </script>
 
 <style scoped>

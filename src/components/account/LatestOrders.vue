@@ -16,30 +16,28 @@
   </div>
 </template>
 
-<script>
-import axios from "axios";
-import OrderSnippet from "@/components/account/OrderSnippet";
+<script lang="ts">
+import { defineComponent, ref, computed } from '@vue/composition-api';
+import OrderSnippet from '@/components/account/OrderSnippet.vue';
+import { getLatestOrdersSnippets, UserOrderSnippet } from '@/api/OrderApi';
 
-export default {
-  name: "LatestOrders",
-  components: {OrderSnippet},
-  data: () => {
+export default defineComponent({
+  components: {
+    OrderSnippet
+  },
+  setup() {
+    const orders = ref<UserOrderSnippet[]>([]);
+    const thereAreNoOrders = computed(() => orders.value.length === 0);
+
+    getLatestOrdersSnippets()
+        .then(response => orders.value = response.content);
+
     return {
-      orders: []
+      orders,
+      thereAreNoOrders
     }
-  },
-  computed: {
-    thereAreNoOrders() {
-      return this.orders.length === 0
-    }
-  },
-  beforeMount() {
-    let ordersUrl = 'api/orders/snippet'
-    axios.get(ordersUrl).then(response => {
-      this.orders = response.data.content
-    })
   }
-}
+})
 </script>
 
 <style scoped>

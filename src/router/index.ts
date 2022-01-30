@@ -1,17 +1,17 @@
 import Vue from 'vue';
 import VueRouter, {Route} from 'vue-router';
-import Home from '../views/Home.vue';
-import Register from '../views/Register.vue';
-import Login from '../views/Login.vue';
-import NewOffer from '@/views/NewOffer.vue';
-import CreatedOffer from '@/views/CreatedOffer.vue';
-import Offer from '@/views/Offer.vue';
-import Listing from '@/views/Listing.vue';
+import Home from '../views/HomeView.vue';
+import Register from '../views/RegisterView.vue';
+import Login from '../views/LoginView.vue';
+import NewOffer from '@/views/NewOfferView.vue';
+import CreatedOffer from '@/views/CreatedOfferView.vue';
+import Offer from '@/views/OfferView.vue';
+import Listing from '@/views/ListingView.vue';
 import CategoryDetailsView from '@/views/CategoryDetailsView.vue';
-import Error from '@/views/Error.vue';
-import NotFound from '@/views/NotFound.vue';
-import MyAccount from '../views/MyAccount.vue';
-import Checkout from '@/views/Basket.vue';
+import Error from '@/views/ErrorView.vue';
+import NotFound from '@/views/NotFoundView.vue';
+import MyAccount from '../views/MyAccountView.vue';
+import Checkout from '@/views/BasketView.vue';
 
 Vue.use(VueRouter);
 

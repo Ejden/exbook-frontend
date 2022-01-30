@@ -19,7 +19,7 @@
       <h3 class="subsection-title">Rodzaj oferty</h3>
 
       <v-checkbox
-          v-for="offerType in offerTypes"
+          v-for="offerType in offerTypesFilters"
           v-model="selectedOfferTypeFilters"
           :label="offerType.name"
           :value="offerType.value"
@@ -60,49 +60,81 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  name: "LeftPanel",
-  data: () => {
+<script lang="ts">
+import { defineComponent, ref } from '@vue/composition-api';
+import { SearchFilter } from '@/components/listing/leftpanel/typings/SearchFilter';
+
+export default defineComponent({
+  setup() {
+    const {
+      selectedConditionFilters,
+      selectedOfferTypeFilters,
+      priceFromFilter,
+      priceToFilter,
+      locationFilter,
+      conditionFilters,
+      offerTypesFilters
+    } = useFilters();
+
     return {
-      selectedConditionFilters: [],
-      selectedOfferTypeFilters: [],
-      priceFromFilter: '',
-      priceToFilter: '',
-      locationFilter: '',
-      conditionFilters: [
-        {
-          name: 'nowy',
-          value: 'NEW'
-        },
-        {
-          name: 'brak śladów użytkowania',
-          value: 'PERFECT'
-        },
-        {
-          name: 'widoczne ślady użytkowania',
-          value: 'LIGHTLY_USED'
-        },
-        {
-          name: 'liczne ślady użytkowania',
-          value: 'MODERATELY_USED'
-        },
-        {
-          name: 'w złym stanie',
-          value: 'BAD'
-        }
-      ],
-      offerTypes: [
-        {
-          name: 'kup',
-          value: 'BUY'
-        },
-        {
-          name: 'wymień',
-          value: 'EXCHANGE'
-        }
-      ]
+      selectedConditionFilters,
+      selectedOfferTypeFilters,
+      priceFromFilter,
+      priceToFilter,
+      locationFilter,
+      conditionFilters,
+      offerTypesFilters
     }
+  }
+});
+
+function useFilters() {
+  const selectedConditionFilters = ref<SearchFilter[]>([]);
+  const selectedOfferTypeFilters = ref<SearchFilter[]>([]);
+  const priceFromFilter = ref('');
+  const priceToFilter = ref('');
+  const locationFilter = ref('');
+  const conditionFilters: SearchFilter[] = [
+    {
+      name: 'nowy',
+      value: 'NEW'
+    },
+    {
+      name: 'brak śladów użytkowania',
+      value: 'PERFECT'
+    },
+    {
+      name: 'widoczne ślady użytkowania',
+      value: 'LIGHTLY_USED'
+    },
+    {
+      name: 'liczne ślady użytkowania',
+      value: 'MODERATELY_USED'
+    },
+    {
+      name: 'w złym stanie',
+      value: 'BAD'
+    }
+  ];
+  const offerTypesFilters: SearchFilter[] = [
+    {
+      name: 'kup',
+      value: 'BUY'
+    },
+    {
+      name: 'wymień',
+      value: 'EXCHANGE'
+    }
+  ];
+
+  return {
+    selectedConditionFilters,
+    selectedOfferTypeFilters,
+    priceFromFilter,
+    priceToFilter,
+    locationFilter,
+    conditionFilters,
+    offerTypesFilters
   }
 }
 </script>

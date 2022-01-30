@@ -13,7 +13,7 @@
     </div>
 
     <div class="quantity-input-container">
-      <v-text-field outlined dense hide-details type="number" class="quantity-input" v-model.number="item.quantity"/>
+      <v-text-field outlined dense hide-details type="number" class="quantity-input"/>
     </div>
 
     <div class="price-container">
@@ -31,16 +31,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "BasketItem",
-  props: ['item'],
-  computed: {
-    quantityIsOne() {
-      return this.item.quantity === 1
+<script lang="ts">
+import { defineComponent, PropType } from '@vue/composition-api';
+import { BasketItem } from '@/api/BasketApi';
+
+export default defineComponent({
+  props: {
+    item: {
+      type: Object as PropType<BasketItem>,
+      required: true
+    }
+  },
+  setup(props) {
+    const quantityIsOne = () => props.item.quantity === 1;
+
+    return {
+      quantityIsOne
     }
   }
-}
+})
 </script>
 
 <style scoped>

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 interface UserApi {
     register(registerUserForm: RegisterUserForm): Promise<void>;
@@ -31,8 +31,6 @@ interface UserInfo {
 }
 
 class UserClient implements UserApi {
-    private serviceUrl = 'http://localhost:8082';
-
     public async getLoggedUserInfo(): Promise<UserInfo> {
         return axios.get('api/me', { withCredentials: true })
             .then((r) => r.data as UserInfo);

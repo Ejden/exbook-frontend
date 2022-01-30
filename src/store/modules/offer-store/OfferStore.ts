@@ -86,7 +86,7 @@ function parseToShippingMethod(shippingMethod: ShippingMethod) {
 
 const actions = {
     async addOffer({ commit }: ActionContext<any, any>) {
-        let body: NewOfferForm = {
+        const body: NewOfferForm = {
             book: {
                 author: state.newOfferForm.book.author,
                 title: state.newOfferForm.book.title,

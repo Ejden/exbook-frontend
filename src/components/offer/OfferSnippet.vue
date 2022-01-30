@@ -1,8 +1,8 @@
 <template>
   <v-card>
-    <v-card-title>{{ bookTitle }}</v-card-title>
+    <v-card-title>{{ offer.book.title }}</v-card-title>
 
-    <v-card-subtitle>{{ bookAuthor }}</v-card-subtitle>
+    <v-card-subtitle>{{ offer.book.author }}</v-card-subtitle>
 
     <v-divider/>
 
@@ -10,8 +10,8 @@
       <div class="images-carousel">
         <v-carousel v-model="pictureIndex">
           <v-carousel-item
-              v-for="(picture, i) in pictures" :key="i"
-              :src="picture.src"
+              v-for="(picture, i) in pictures.value" :key="i"
+              :src="picture.url"
               reverse-transition="fade-transition"
               transition="fade-transition"
               class="image"
@@ -20,9 +20,9 @@
       </div>
       <div class="offer-info">
         <div style="display: flex; flex-direction: column">
-          <h2>{{ bookTitle }}</h2>
+          <h2>{{ offer.book.title }}</h2>
           <div style="display: flex; align-items: center; flex-wrap: wrap">
-            <span>Od <strong>{{ sellerName }}</strong></span>
+            <span>Od <strong>{{ offer.seller.username }}</strong></span>
             <v-rating
               color="warning"
               background-color="grey"
@@ -32,7 +32,7 @@
               half-increments
               length="5"
               readonly
-              :value="grade"
+              :value="offer.seller.grade"
             />
           </div>
         </div>
@@ -40,7 +40,7 @@
         <div>
           <v-chip-group>
             <v-chip
-                v-for="(offerType, i) in offerTypes"
+                v-for="(offerType, i) in offerTypes.value"
                 :key="i"
                 :color="offerType.color"
                 small
@@ -49,8 +49,8 @@
         </div>
 
         <div class="price-block">
-          <div v-if="canBuy && cost">
-            <span>cena zakupu: </span><span style="font-size: 20pt; font-weight: bold; margin-left: 3pt">{{ cost.amount }}</span>
+          <div v-if="canBuy && offer.cost">
+            <span>cena zakupu: </span><span style="font-size: 20pt; font-weight: bold; margin-left: 3pt">{{ offer.cost.amount }}</span>
             <span class="ml-2">zł</span>
           </div>
           <div v-else>
@@ -60,13 +60,13 @@
 
         <v-divider/>
 
-        <div style="margin-top: 0.5rem; margin-bottom: 0.5rem" v-if="theCheapestShippingMethod">
-          <span>Dostawa już od: {{ theCheapestShippingMethod.cost.amount }} zł</span>
+        <div style="margin-top: 0.5rem; margin-bottom: 0.5rem" v-if="offer.shipping.cheapestMethod">
+          <span>Dostawa już od: {{ offer.shipping.cheapestMethod.cost.amount }} zł</span>
           <div>
-            <span>Stan: {{ bookCondition }}</span>
+            <span>Stan: {{ offer.book.condition }}</span>
           </div>
           <div>
-            <span>ISBN: {{ isbn }}</span>
+            <span>ISBN: {{ offer.book.isbn }}</span>
           </div>
         </div>
 
@@ -74,7 +74,7 @@
 
         <div class="offer-button-block">
           <v-dialog
-              v-model="exchangeDialog"
+              v-model="exchangeDialog.value"
               max-width="500"
           >
             <template v-slot:activator="{ on, attrs }">
@@ -99,26 +99,26 @@
                 <v-text-field
                   label="Autor"
                   outlined
-                  v-model="exchangingBook.author"
+                  v-model="exchangingBook.value.author"
                   required
                 />
 
                 <v-text-field
                   label="Tytuł"
                   outlined
-                  v-model="exchangingBook.title"
+                  v-model="exchangingBook.value.title"
                   required
                 />
 
                 <v-text-field
                   label="ISBN"
                   outlined
-                  v-model="exchangingBook.isbn"
+                  v-model="exchangingBook.value.isbn"
                 />
 
                 <v-select
                   label="Stan"
-                  :items="selectableConditions"
+                  :items="selectableConditions.value"
                   required
                   item-text="name"
                   outlined
@@ -135,7 +135,7 @@
           </v-dialog>
 
           <v-dialog
-              v-model="buyDialog"
+              v-model="buyDialog.value"
               max-width="500"
           >
             <template v-slot:activator="{ on, attrs }">
@@ -176,103 +176,119 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  name: "OfferSnippet",
-  props: ['bookTitle', 'bookAuthor', 'offerImages', 'offerIssuer', 'thumbnail', 'sellerName', 'offerType', 'cost', 'shipping', 'isbn', 'condition', 'grade', 'theCheapestShippingMethod'],
-  methods: {
-    placeOrder(type) {
-      console.log(type)
-    }
-  },
-  data() {
-    return {
-      pictureIndex: 0,
-      buyDialog: false,
-      exchangeDialog: false,
-      exchangingBook: {
-        author: '',
-        title: '',
-        isbn: '',
-        condition: ''
-      },
-      selectableConditions: [
-        {
-          condition: 'NEW',
-          name: 'Nowa'
-        },
-        {
-          condition: 'PERFECT',
-          name: 'Brak śladów użytkowania'
-        },
-        {
-          condition: 'LIGHTLY_USED',
-          name: 'Nosi ślady użytkowania'
-        },
-        {
-          condition: 'MODERATELY_USED',
-          name: 'Nosi liczne ślady użytkowania'
-        },
-        {
-          condition: 'BAD',
-          name: 'W złym stanie'
-        }
-      ]
-    }
-  },
-  computed: {
-    pictures() {
-      if (this.thumbnail === undefined) {
-        return [{
-          src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
-        }]
-      }
-      let pictures = []
-      pictures.push(this.offerImages.thumbnail)
+<script lang="ts">
+import { defineComponent, PropType, ref, computed } from '@vue/composition-api';
+import { Book, BookCondition, DetailedOffer, Image, OfferType } from '@/api/ListingApi';
 
-      return pictures
-    },
-    offerTypes() {
-      let types = []
+export default defineComponent({
+  props: {
+    offer: {
+      type: Object as PropType<DetailedOffer>,
+      required: true
+    }
+  },
+  data(props) {
+    const placeOrder = (type: string) => console.log(type);
+    const pictureIndex = ref<number>(0);
+    const buyDialog = ref(false);
+    const exchangeDialog = ref<boolean>(false);
+    const exchangingBook = ref<Book>({
+      author: '',
+      title: '',
+      isbn: 1,
+      condition: BookCondition.NEW
+    });
+    const selectableConditions = ref([
+      {
+        condition: 'NEW',
+        name: 'Nowa'
+      },
+      {
+        condition: 'PERFECT',
+        name: 'Brak śladów użytkowania'
+      },
+      {
+        condition: 'LIGHTLY_USED',
+        name: 'Nosi ślady użytkowania'
+      },
+      {
+        condition: 'MODERATELY_USED',
+        name: 'Nosi liczne ślady użytkowania'
+      },
+      {
+        condition: 'BAD',
+        name: 'W złym stanie'
+      }
+    ]);
+
+    const pictures = computed(() => {
+      if (props.offer.images.thumbnail === undefined) {
+        return [{
+          url: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
+        } as Image];
+      }
+      let pics = [];
+      pics.push(props.offer.images.thumbnail);
+
+      return pics;
+    });
+
+    const canBuy = computed(() => {
+      return props.offer.type !== 'EXCHANGE_ONLY';
+    });
+
+    const offerTypes = computed( () => {
+      let types = [];
       let buyType = {
         name: 'KUP',
         color: '#00B88D'
-      }
+      };
 
       let exchangeType = {
         name: 'WYMIEŃ',
         color: '#E7BB74'
-      }
+      };
 
-      switch (this.offerType) {
-        case 'EXCHANGE_AND_BUY':
+      switch (props.offer.type) {
+        case OfferType.EXCHANGE_AND_BUY:
           types.push(buyType, exchangeType);
           break
-        case 'BUY_ONLY':
+        case OfferType.BUY_ONLY:
           types.push(buyType);
           break
-        case 'EXCHANGE_ONLY':
+        case OfferType.EXCHANGE_ONLY:
           types.push(exchangeType);
           break
       }
 
       return types
-    },
-    canBuy() {
-      return this.offerType !== 'EXCHANGE_ONLY';
-    },
-    bookCondition() {
-      switch (this.condition) {
+    });
+
+    const bookCondition = () => {
+      switch (props.offer.book.condition) {
         case 'NEW': return 'NOWA'
         case 'PERFECT': return 'UŻYWANA'
         case 'LIGHTLY_USED': return 'WIDOCZNE ŚLADY UŻYTKOWANIA'
-        case 'MODERATLY_USED': return 'LICZNE ŚLADY UŻYTKOWANIA'
+        case 'MODERATELY_USED': return 'LICZNE ŚLADY UŻYTKOWANIA'
         case 'BAD': return 'W ZŁYM STANIE'
         default: return 'NIEZNANY'
       }
+    };
+
+    return {
+      placeOrder,
+      pictureIndex,
+      buyDialog,
+      exchangeDialog,
+      exchangingBook,
+      selectableConditions,
+      pictures,
+      canBuy,
+      offerTypes,
+      bookCondition
     }
   }
-}
+})
 </script>
 
 <style scoped>

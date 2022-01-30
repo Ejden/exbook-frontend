@@ -21,13 +21,7 @@
     <v-card-text>
       <div v-for="offer in offers" :key="offer.id">
         <offer-row
-            :id="offer.id"
-            :title="offer.book.title"
-            :author="offer.book.author"
-            :cost="offer.cost"
-            :thumbnail-url="offer.images.thumbnail ? offer.images.thumbnail.url : ''"
-            :seller-username="offer.seller.username"
-            :type="offer.type"
+            :offer="offer"
             class="offer transparent"
         />
       </div>
@@ -35,44 +29,62 @@
   </v-card>
 </template>
 
-<script>
-import OfferRow from "./OfferRow";
-export default {
-  name: "OfferListing",
-  components: {OfferRow},
-  props: ['offers', 'pageable', 'pages'],
-  data: () => {
-    return {
-      selectedSortingMethod: {
+<script lang="ts">
+import { defineComponent, PropType, ref } from '@vue/composition-api';
+import OfferRow from "./OfferRow.vue";
+import { DetailedOffer } from '@/api/ListingApi';
+import { SortingMethod } from '@/components/listing/offerlisting/typings/SortingMethod';
+
+export default defineComponent({
+  components: {
+    OfferRow
+  },
+  props: {
+    offers: {
+      type: Array as PropType<Array<DetailedOffer>>,
+      required: true
+    },
+    pageable: {
+
+    },
+    pages: {
+      type: Number,
+      required: true
+    }
+  },
+  setup(_, { emit }) {
+    const selectedSortingMethod = ref<SortingMethod>({
+      text: 'czas dodania: najnowsze',
+      value: 'dd'
+    });
+    const sortingMethods = ref<SortingMethod[]>([
+      {
+        text: 'cena: od najniższej',
+        value: 'pa'
+      },
+      {
+        text: 'cena: od najwyższej',
+        value: 'pd'
+      },
+      {
         text: 'czas dodania: najnowsze',
         value: 'dd'
       },
-      sortingMethods: [
-        {
-          text: 'cena: od najniższej',
-          value: 'pa'
-        },
-        {
-          text: 'cena: od najwyższej',
-          value: 'pd'
-        },
-        {
-          text: 'czas dodania: najnowsze',
-          value: 'dd'
-        },
-        {
-          text: 'czas dodania: najstarsze',
-          value: 'da'
-        }
-      ]
-    }
-  },
-  methods: {
-    sortResults() {
-      this.$emit('updateResultsDueToSorting', this.selectedSortingMethod.value)
+      {
+        text: 'czas dodania: najstarsze',
+        value: 'da'
+      }
+    ]);
+
+    const sortResults = () => emit('updateResultsDueToSorting', selectedSortingMethod.value.value);
+
+    return {
+      selectedSortingMethod,
+      sortingMethods,
+      sortResults
     }
   }
-}
+})
 </script>
 
 <style scoped>
@@ -93,15 +105,6 @@ export default {
 
   .top-pagination-button {
     margin-top: 0;
-  }
-
-  .glass {
-    background: linear-gradient(
-        to right bottom,
-        rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 0.7)
-    );
-    backdrop-filter: blur(10px);
   }
 
   .transparent {

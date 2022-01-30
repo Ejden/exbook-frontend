@@ -1,19 +1,19 @@
-import axios, {AxiosResponse} from 'axios';
+import axios from 'axios';
 
-interface Basket {
+export interface Basket {
     id: string;
     userId: string;
     items: BasketItem[];
     totalOffersCost: Money;
 }
 
-interface BasketItem {
+export interface BasketItem {
     offer: OfferItem;
     quantity: number;
     price: Money;
 }
 
-interface OfferItem {
+export interface OfferItem {
     id: string;
     price: Money;
     book: Book;
@@ -21,34 +21,32 @@ interface OfferItem {
     seller: Seller;
 }
 
-interface Book {
+export interface Book {
     author: string;
     title: string;
 }
 
-interface Images {
+export interface Images {
     thumbnail?: Image;
     otherImages: Image[];
 }
 
-interface Image {
+export interface Image {
     url: string;
 }
 
-interface Seller {
+export interface Seller {
     id: string;
     firstName: string;
     lastName: string;
 }
 
-interface Money {
+export interface Money {
     amount: string;
     currency: string;
 }
 
-async function getUserBasket(): Promise<Basket> {
+export async function getUserBasket(): Promise<Basket> {
     return axios.get('api/basket')
         .then((response) => response.data as Basket);
 }
-
-export { getUserBasket, Basket };

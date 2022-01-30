@@ -19,11 +19,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "BasketPriceContainer",
-  props: ['totalCost']
-}
+<script lang="ts">
+import { defineComponent, PropType } from '@vue/composition-api';
+import { Money } from '@/api/BasketApi'
+
+export default defineComponent({
+  props: {
+    totalCost: {
+      type: Object as PropType<Money>
+    }
+  }
+})
 </script>
 
 <style scoped>

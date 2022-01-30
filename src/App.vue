@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <NavBar/>
-<!--    <v-main class="grey lighten-3">-->
     <v-main class="app">
       <div class="circle circle-1"></div>
       <div class="circle circle-2"></div>
@@ -16,21 +15,15 @@
 </template>
 
 <script lang="ts">
-
-import Footer from "@/components/Footer.vue";
+import { defineComponent } from '@vue/composition-api';
+import Footer from "@/components/FooterBar.vue";
 import NavBar from "@/components/NavBar.vue";
-export default {
-  name: 'App',
+export default defineComponent({
   components: {
     NavBar,
     Footer
-
-  },
-
-  data: () => ({
-    //
-  }),
-};
+  }
+})
 </script>
 
 <style>

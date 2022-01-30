@@ -1,26 +1,27 @@
-import axios from "axios";
+import axios from 'axios';
 
-interface CategoryApi {
+export interface CategoryApi {
     getCategories(): Promise<Category>;
 }
 
-interface Category {
+export interface Category {
     id: string;
     name: string;
     icon: Image;
     parentId?: string;
 }
 
-interface Image {
+export interface Image {
     url: string;
 }
 
-class CategoryClient implements CategoryApi {
-    private serviceUrl = "http://localhost:8082";
-
+export class CategoryClient implements CategoryApi {
     async getCategories(): Promise<Category> {
         return axios.get('api/categories');
     }
 }
 
-export { CategoryApi, CategoryClient, Category };
+export function getCategories(): Promise<Category[]> {
+    return axios.get('api/categories', { headers: { 'Accept': 'application/vnd.exbook.v1+json'} })
+        .then(r => r.data as Category[])
+}

@@ -7,6 +7,8 @@ import OfferStore from "@/store/modules/offer-store/OfferStore";
 
 Vue.use(Vuex);
 
+const homeUrl = window.location.origin;
+
 export interface IRootState {
     user: IUserState;
 }
@@ -17,6 +19,9 @@ export default new Vuex.Store<IRootState>({
     modules: {
         user: UserModule,
         offer: OfferStore
+    },
+    getters: {
+        homeUrl: () => homeUrl
     },
     plugins: [createPersistedState(), initializer]
 });

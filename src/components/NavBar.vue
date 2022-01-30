@@ -29,28 +29,30 @@
 
       <div>
         <v-icon v-on:click="$router.push('/checkout')">fas fa-shopping-basket</v-icon>
-        <Menu/>
+        <menu-modal/>
       </div>
     </v-container>
   </v-app-bar>
 </template>
 
 <script lang="ts">
-import Menu from "@/components/navbar/Menu.vue";
-import { Component, Vue } from 'vue-property-decorator'
+import { defineComponent, ref } from '@vue/composition-api';
+import MenuModal from '@/components/navbar/MenuModal.vue';
 
-@Component({
+export default defineComponent({
   components: {
-    Menu
+    MenuModal
+  },
+  setup(_, { root }) {
+    const searchText = ref<string>('');
+    const search = () => root.$router.push({ name: 'Listing', query: { search: searchText.value }})
+
+    return {
+      searchText,
+      search
+    }
   }
 })
-export default class NavBar extends Vue {
-  private searchText: string = '';
-
-  search(): void {
-    this.$router.push({ name: 'Listing', query: { search: this.searchText} });
-  }
-}
 </script>
 
 <style scoped>

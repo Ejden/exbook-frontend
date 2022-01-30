@@ -4,23 +4,18 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  name: "CategoryDetails",
-  data() {
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
+  setup(_, vm) {
+    const categoryName = vm.root.$route.params.categoryName;
+
     return {
-
-    }
-  },
-  methods: {
-
-  },
-  computed: {
-    categoryName: function () {
-      return this.$route.params.categoryName
+      categoryName
     }
   }
-}
+})
 </script>
 
 <style scoped>
