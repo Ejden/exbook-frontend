@@ -13,11 +13,17 @@
   </v-card>
 </template>
 
-<script>
-export default {
-  name: "OfferDescription",
-  props: ['description']
-}
+<script lang="ts">
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
+  props: {
+    description: {
+      type: String,
+      required: true
+    }
+  }
+})
 </script>
 
 <style scoped>

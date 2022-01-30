@@ -48,22 +48,32 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "AccountStatistics",
-  data() {
+<script lang="ts">
+import { defineComponent, ref } from '@vue/composition-api';
+
+export default defineComponent({
+  setup() {
+    const daysFromRegistration = ref<number>(1);
+    const totalSoldOffersCount = ref<number>(10);
+    const totalExchangedOffersCount = ref<number>(13);
+    const transactionsCount = ref<number>(2);
+    const totalGain = ref<number>(10.00);
+    const activeOffers = ref<number>(5);
+    const totalOffersMonthViews = ref<number>(15556);
+    const savedMoney = ref<number>(10.55);
+
     return {
-      daysFromRegistration: 1,
-      totalSoldOffersCount: 10,
-      totalExchangedOffersCount: 13,
-      transactionsCount: 2,
-      totalGain: "10.00",
-      activeOffers: 5,
-      totalOffersMonthViews: 15556,
-      savedMoney: 10.55
+      daysFromRegistration,
+      totalSoldOffersCount,
+      totalExchangedOffersCount,
+      transactionsCount,
+      totalGain,
+      activeOffers,
+      totalOffersMonthViews,
+      savedMoney
     }
   }
-}
+})
 </script>
 
 <style scoped>

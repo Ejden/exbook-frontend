@@ -27,31 +27,46 @@
   </v-card>
 </template>
 
-<script>
-import OrderItemSnippet from "@/components/account/OrderItemSnippet";
-import OrderDeliverySnippet from "@/components/account/order-delivery-snippet";
-import OrderSnippetSummary from "@/components/account/order-snippet-summary";
-export default {
-  name: "OrderSnippet",
-  components: {OrderSnippetSummary, OrderDeliverySnippet, OrderItemSnippet},
-  props: ['order'],
-  methods: {
-    getOrderStatus () {
-      switch (this.order.status) {
-        case 'NEW':
+<script lang="ts">
+import { defineComponent, PropType } from '@vue/composition-api';
+import OrderItemSnippet from "@/components/account/OrderItemSnippet.vue";
+import OrderDeliverySnippet from "@/components/account/OrderDeliverySnippet.vue";
+import OrderSnippetSummary from "@/components/account/OrderSnippetSummary.vue";
+import { OrderStatus, UserOrderSnippet } from '@/api/OrderApi';
+
+export default defineComponent({
+  components: {
+    OrderSnippetSummary,
+    OrderDeliverySnippet,
+    OrderItemSnippet
+  },
+  props: {
+    order: {
+      type: Object as PropType<UserOrderSnippet>,
+      required: true
+    }
+  },
+  setup(props) {
+    const getOrderStatus = () => {
+      switch (props.order.status) {
+        case OrderStatus.NEW:
           return 'NOWE'
-        case 'DECLINED':
+        case OrderStatus.DECLINED:
           return 'ODRZUCONE'
-        case 'ACCEPTED':
+        case OrderStatus.ACCEPTED:
           return 'ZAAKCEPTOWANE'
-        case 'RETURNED':
+        case OrderStatus.RETURNED:
           return 'ZWRÓCONE'
         default:
-            return 'NIEZNANE'
+          return 'NIEZNANE'
       }
     }
+
+    return {
+      getOrderStatus
+    }
   }
-}
+})
 </script>
 
 <style scoped>

@@ -8,11 +8,19 @@
   </v-card>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, PropType } from '@vue/composition-api';
+import { DetailedOffer } from '@/api/ListingApi';
+
+export default defineComponent({
   name: "OtherSellerOffers",
-  props: ['offers']
-}
+  props: {
+    offers: {
+      type: Array as PropType<Array<DetailedOffer>>,
+      required: true
+    }
+  }
+})
 </script>
 
 <style scoped>

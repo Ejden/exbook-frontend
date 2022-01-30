@@ -3,13 +3,14 @@
     <div class="thumbnail">
       <img
         class="image"
-        :src="thumbnailUrl"
+        :src="offer.images.thumbnail.url"
+        alt="Offer image"
       />
     </div>
     <div class="offer-info">
-      <span class="title">{{ title }}</span>
+      <span class="title">{{ offer.book.title }}</span>
 
-      <span class="subtitle-2">{{ author }}</span>
+      <span class="subtitle-2">{{ offer.book.author }}</span>
 
       <div>
         <v-chip-group style="margin-top: -5px">
@@ -22,27 +23,32 @@
         </v-chip-group>
       </div>
 
-      <span class="price"> {{ cost.amount }} <span style="font-size: 1rem; font-weight:500">zł</span></span>
+      <span class="price"> {{ offer.cost.amount }} <span style="font-size: 1rem; font-weight:500">zł</span></span>
     </div>
 
     <div class="seller-info">
-      <span>{{ sellerUsername }}</span>
+      <span>{{ offer.seller.username }}</span>
     </div>
   </v-card>
 </template>
 
-<script>
-export default {
-  name: "OfferRow",
-  props: ['id', 'title', 'author','thumbnailUrl', 'cost', 'type', 'sellerUsername'],
-  methods: {
-    goToOffer() {
-      this.$router.push({ name: 'Offer', params: { offerId: this.id} })
+<script lang="ts">
+import { computed, defineComponent, PropType } from '@vue/composition-api';
+import { DetailedOffer, OfferType } from '@/api/ListingApi';
+import router from '@/router';
+import { OfferTypeChip } from '@/components/listing/offerlisting/typings/OfferTypeChip';
+
+export default defineComponent({
+  props: {
+    offer: {
+      type: Object as PropType<DetailedOffer>,
+      required: true
     }
   },
-  computed: {
-    offerTypes() {
-      let types = []
+  setup(props) {
+    const goToOffer = () => router.push({ name: 'Offer', params: { offerId: props.offer.id } });
+    const offerTypes = computed<OfferTypeChip[]>(() => {
+      let types: OfferTypeChip[] = []
       let buyType = {
         name: 'KUP',
         color: '#00B88D'
@@ -53,22 +59,27 @@ export default {
         color: '#E7BB74'
       }
 
-      switch (this.type) {
-        case 'EXCHANGE_AND_BUY':
+      switch (props.offer.type) {
+        case OfferType.EXCHANGE_AND_BUY:
           types.push(buyType, exchangeType);
-          break
-        case 'BUY_ONLY':
+          break;
+        case OfferType.BUY_ONLY:
           types.push(buyType);
-          break
-        case 'EXCHANGE_ONLY':
+          break;
+        case OfferType.EXCHANGE_ONLY:
           types.push(exchangeType);
-          break
+          break;
       }
 
-      return types
+      return types;
+    });
+
+    return {
+      goToOffer,
+      offerTypes
     }
   }
-}
+})
 </script>
 
 <style scoped>

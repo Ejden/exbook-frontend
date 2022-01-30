@@ -18,11 +18,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "OrderItemSnippet",
-  props: ['orderItem']
-}
+<script lang="ts">
+import { defineComponent, PropType } from '@vue/composition-api';
+import { OrderItem } from '@/api/OrderApi';
+
+export default defineComponent({
+  props: {
+    orderItem: {
+      type: Object as PropType<OrderItem>
+    }
+  }
+})
 </script>
 
 <style scoped>

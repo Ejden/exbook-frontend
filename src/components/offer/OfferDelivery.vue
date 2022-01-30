@@ -21,13 +21,22 @@
   </v-card>
 </template>
 
-<script>
-import OfferDeliveryOption from "./OfferDeliveryOption";
-export default {
-  name: "OfferDelivery",
-  components: {OfferDeliveryOption},
-  props: ['deliveries']
-}
+<script lang="ts">
+import { defineComponent, PropType } from '@vue/composition-api';
+import OfferDeliveryOption from './OfferDeliveryOption.vue';
+import { ShippingMethod } from '@/api/ListingApi';
+
+export default defineComponent({
+  components: {
+    OfferDeliveryOption
+  },
+  props: {
+    deliveries: {
+      type: Array as PropType<Array<ShippingMethod>>,
+      required: true
+    }
+  }
+})
 </script>
 
 <style scoped>
