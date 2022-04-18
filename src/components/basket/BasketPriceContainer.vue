@@ -11,10 +11,11 @@
     <v-btn
         class="delivery-button"
         block
-        outlined
         large
         color="primary"
         elevation="0"
+        :loading="loading"
+        @click="pickDeliveryEventHandler"
     >WYBÓR DOSTAWY</v-btn>
   </div>
 </template>
@@ -27,37 +28,49 @@ export default defineComponent({
   props: {
     totalCost: {
       type: Object as PropType<Money>
+    },
+    loading: {
+      type: Boolean
+    }
+  },
+  setup(_, { emit }) {
+    const pickDeliveryEventHandler = () => {
+      emit('pickDelivery');
+    };
+
+    return {
+      pickDeliveryEventHandler
     }
   }
 })
 </script>
 
 <style scoped>
-  .main {
-    display: flex;
-    flex-direction: column;
-  }
+.main {
+  display: flex;
+  flex-direction: column;
+}
 
-  .cost-container {
-    width: 100%;
-    font-weight: 300;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-  }
+.cost-container {
+  width: 100%;
+  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
 
-  .totalOffersCost {
-    font-size: 20pt;
-    font-weight: 500;
-  }
+.totalOffersCost {
+  font-size: 20pt;
+  font-weight: 500;
+}
 
-  .cost {
-    display: flex;
-    align-items: center;
-  }
+.cost {
+  display: flex;
+  align-items: center;
+}
 
-  .delivery-button {
-    align-self: flex-end;
-    margin-top: 20pt;
-  }
+.delivery-button {
+  align-self: flex-end;
+  margin-top: 20pt;
+}
 </style>

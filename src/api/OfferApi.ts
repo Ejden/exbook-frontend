@@ -1,7 +1,8 @@
 import axios from "axios";
 
-interface OfferApi {
-    createOffer(offer: NewOfferForm): Promise<CreatedOffer>;
+const headers = {
+    'Content-Type': 'application/vnd.exbook.v1+json',
+    'Accept': 'application/vnd.exbook.v1+json'
 }
 
 interface NewOfferForm {
@@ -10,9 +11,10 @@ interface NewOfferForm {
     images: Images;
     category: string;
     type: string;
-    cost: Money;
+    price: Money;
     location: string,
     shippingMethods: ShippingMethod[];
+    initialStock: number;
 }
 
 interface Book {
@@ -33,7 +35,7 @@ interface Image {
 
 interface ShippingMethod {
     id: string;
-    cost: Money;
+    price: Money;
 }
 
 interface Money {
@@ -45,12 +47,8 @@ interface CreatedOffer {
     id: string;
 }
 
-class OfferClient implements OfferApi {
-    private serviceUrl = "http://localhost:8082";
-
-    async createOffer(offer: NewOfferForm): Promise<CreatedOffer> {
-        return axios.post('api/offers', offer, { withCredentials: true });
-    }
+async function createOffer(offer: NewOfferForm): Promise<CreatedOffer> {
+    return axios.post('api/offers', offer, { withCredentials: true, headers: headers });
 }
 
-export { OfferApi, OfferClient, NewOfferForm, CreatedOffer };
+export { createOffer, NewOfferForm, CreatedOffer };

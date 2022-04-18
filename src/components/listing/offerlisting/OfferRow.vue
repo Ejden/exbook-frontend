@@ -23,7 +23,7 @@
         </v-chip-group>
       </div>
 
-      <span class="price"> {{ offer.cost.amount }} <span style="font-size: 1rem; font-weight:500">zł</span></span>
+      <span class="price"> {{ offer.price.amount }} <span style="font-size: 1rem; font-weight:500">zł</span></span>
     </div>
 
     <div class="seller-info">

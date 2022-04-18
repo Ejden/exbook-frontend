@@ -5,13 +5,14 @@ export interface DetailedOffer {
     id: string;
     book: Book;
     images: Images;
-    description?: string;
+    description: string;
     type: OfferType;
     seller: Seller;
-    cost: Money;
+    price: Money;
     location: string;
     category: Category;
     shipping: Shipping;
+    inStock: number;
 }
 
 export enum OfferType {
@@ -51,7 +52,7 @@ export interface Seller {
 }
 
 export interface Money {
-    amount: string;
+    amount: number;
     currency: string;
 }
 
@@ -67,7 +68,7 @@ export interface Shipping {
 export interface ShippingMethod {
     id: string;
     name: string;
-    cost: Money;
+    price: Money;
 }
 
 export async function getListing() {

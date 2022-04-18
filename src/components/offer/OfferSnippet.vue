@@ -49,8 +49,8 @@
         </div>
 
         <div class="price-block">
-          <div v-if="canBuy && offer.cost">
-            <span>cena zakupu: </span><span style="font-size: 20pt; font-weight: bold; margin-left: 3pt">{{ offer.cost.amount }}</span>
+          <div v-if="canBuy && offer.price">
+            <span>cena zakupu: </span><span style="font-size: 20pt; font-weight: bold; margin-left: 3pt">{{ offer.price.amount }}</span>
             <span class="ml-2">zł</span>
           </div>
           <div v-else>
@@ -61,115 +61,52 @@
         <v-divider/>
 
         <div style="margin-top: 0.5rem; margin-bottom: 0.5rem" v-if="offer.shipping.cheapestMethod">
-          <span>Dostawa już od: {{ offer.shipping.cheapestMethod.cost.amount }} zł</span>
+          <span>Dostawa już od: {{ offer.shipping.cheapestMethod.price.amount }} zł</span>
           <div>
             <span>Stan: {{ offer.book.condition }}</span>
           </div>
           <div>
             <span>ISBN: {{ offer.book.isbn }}</span>
           </div>
+          <div>Dostępnych sztuk: {{ offer.inStock }}</div>
         </div>
 
         <v-divider/>
 
         <div class="offer-button-block">
-          <v-dialog
-              v-model="exchangeDialog.value"
-              max-width="500"
+          <div class="stock-input-container">
+            <v-text-field
+              outlined
+              dense
+              hide-details
+              type="number"
+              style="width: 10pt"
+              v-bind="pickedQuantity"
+            />
+            <span class="ml-1">z {{ offer.inStock }}</span>
+          </div>
+
+          <v-btn
+              v-if="canExchange.value"
+              @click="addToBasket('EXCHANGE')"
+              style="margin-top: 0.5rem"
+              block
+              large
+              color="rgba(220, 179, 116, 0.5)"
           >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                  v-bind="attrs"
-                  v-on="on"
-                  style="margin-top: 0.5rem"
-                  block
-                  large
-                  outlined
-                  color="rgba(220, 179, 116)"
-              >
-                Zaproponuj wymianę
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>Propozycja wymiany</v-card-title>
+            Zaproponuj wymianę
+          </v-btn>
 
-              <v-card-subtitle>Wpisz dane książki, którą chcesz wymienić</v-card-subtitle>
-
-              <v-card-text>
-                <v-text-field
-                  label="Autor"
-                  outlined
-                  v-model="exchangingBook.value.author"
-                  required
-                />
-
-                <v-text-field
-                  label="Tytuł"
-                  outlined
-                  v-model="exchangingBook.value.title"
-                  required
-                />
-
-                <v-text-field
-                  label="ISBN"
-                  outlined
-                  v-model="exchangingBook.value.isbn"
-                />
-
-                <v-select
-                  label="Stan"
-                  :items="selectableConditions.value"
-                  required
-                  item-text="name"
-                  outlined
-                  return-object
-                />
-
-                <v-btn
-                  block
-                  large
-                  @click="placeOrder('EXCHANGE')"
-                >Zaproponuj wymianę</v-btn>
-              </v-card-text>
-            </v-card>
-          </v-dialog>
-
-          <v-dialog
-              v-model="buyDialog.value"
-              max-width="500"
+          <v-btn
+              v-if="canBuy.value"
+              @click="addToBasket('BUY')"
+              style="margin-top: 0.5rem"
+              block
+              large
+              color="rgba(0, 184, 141, 0.5)"
           >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                  v-bind="attrs"
-                  v-on="on"
-                  style="margin-top: 0.5rem"
-                  outlined
-                  block
-                  large
-                  color="rgba(0, 184, 141)"
-              >
-                Kup
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>Kup</v-card-title>
-
-              <v-card-subtitle>Wybierz ilość sztuk i zatwierdź zakup</v-card-subtitle>
-
-              <v-card-text>
-                <v-text-field
-                    label="sztuk"
-                    suffix="z 10"
-                />
-
-                <v-btn
-                    block
-                    large
-                    @click="placeOrder('BUY')"
-                >Kup</v-btn>
-              </v-card-text>
-            </v-card>
-          </v-dialog>
+            Kup
+          </v-btn>
         </div>
       </div>
     </v-card-text>
@@ -179,6 +116,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, computed } from '@vue/composition-api';
 import { Book, BookCondition, DetailedOffer, Image, OfferType } from '@/api/ListingApi';
+import { addItemToBasket, OrderType } from '@/api/BasketApi';
 
 export default defineComponent({
   props: {
@@ -188,10 +126,11 @@ export default defineComponent({
     }
   },
   data(props) {
-    const placeOrder = (type: string) => console.log(type);
+    const pickedQuantity = ref<number>(1);
+    const addToBasket = (type: string) => {
+      addItemToBasket(props.offer.id, type as OrderType, pickedQuantity.value);
+    };
     const pictureIndex = ref<number>(0);
-    const buyDialog = ref(false);
-    const exchangeDialog = ref<boolean>(false);
     const exchangingBook = ref<Book>({
       author: '',
       title: '',
@@ -236,6 +175,7 @@ export default defineComponent({
     const canBuy = computed(() => {
       return props.offer.type !== 'EXCHANGE_ONLY';
     });
+    const canExchange = computed(() => props.offer.type != 'BUY_ONLY');
 
     const offerTypes = computed( () => {
       let types = [];
@@ -276,16 +216,16 @@ export default defineComponent({
     };
 
     return {
-      placeOrder,
+      addToBasket,
       pictureIndex,
-      buyDialog,
-      exchangeDialog,
       exchangingBook,
       selectableConditions,
       pictures,
       canBuy,
+      canExchange,
       offerTypes,
-      bookCondition
+      bookCondition,
+      pickedQuantity
     }
   }
 })
@@ -324,6 +264,14 @@ export default defineComponent({
 
   .offer-button-block {
     margin-top: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stock-input-container {
+    display: flex;
+    width: 150pt;
+    align-items: flex-end;
   }
 
   @media screen and (max-width: 768px) {
