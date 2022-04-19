@@ -35,34 +35,18 @@ export default defineComponent({
   .account-menu {
     flex-grow: 0;
     border-radius: 5pt;
-    background: linear-gradient(
-        to right bottom,
-        rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 0.8)
-    );
-    backdrop-filter: blur(10px);
+    background: #ffffff;
   }
 
   .account-statistics {
-    background: linear-gradient(
-        to right bottom,
-        rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 0.8)
-    );
     flex-grow: 1;
     margin-left: 10pt;
     border-radius: 5pt;
-    backdrop-filter: blur(10px);
+    background-color: #ffffff;
   }
 
   .latest-orders {
     border-radius: 5pt;
-    background: linear-gradient(
-        to right bottom,
-        rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 0.8)
-    );
-    backdrop-filter: blur(10px);
   }
 
   @media only screen and (max-width: 768px) {

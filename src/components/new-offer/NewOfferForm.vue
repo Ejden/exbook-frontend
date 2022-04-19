@@ -59,9 +59,19 @@
               outlined
               v-model="offerFormDescription"
               counter
-              :rules="[rules.counter(offerFormDescription, 300)]"
-              maxlength="300"
+              :rules="[rules.counter(offerFormDescription, 3000)]"
+              maxlength="3000"
           />
+        </v-card-text>
+
+        <v-card-text>
+          <label class="form-label">Liczba sztuk</label>
+          <v-text-field
+              outlined
+              v-model.number="initialStock"
+              type="number"
+              :rules="[rules.required]"
+          ></v-text-field>
         </v-card-text>
 
         <v-card-text>
@@ -189,23 +199,8 @@ export default defineComponent({
     ];
     const selectedCondition = ref('');
     const price = ref('0.00');
-    const offerTypes = [
-      {
-        name: 'KUPNO I WYMIANA',
-        type: 'EXCHANGE_AND_BUY',
-        buyAbility: true
-      },
-      {
-        name: 'TYLKO KUPNO',
-        type: 'BUY_ONLY',
-        buyAbility: true
-      },
-      {
-        name: 'TYLKO WYMIANA',
-        type: 'EXCHANGE_ONLY',
-        buyAbility: false
-      }
-    ];
+    const offerTypes = root.$store.getters.offerTypes;
+    console.log(root.$store.state.offer.offerTypes);
 
     const pushCategoryFromChildTreeToForm = (payload: Category) => {
       root.$store.commit('updateSelectedCategoriesInNewOfferForm', payload);
@@ -224,7 +219,8 @@ export default defineComponent({
       offerFormType,
       offerFormPrice,
       offerFormLocation,
-      offerFormShippingMethods
+      offerFormShippingMethods,
+      initialStock
     } = offerModifiers(root.$store);
 
     onMounted(() => {
@@ -248,7 +244,8 @@ export default defineComponent({
       offerFormType,
       offerFormPrice,
       offerFormLocation,
-      offerFormShippingMethods
+      offerFormShippingMethods,
+      initialStock
     }
   }
 })
@@ -281,7 +278,7 @@ function offerModifiers(store: Store<any>) {
 
   const offerFormType = computed({
     get: () => store.getters.newOfferForm.type,
-    set: (value: string) => store.commit('updateTypeInNewOfferForm', value)
+    set: (value: any) => store.commit('updateTypeInNewOfferForm', value)
   });
 
   const offerFormPrice = computed({
@@ -299,6 +296,11 @@ function offerModifiers(store: Store<any>) {
     set: (value: string) => store.commit('updateShippingMethodsInNewOfferForm', value)
   });
 
+  const initialStock = computed({
+    get: () => store.getters.newOfferForm.initialStock,
+    set: (value: number) => store.commit('updateInitialStock', value)
+  });
+
   return {
     offerFormIsbn,
     offerFormTitle,
@@ -308,7 +310,8 @@ function offerModifiers(store: Store<any>) {
     offerFormType,
     offerFormPrice,
     offerFormLocation,
-    offerFormShippingMethods
+    offerFormShippingMethods,
+    initialStock
   }
 }
 </script>

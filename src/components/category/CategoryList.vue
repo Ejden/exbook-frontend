@@ -33,7 +33,7 @@ export default defineComponent({
     onMounted(() => {
       getCategories()
           .then(response => {
-            categories.value = response.filter(category => category.parentId === null).sort(categoryComparator)
+            categories.value = response.categories.filter(category => category.parentId === null).sort(categoryComparator)
           })
           .catch(e => new Error('error getting categories: ' + e));
     });

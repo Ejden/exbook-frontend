@@ -12,6 +12,7 @@ import Error from '@/views/ErrorView.vue';
 import NotFound from '@/views/NotFoundView.vue';
 import MyAccount from '../views/MyAccountView.vue';
 import Checkout from '@/views/BasketView.vue';
+import BasketTransactionView from '@/views/BasketTransactionView.vue'
 
 Vue.use(VueRouter);
 
@@ -91,6 +92,12 @@ const routes = [
         path: '/checkout',
         name: 'Checkout',
         component: Checkout,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/transaction',
+        name: 'Transaction',
+        component: BasketTransactionView,
         meta: { requiresAuth: true }
     },
     {
