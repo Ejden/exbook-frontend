@@ -1,16 +1,35 @@
 .glass {
-    background: linear-gradient(
-            to right bottom,
-            rgba(255, 255, 255, 0.5),
-            rgba(255, 255, 255, 0.7)
-    );
-    backdrop-filter: blur(10px);
+    background: #ffffff;
+}
+
+.container-standard-background {
+    background: #ffffff;
 }
 
 .transparent {
-    background: transparent;
+    /*background: transparent;*/
 }
 
 .rounded {
     border-radius: 5pt;
+}
+
+.no-background-color {
+    /*background-color: transparent;*/
+}
+
+.margin-top-8 {
+    margin-top: 8px;
+}
+
+.margin-bottom-8 {
+    margin-bottom: 8px;
+}
+
+.margin-top-16 {
+    margin-top: 16px;
+}
+
+.margin-top-24 {
+    margin-top: 24px;
 }

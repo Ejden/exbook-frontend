@@ -44,14 +44,14 @@ import { defineComponent, ref, computed, onMounted } from '@vue/composition-api'
 import { Category, getCategories } from '@/api/CategoryApi';
 
 export default defineComponent({
-  setup(_, { root }) {
+  setup(_, { emit }) {
     const parentCategory = ref<Category | null>(null);
     const selectedCategory = ref<Category | null>(null);
     const pickedCategory = ref<boolean>(false);
     const categories = ref<Category[]>([]);
     const activeCategories = ref<Category[]>([]);
 
-    const modifiedSelectedCategoriesEventHandler = () => root.$emit('changedCategory', selectedCategory.value);
+    const modifiedSelectedCategoriesEventHandler = () => emit('changedCategory', selectedCategory.value);
 
     const countCategoryChildren = (id: string) => {
       return categories.value.filter((category: Category) => category.parentId === id).length;
@@ -96,7 +96,7 @@ export default defineComponent({
     onMounted(() => {
       getCategories()
         .then(r => {
-          categories.value = r;
+          categories.value = r.categories;
           updateActiveCategories();
         })
         .catch(e => new Error('Error getting categories: ' + e));
