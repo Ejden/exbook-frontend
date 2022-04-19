@@ -12,7 +12,7 @@
                 v-for="(delivery, i) in deliveries"
                 :key="i"
                 :name="delivery.name"
-                :cost="delivery.cost"
+                :cost="delivery.price"
             />
           </tbody>
         </template>
