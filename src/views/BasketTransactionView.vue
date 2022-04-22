@@ -28,8 +28,8 @@
             :total-cost="detailedDraftPurchase.totalPrice"
             :total-offers-cost="detailedDraftPurchase.totalOffersPrice"
             :shipping-cost="detailedDraftPurchase.totalShippingPrice"
-            :loading="false"
-            :button-enabled="false"
+            :loading="loading"
+            :button-enabled="!loading"
         />
       </v-container>
     </v-container>
@@ -37,8 +37,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, ref } from '@vue/composition-api';
-import { DetailedDraftPurchase, previewPurchase } from '@/api/TransactionApi';
+import { defineComponent, ref } from '@vue/composition-api';
+import {
+  DetailedDraftPurchase,
+  previewPurchase,
+  PreviewPurchaseOrderData, PreviewPurchasePickupPointData, PreviewPurchaseShippingAddressData,
+  PreviewPurchaseShippingData
+} from '@/api/TransactionApi';
 import router from '@/router';
 import BasketTransactionGroup from '@/components/transaction/BasketTransactionGroup.vue';
 import DraftPurchasePriceContainer from '@/components/transaction/DraftPurchasePriceContainer.vue';
@@ -51,26 +56,54 @@ export default defineComponent({
   },
   setup() {
     const {
-      transactionIsLoading,
-      enableTransactionLoadingAnimation,
-      disableTransactionLoadingAnimation
+      transactionIsLoading, enableTransactionLoadingAnimation, disableTransactionLoadingAnimation
     } = transactionLoading();
+    const { loading, enableLoading, disableLoading } = loadingButton();
+
     const detailedDraftPurchase = ref<DetailedDraftPurchase | undefined>(undefined);
-    const pickedShippingMethodEventHandler = ({ shippingMethodId, orderId } : PickedShippingMethodEvent) => {
-      console.log(shippingMethodId + " " + orderId);
-      previewPurchase( { orders: [] })
+    const pickedShippingMethodEventHandler = (event : PickedShippingMethodEvent) => {
+      enableLoading();
+
+      if (detailedDraftPurchase.value !== undefined) {
+        let orders = detailedDraftPurchase.value.orders
+            .filter(order => order.shipping !== null)
+            .filter(order => order.orderId !== event.orderId)
+            .map(order => ({
+              sellerId: order.seller.id,
+              orderType: order.orderType,
+              shipping: {
+                shippingMethodId: order.shipping!.shippingMethod.id,
+                shippingAddress: order.shipping?.shippingAddress as PreviewPurchaseShippingAddressData,
+                pickupPoint: order.shipping?.pickupPoint as PreviewPurchasePickupPointData
+              } as PreviewPurchaseShippingData
+            } as PreviewPurchaseOrderData));
+
+        orders.push({
+          sellerId: event.sellerId,
+          orderType: event.orderType,
+          shipping: {
+            shippingMethodId: event.shippingMethodId,
+            shippingAddress: event.shippingAddress,
+            pickupPoint: event.pickupPoint
+          }
+        });
+
+        previewPurchase({ orders: orders })
+            .then(response => detailedDraftPurchase.value = response.data)
+            .then(disableLoading);
+      }
     }
 
-    onBeforeMount(() => previewPurchase({ orders: [] })
+    previewPurchase({ orders: [] })
         .then(response => detailedDraftPurchase.value = response.data)
         .then(() => disableTransactionLoadingAnimation())
-        .catch(() => router.push({ name: 'Error' }))
-    );
+        .catch(() => router.push({ name: 'Error' }));
 
     return {
       transactionIsLoading,
       enableTransactionLoadingAnimation,
       disableTransactionLoadingAnimation,
+      loading,
       detailedDraftPurchase,
       pickedShippingMethodEventHandler
     }
@@ -87,6 +120,18 @@ function transactionLoading() {
     transactionIsLoading,
     enableTransactionLoadingAnimation,
     disableTransactionLoadingAnimation,
+  }
+}
+
+function loadingButton() {
+  const loading = ref(false);
+  const enableLoading = () => loading.value = true;
+  const disableLoading = () => loading.value = false;
+
+  return {
+    loading,
+    enableLoading,
+    disableLoading
   }
 }
 </script>

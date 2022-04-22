@@ -16,6 +16,12 @@ export enum BookCondition {
     BAD = 'BAD'
 }
 
+export enum ShippingMethodType {
+    PICKUP_DELIVERY = 'PICKUP_DELIVERY',
+    ADDRESS_DELIVERY = 'ADDRESS_DELIVERY',
+    PERSONAL_DELIVERY = 'PERSONAL_DELIVERY'
+}
+
 export const acceptHeader = {
     'Accept': 'application/vnd.exbook.v1+json'
 }

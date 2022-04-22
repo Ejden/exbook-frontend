@@ -2,28 +2,55 @@
   <div>
     <h4>Dostawa</h4>
 
-    <span v-if="shippingOptions.length === 0">Brak możlwiości wyznaczenia wspólnej dostawy. Usuń niektóre przedmioty z koszyka.</span>
+    <span v-if="shippingOptions.length === 0">Brak możliwości wyznaczenia wspólnej dostawy. Usuń niektóre przedmioty z koszyka.</span>
 
-    <v-radio-group v-else>
-      <v-radio
-          v-for="shippingOption in shippingOptions"
-          :key="shippingOption.shippingMethodId"
-          :value="shippingOption.shippingMethodId"
-          @change="pickedShippingMethodEventHandler(shippingOption.shippingMethodId)"
-      >
+    <div v-else>
+      <h5 v-if="showDeliveryAddress">Adres dostawy</h5>
+      <draft-order-delivery-address
+          v-if="showDeliveryAddress"
+          :shipping-address="shippingAddress"
+          @changeAddress="changeAddressEventHandler"
+      />
+
+      <h5 v-if="showPickupPoint">Punkt dostawy</h5>
+      <draft-order-pickup-point
+          v-if="showPickupPoint"
+          :pickup-point="pickupPoint"
+          @changePickupPoint="changePickupPointEventHandler"
+      />
+
+      <v-radio-group v-model="selectedShippingMethod">
         <template v-slot:label>
-          {{ shippingOption.shippingMethodName }} - {{ shippingOption.price.amount }} {{ shippingOption.price.currency }}
+          <span>Sposób dostawy</span>
         </template>
-      </v-radio>
-    </v-radio-group>
+        <v-radio
+            v-for="shippingOption in shippingOptions"
+            :key="shippingOption.shippingMethodId"
+            :value="shippingOption"
+            @change="pickedShippingMethodEventHandler(shippingOption)"
+        >
+          <template v-slot:label>
+            <span>{{ shippingOption.shippingMethodName }} - {{ shippingOption.price.amount }} {{ shippingOption.price.currency }}</span>
+          </template>
+        </v-radio>
+      </v-radio-group>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from '@vue/composition-api';
-import { PreviewPurchaseShippingOption } from '@/api/TransactionApi';
+import { computed, defineComponent, PropType, ref } from '@vue/composition-api';
+import {
+  PreviewPurchasePickupPointData,
+  PreviewPurchaseShippingAddressData,
+  PreviewPurchaseShippingOption
+} from '@/api/TransactionApi';
+import DraftOrderDeliveryAddress from '@/components/transaction/DraftOrderDeliveryAddress.vue';
+import { ShippingMethodType } from '@/api/CommonTypings';
+import DraftOrderPickupPoint from '@/components/transaction/DraftOrderPickupPoint.vue';
 
 export default defineComponent({
+  components: {DraftOrderPickupPoint, DraftOrderDeliveryAddress},
   props: {
     shippingOptions: {
       type: Array as PropType<Array<PreviewPurchaseShippingOption>>,
@@ -32,15 +59,44 @@ export default defineComponent({
     defaultSelectedShipping: {
       type: Object as PropType<PreviewPurchaseShippingOption | undefined>,
       required: false
+    },
+    shippingAddress: {
+      type: Object as PropType<PreviewPurchaseShippingAddressData | undefined>,
+      required: true
+    },
+    pickupPoint: {
+      type: Object as PropType<PreviewPurchasePickupPointData | undefined>,
+      required: true
+    },
+    showAddress: {
+      type: Boolean,
+      required: true
+    },
+    showPickupPoint: {
+      type: Boolean,
+      required: true
     }
   },
-  setup(_, { emit }) {
-    const pickedShippingMethodEventHandler = (shippingMethodId: string) => {
-      emit('pickedShippingMethod', shippingMethodId);
+  setup(props, { emit }) {
+    const selectedShippingMethod = ref<PreviewPurchaseShippingOption | undefined>(
+        props.shippingOptions.find(option => option.shippingMethodId == props.defaultSelectedShipping?.shippingMethodId)
+    );
+    const pickedShippingMethodEventHandler = (shippingOption: PreviewPurchaseShippingOption) => {
+      selectedShippingMethod.value = shippingOption;
+      emit('pickedShippingMethod', shippingOption);
     }
+    const showDeliveryAddress = computed(() => props.shippingAddress !== undefined &&
+        selectedShippingMethod.value?.shippingMethodType === ShippingMethodType.ADDRESS_DELIVERY && props.showAddress
+    );
+    const changeAddressEventHandler = () => emit('changeAddress');
+    const changePickupPointEventHandler = () => emit('changePickupPoint');
 
     return {
-      pickedShippingMethodEventHandler
+      pickedShippingMethodEventHandler,
+      selectedShippingMethod,
+      showDeliveryAddress,
+      changeAddressEventHandler,
+      changePickupPointEventHandler
     }
   }
 });
