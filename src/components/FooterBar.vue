@@ -28,7 +28,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
+import { i18n } from '@/main';
 
 interface FooterLink {
   name: string;
@@ -39,19 +40,19 @@ export default defineComponent({
   setup() {
     const links = ref<FooterLink[]>([
       {
-        name: 'STRONA GŁÓWNA',
+        name: i18n.t('footer.homePage') as string,
         url: '/'
       },
       {
-        name: 'O NAS',
+        name: i18n.t('footer.aboutUs') as string,
         url: '/'
       },
       {
-        name: 'ZESPÓŁ',
+        name: i18n.t('footer.team') as string,
         url: '/'
       },
       {
-        name: 'KONTAKT',
+        name: i18n.t('footer.contact') as string,
         url: '/'
       }
     ]);
