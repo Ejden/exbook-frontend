@@ -1,9 +1,10 @@
 <template>
-  <v-container class="main-container">
+  <v-container class="main">
     <NewOfferForm class="new-offer-form"/>
-    <v-card class="right-panel">
+
+    <div class="right-panel">
       <NewOfferTips v-on:createOffer="createOffer" class="new-offer-tips"/>
-    </v-card>
+    </div>
   </v-container>
 </template>
 
@@ -28,41 +29,28 @@ export default defineComponent({
 </script>
 
 <style scoped>
-  .main-container {
-    display: flex;
-    align-items: flex-start;
-  }
-  .new-offer-form {
-    width: 60%;
-    margin-right: 10pt;
-  }
-  .new-offer-tips {
-    position: fixed;
-  }
+.main {
+  display: flex;
+  flex-direction: row;
+  gap: 10pt;
+}
 
-  .right-panel {
-    background-color: #eeeeee;
-    width: 40%;
+.new-offer-form {
+  flex-basis: 67%;
+}
+
+.new-offer-tips {
+  position: sticky;
+  top: 70px;
+}
+
+.right-panel {
+  flex-basis: 33%;
+}
+
+@media only screen and (max-width: 768px){
+  .main {
+    flex-direction: column;
   }
-
-  @media only screen and (max-width: 768px){
-    .main-container {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .new-offer-form {
-      width: 100%;
-    }
-
-    .new-offer-tips {
-      position: relative;
-      width: 100%;
-    }
-
-    .right-panel {
-      margin-top: 10pt;
-      width: 100%;
-    }
-  }
+}
 </style>

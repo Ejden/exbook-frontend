@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card elevation="0">
     <v-window>
       <v-window-item>
         <v-card-text>

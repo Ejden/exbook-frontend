@@ -1,11 +1,15 @@
 <template>
-  <v-card>
+  <v-card elevation="0">
     <v-card-title>Dostawa</v-card-title>
 
     <v-card-text>
       <v-simple-table>
         <template>
           <thead>
+            <tr>
+              <td class="pl-0 font-weight-bold">Nazwa</td>
+              <td class="font-weight-bold">Cena</td>
+            </tr>
           </thead>
           <tbody>
             <OfferDeliveryOption

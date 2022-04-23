@@ -10,6 +10,15 @@
     /*background: transparent;*/
 }
 
+.link:hover {
+    color: #2b81d6;
+    cursor: pointer;
+}
+
+.image-link:hover {
+    cursor: pointer;
+}
+
 .rounded {
     border-radius: 5pt;
 }

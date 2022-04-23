@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card elevation="0">
     <v-card-text>
       <h1 class="mb-7">Wystaw ofertę</h1>
 
@@ -16,7 +16,14 @@
         </li>
       </ul>
 
-      <v-btn class="submit-button mt-7" @click="addOffer" block large color="primary">
+      <v-btn
+          class="submit-button mt-7"
+          elevation="0"
+          block
+          large
+          color="primary"
+          @click="addOffer"
+      >
         Dodaj ogłoszenie
       </v-btn>
     </v-card-text>

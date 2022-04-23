@@ -104,6 +104,8 @@ export default defineComponent({
     const pickedShippingMethodEventHandler = (shippingOption: PreviewPurchaseShippingOption) => {
       selectedShipping.value = shippingOption;
       if (shippingOption.shippingMethodType === ShippingMethodType.PERSONAL_DELIVERY) {
+        showAddress.value = false;
+        showPickupPoint.value = false;
         emit('pickedShippingMethod', {
           sellerId: props.draftOrder.seller.id,
           orderType: props.draftOrder.orderType,

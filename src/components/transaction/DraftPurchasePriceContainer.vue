@@ -5,8 +5,9 @@
         <span class="mr-2">Do zapłaty:</span>
         <span class="totalOffersCost">{{ totalCost.amount }} {{ totalCost.currency }}</span>
       </div>
-      <span v-if="shippingPriceMissing">+ koszty dostawy</span>
-      <span v-else>w tym: {{ shippingCost.amount }} {{ shippingCost.currency }} kosztów dostawy</span>
+      <span v-if="isShippingInfoComplete && !isFreeDelivery">w tym: {{ shippingCost.amount }} {{ shippingCost.currency }} kosztów dostawy</span>
+      <span v-if="isFreeDelivery">w tym darmowa dostawa</span>
+      <span v-else>+ koszty dostawy</span>
     </div>
 
     <v-btn
@@ -16,6 +17,7 @@
         color="primary"
         elevation="0"
         :loading="loading"
+        :disabled="!buttonEnabled"
         @click="makePurchaseEventHandler"
     >POTWIERDŹ ZAKUP</v-btn>
   </div>
@@ -37,7 +39,7 @@ export default defineComponent({
     },
     shippingCost: {
       type: Object as PropType<Money>,
-      required: false
+      required: true
     },
     loading: {
       type: Boolean,
@@ -46,18 +48,21 @@ export default defineComponent({
     buttonEnabled: {
       type: Boolean,
       required: true
+    },
+    isShippingInfoComplete: {
+      type: Boolean,
+      required: true
     }
   },
   setup(props, { emit }) {
-    const shippingPriceMissing = () => computed(() => props.shippingCost === undefined);
-
     const makePurchaseEventHandler = () => {
       emit('makePurchase');
     };
+    const isFreeDelivery = computed(() => props.isShippingInfoComplete && props.shippingCost.amount === 0);
 
     return {
       makePurchaseEventHandler,
-      shippingPriceMissing
+      isFreeDelivery
     }
   }
 });

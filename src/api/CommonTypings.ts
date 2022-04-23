@@ -4,7 +4,7 @@ export enum OrderType {
 }
 
 export interface Money {
-    amount: string;
+    amount: number;
     currency: string;
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="margin-top-16">
+  <div class="margin-top-8">
     <v-container
         v-if="transactionIsLoading"
         class="loading-container rounded"
@@ -29,7 +29,8 @@
             :total-offers-cost="detailedDraftPurchase.totalOffersPrice"
             :shipping-cost="detailedDraftPurchase.totalShippingPrice"
             :loading="loading"
-            :button-enabled="!loading"
+            :button-enabled="detailedDraftPurchase.isPurchasable"
+            :is-shipping-info-complete="detailedDraftPurchase.isShippingInfoComplete"
         />
       </v-container>
     </v-container>
@@ -161,15 +162,16 @@ function loadingButton() {
   height: 120pt;
   flex-basis: 34%;
   position: sticky;
-  top: 66pt;
+  top: 80px;
 }
 
-@media screen and (width: 900px) {
+@media screen and (max-width: 900px) {
   .basket {
     flex-direction: column;
   }
+
   .price-container {
-    position: unset;
+    position: static;
   }
 }
 </style>

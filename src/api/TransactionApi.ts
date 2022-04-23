@@ -41,6 +41,8 @@ export interface DetailedDraftPurchase {
     totalOffersPrice: Money;
     totalShippingPrice: Money;
     totalPrice: Money;
+    isPurchasable: boolean;
+    isShippingInfoComplete: boolean;
 }
 
 export interface DraftPurchaseBuyer {

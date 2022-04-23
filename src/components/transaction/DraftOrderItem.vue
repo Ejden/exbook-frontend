@@ -4,11 +4,16 @@
         :src="item.offer.images.thumbnail.url"
         max-height="80"
         max-width="80"
-        class="image"
+        class="image image-link"
+        @click="goToOffer"
     />
 
     <div class="author-and-title">
-      <span style="font-weight: bolder">{{ item.offer.book.title }}</span>
+      <span
+          class="link"
+          style="font-weight: bolder"
+          @click="goToOffer"
+      >{{ item.offer.book.title }}</span>
       <span>{{ item.offer.book.author }}</span>
     </div>
 
@@ -28,6 +33,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from '@vue/composition-api';
 import { DraftOrderItem } from '@/api/TransactionApi';
+import router from '@/router';
 
 export default defineComponent({
   props: {
@@ -38,9 +44,11 @@ export default defineComponent({
   },
   setup(props) {
     const quantityIsNotOne = computed(() => props.item.quantity !== 1);
+    const goToOffer = () => router.push({ name: 'Offer', params: { offerId: props.item.offer.id } });
 
     return {
-      quantityIsNotOne
+      quantityIsNotOne,
+      goToOffer
     }
   }
 });

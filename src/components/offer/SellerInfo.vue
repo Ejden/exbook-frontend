@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card elevation="0">
     <v-card-title>Informacje o sprzedającym</v-card-title>
 
     <v-card-text class="self-container">

@@ -57,16 +57,16 @@ export default defineComponent({
       required: true
     },
     defaultSelectedShipping: {
-      type: Object as PropType<PreviewPurchaseShippingOption | undefined>,
+      type: Object as PropType<PreviewPurchaseShippingOption | undefined | null>,
       required: false
     },
     shippingAddress: {
-      type: Object as PropType<PreviewPurchaseShippingAddressData | undefined>,
-      required: true
+      type: Object as PropType<PreviewPurchaseShippingAddressData | undefined | null>,
+      required: false
     },
     pickupPoint: {
-      type: Object as PropType<PreviewPurchasePickupPointData | undefined>,
-      required: true
+      type: Object as PropType<PreviewPurchasePickupPointData | undefined | null>,
+      required: false
     },
     showAddress: {
       type: Boolean,
@@ -78,7 +78,7 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const selectedShippingMethod = ref<PreviewPurchaseShippingOption | undefined>(
+    const selectedShippingMethod = ref<PreviewPurchaseShippingOption | undefined | null>(
         props.shippingOptions.find(option => option.shippingMethodId == props.defaultSelectedShipping?.shippingMethodId)
     );
     const pickedShippingMethodEventHandler = (shippingOption: PreviewPurchaseShippingOption) => {

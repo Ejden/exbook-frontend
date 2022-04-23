@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card elevation="0">
     <v-card-title>Inne oferty użytkownika</v-card-title>
 
     <v-card-text v-if="offers.length === 0">

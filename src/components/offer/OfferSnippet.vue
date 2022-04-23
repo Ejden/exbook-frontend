@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card elevation="0" class="rounded">
     <v-card-title>{{ offer.book.title }}</v-card-title>
 
     <v-card-subtitle>{{ offer.book.author }}</v-card-subtitle>
@@ -93,6 +93,7 @@
               block
               large
               color="rgba(220, 179, 116, 0.5)"
+              elevation="0"
           >
             Zaproponuj wymianę
           </v-btn>
@@ -104,6 +105,7 @@
               block
               large
               color="rgba(0, 184, 141, 0.5)"
+              elevation="0"
           >
             Kup
           </v-btn>
@@ -232,57 +234,56 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.book-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-direction: row;
+}
+
+.images-carousel {
+  border-radius: 5px;
+  overflow: hidden;
+  flex-grow: 2;
+  max-width: 60%;
+  margin-right: 1rem;
+}
+
+.offer-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.image {
+  width: content-box;
+}
+
+.price-block {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.offer-button-block {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.stock-input-container {
+  display: flex;
+  width: 150pt;
+  align-items: flex-end;
+}
+
+@media screen and (max-width: 768px) {
   .book-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    flex-direction: row;
+    flex-direction: column;
   }
 
   .images-carousel {
-    border-radius: 5px;
-    overflow: hidden;
-    flex-grow: 2;
-    max-width: 60%;
-    margin-right: 1rem;
+    max-width: 100%;
+    margin-right: 0;
   }
-
-  .offer-info {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .image {
-    width: content-box;
-  }
-
-  .price-block {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .offer-button-block {
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .stock-input-container {
-    display: flex;
-    width: 150pt;
-    align-items: flex-end;
-  }
-
-  @media screen and (max-width: 768px) {
-    .book-info {
-      flex-direction: column;
-    }
-
-    .images-carousel {
-      max-width: 100%;
-      margin-right: 0;
-    }
-
-  }
+}
 </style>

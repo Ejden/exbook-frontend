@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card elevation="0">
     <v-card-title>Opis</v-card-title>
 
     <v-card-text>
