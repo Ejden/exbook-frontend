@@ -1,6 +1,6 @@
 <template>
   <div class="price-container">
-    <h5 class="summary-price">Suma: {{ totalOffersPrice.amount }} {{ totalOffersPrice.currency }}</h5>
+    <h5 class="summary-price">{{ $t('basketTransaction.sum') }} {{ totalOffersPrice.amount }} {{ totalOffersPrice.currency }}</h5>
   </div>
 </template>
 

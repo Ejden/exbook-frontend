@@ -1,7 +1,7 @@
 <template>
   <v-container class="body mt-10">
-    <h1>Oh no...</h1>
-    <span>Wygląda na to, że wystąpił nieoczekiwany błąd. Spróbuj ponownie później.</span>
+    <h1>{{ $t('errorPage.title') }}</h1>
+    <span>{{ $t('errorPage.description') }}</span>
   </v-container>
 </template>
 

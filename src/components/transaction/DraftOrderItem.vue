@@ -18,13 +18,16 @@
     </div>
 
     <div class="quantity-input-container">
-      sztuk: {{ item.quantity }}
+      {{ $t('basketTransaction.quantity') }} {{ item.quantity }}
     </div>
 
     <div class="price-container">
       <div class="price">
         <span>{{ item.totalPrice.amount }} {{ item.totalPrice.currency }}</span>
-        <span v-if="quantityIsNotOne" class="price-per-piece"> za sztukę: {{ item.offer.price.amount }} {{ item.offer.price.currency }}</span>
+        <span v-if="quantityIsNotOne" class="price-per-piece">
+          {{ $t('basketTransaction.perUnit') }}
+          {{ item.offer.price.amount }} {{ item.offer.price.currency }}
+        </span>
       </div>
     </div>
   </div>

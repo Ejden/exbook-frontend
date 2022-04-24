@@ -24,7 +24,7 @@
         flat
         hide-details
         solo-inverted
-        label="Czego szukasz?"
+        :label="$t('appBar.searchBar.message')"
         @keydown.enter="search"
       />
 

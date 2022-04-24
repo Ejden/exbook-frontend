@@ -15,7 +15,7 @@
         class="glass rounded empty-basket-container"
     >
       <v-icon class="basket-icon" size="300">fas fa-shopping-basket</v-icon>
-      <span class="empty-basket">Wygląda na to, że twój koszyk jest pusty...</span>
+      <span class="empty-basket">{{ $t('basket.empty') }}</span>
     </v-container>
 
     <v-container v-else class="basket">

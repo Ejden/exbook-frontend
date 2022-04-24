@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>Propozycja wymiany</h4>
+    <h4>{{ $t('basket.exchangePropose') }}</h4>
 
     <basket-exchanging-books-table
         :exchange-books="exchangeBooks"
@@ -19,7 +19,7 @@
             color="primary"
             @click="addButtonToggle"
         >
-          Dodaj książkę
+          {{ $t('basket.addBook') }}
         </v-btn>
 
       </exchange-book-form-dialog>

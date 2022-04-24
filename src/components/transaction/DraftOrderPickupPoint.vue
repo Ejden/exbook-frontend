@@ -4,7 +4,7 @@
       <span>{{ pickupPoint.firstAndLastName }}</span>
       <span>{{ pickupPoint.phoneNumber }}</span>
       <span>{{ pickupPoint.email }}</span>
-      <span>Numer punktu: {{ pickupPoint.pickupPointId }}</span>
+      <span>{{ $t('basketTransaction.pickupPointNumber') }} {{ pickupPoint.pickupPointId }}</span>
     </div>
 
     <div>
@@ -14,7 +14,7 @@
           class="pl-0"
           @click="changePickupPointEventHandler"
       >
-        Zmień
+        {{ $t('basketTransaction.changeShipping') }}
       </v-btn>
     </div>
   </div>

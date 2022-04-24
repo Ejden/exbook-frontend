@@ -9,12 +9,12 @@
     </template>
 
     <v-card>
-      <v-card-title>Wybierz punkt odbioru</v-card-title>
+      <v-card-title>{{ $t('basketTransaction.pickupPointModal.title') }}</v-card-title>
 
       <v-card-text>
         <v-form>
           <v-text-field
-              label="Imię i nazwisko"
+              :label="$t('basketTransaction.pickupPointModal.firstAndLastName')"
               dense
               outlined
               v-model="address.firstAndLastName"
@@ -23,7 +23,7 @@
           />
 
           <v-text-field
-              label="Numer telefonu"
+              :label="$t('basketTransaction.pickupPointModal.phoneNumber')"
               dense
               outlined
               v-model="address.phoneNumber"
@@ -32,7 +32,7 @@
           />
 
           <v-text-field
-              label="Email"
+              :label="$t('basketTransaction.pickupPointModal.email')"
               dense
               outlined
               v-model="address.email"
@@ -40,7 +40,7 @@
           />
 
           <v-text-field
-              label="Numer paczkomatu"
+              :label="$t('basketTransaction.pickupPointModal.pickupPointNumber')"
               dense
               outlined
               v-model="address.pickupPointId"
@@ -54,7 +54,7 @@
               color="primary"
               @click.prevent="submit"
           >
-            Zatwierdź
+            {{ $t('basketTransaction.pickupPointModal.submit') }}
           </v-btn>
 
           <v-btn
@@ -64,7 +64,7 @@
               @click="closeModal"
               class="margin-top-8"
           >
-            Anuluj
+            {{ $t('basketTransaction.pickupPointModal.cancel') }}
           </v-btn>
         </div>
       </v-card-text>
@@ -75,6 +75,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
 import { PreviewPurchasePickupPointData } from '@/api/TransactionApi';
+import { i18n } from '@/main';
 
 export default defineComponent({
   props: {
@@ -101,7 +102,7 @@ export default defineComponent({
     } as PreviewPurchasePickupPointData);
     const rules = {
       textField: [
-        (value: string) => value.trim().length !== 0 || 'Wymagane'
+        (value: string) => value.trim().length !== 0 || i18n.t('basketTransaction.pickupPointModal.required')
       ]
     };
     const submit = () => {

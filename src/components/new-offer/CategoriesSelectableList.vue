@@ -7,7 +7,7 @@
         </v-container>
 
         <v-container v-else class="d-flex align-center no-category-selected-info">
-            <span>Nie wybrano żadnej kategorii</span>
+            <span>{{ $t('newOfferForm.categoriesList.noCategorySelected') }}</span>
         </v-container>
       </div>
 
@@ -15,7 +15,7 @@
         <v-container v-if="selectedCategory">
           <button
               @click="goBack"
-          >Cofnij do: {{ backCategoryName }}</button>
+          >{{ $t('newOfferForm.categoriesList.goBackTo') }} {{ backCategoryName }}</button>
         </v-container>
       </div>
 
@@ -35,7 +35,9 @@
       </v-list>
     </v-card>
 
-    <v-btn v-if="selectedCategory" @click="resetCategorySelection" block plain>Pokaż wszystkie kategorie</v-btn>
+    <v-btn v-if="selectedCategory" @click="resetCategorySelection" block plain>
+      {{ $t('newOfferForm.categoriesList.showAll') }}
+    </v-btn>
   </div>
 </template>
 

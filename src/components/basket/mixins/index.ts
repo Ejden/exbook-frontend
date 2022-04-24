@@ -1,18 +1,19 @@
 import { BookCondition } from '@/api/BasketApi';
+import { i18n } from '@/main';
 
 export function getConditionText(condition: BookCondition): string {
     switch (condition) {
         case BookCondition.NEW:
-            return 'Nowa';
+            return i18n.t('bookCondition.new') as string;
         case BookCondition.PERFECT:
-            return 'Bardzo dobry';
+            return i18n.t('bookCondition.perfect') as string;
         case BookCondition.LIGHTLY_USED:
-            return 'Widoczne ślady użycia';
+            return i18n.t('bookCondition.lightlyUsed') as string;
         case BookCondition.MODERATELY_USED:
-            return 'Liczne ślady użycia';
+            return i18n.t('bookCondition.moderatelyUsed') as string;
         case BookCondition.BAD:
-            return 'Zły';
+            return i18n.t('bookCondition.bad') as string;
         default:
-            return 'Nieznany';
+            return i18n.t('bookCondition.unknown') as string;
     }
 }

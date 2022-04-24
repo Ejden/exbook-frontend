@@ -1,48 +1,48 @@
 <template>
   <div class="main">
-    <v-subheader>Twoje statystyki</v-subheader>
+    <v-subheader>{{ $t('myAccount.myStatistics') }}</v-subheader>
 
     <v-divider/>
 
     <div class="statistics">
       <div class="stat-tile">
         <h3 class="stat-value">{{ daysFromRegistration }}</h3>
-        <span>Tyle dni z nami jesteś</span>
+        <span>{{ $t('myAccount.youAreWithUs') }}</span>
       </div>
 
       <div class="stat-tile">
         <h3 class="stat-value">{{ totalSoldOffersCount }}</h3>
-        <span>Sprzedanych książek</span>
+        <span>{{ $t('myAccount.soldBooks') }}</span>
       </div>
 
       <div class="stat-tile">
         <h3 class="stat-value">{{ totalExchangedOffersCount }}</h3>
-        <span>Wymienionych książek</span>
+        <span>{{ $t('myAccount.exchangedBooks') }}</span>
       </div>
 
       <div class="stat-tile">
         <h3 class="stat-value">{{ transactionsCount }}</h3>
-        <span>Zyskanych książek</span>
+        <span>{{ $t('myAccount.obtainedBooks') }}</span>
       </div>
 
       <div class="stat-tile">
         <h3 class="stat-value">{{ totalGain }} zł</h3>
-        <span>Zyskanych ze sprzedaży</span>
+        <span>{{ $t('myAccount.obtainedFromSell') }}</span>
       </div>
 
       <div class="stat-tile">
         <h3 class="stat-value">{{ activeOffers }}</h3>
-        <span>Aktywnych ofert</span>
+        <span>{{ $t('myAccount.activeOffers') }}</span>
       </div>
 
       <div class="stat-tile">
         <h3 class="stat-value">{{ totalOffersMonthViews }}</h3>
-        <span>Wyświetleń ofert w tym miesiącu</span>
+        <span>{{ $t('myAccount.monthOfferViews') }}</span>
       </div>
 
       <div class="stat-tile">
         <h3 class="stat-value">{{ savedMoney }} zł</h3>
-        <span>Tyle zaoszczędziłeś</span>
+        <span>{{ $t('myAccount.saved') }}</span>
       </div>
     </div>
   </div>

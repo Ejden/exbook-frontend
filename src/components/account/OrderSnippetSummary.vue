@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <span>Łącznie z dostawą</span>
+    <span>{{ $t('myAccount.summaryWithShipping') }}</span>
     <span>{{ totalCost.amount }} {{ totalCost.currency }}</span>
   </div>
 </template>

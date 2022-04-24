@@ -15,7 +15,7 @@
           class="pl-0"
           @click="changeAddressEventHandler"
       >
-        Zmień
+        {{ $t('basketTransaction.changeShipping') }}
       </v-btn>
     </div>
   </div>

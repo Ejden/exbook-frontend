@@ -1,12 +1,12 @@
 <template>
   <div class="main">
-    <v-subheader>Ostatnie zamówienia</v-subheader>
+    <v-subheader>{{ $t('myAccount.latestOrders') }}</v-subheader>
 
     <v-divider/>
 
     <div class="content">
       <div v-if="thereAreNoOrders" class="empty-orders">
-        <p class="no-orders-info">Pusto tu...<br>Sprawdź polecane oferty i znajdź coś dla siebie!</p>
+        <p class="no-orders-info">{{ $t('myAccount.emptyHere') }}<br>{{ $t('myAccount.checkoutOtherOffers') }}</p>
       </div>
 
       <div v-else class="orders">

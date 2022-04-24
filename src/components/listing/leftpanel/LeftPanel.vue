@@ -1,10 +1,10 @@
 <template>
   <v-card>
-    <v-card-title class="section-title">Podkategorie</v-card-title>
+    <v-card-title class="section-title">{{ $t('listing.subcategories') }}</v-card-title>
 
-    <v-card-title class="section-title">Filtry</v-card-title>
+    <v-card-title class="section-title">{{ $t('listing.filters') }}</v-card-title>
     <v-card-text class="condition-box">
-      <h3 class="subsection-title">Stan</h3>
+      <h3 class="subsection-title">{{ $t('listing.condition') }}</h3>
 
       <v-checkbox
           v-for="conditionFilter in conditionFilters"
@@ -16,7 +16,7 @@
       >
       </v-checkbox>
 
-      <h3 class="subsection-title">Rodzaj oferty</h3>
+      <h3 class="subsection-title">{{ $t('listing.offerType') }}</h3>
 
       <v-checkbox
           v-for="offerType in offerTypesFilters"
@@ -28,14 +28,14 @@
       >
       </v-checkbox>
 
-      <h3 class="subsection-title">Cena</h3>
+      <h3 class="subsection-title">{{ $t('listing.price') }}</h3>
 
       <div style="display: flex; align-items: baseline">
         <v-text-field
           outlined
           dense
           v-model="priceFromFilter"
-          placeholder="od"
+          :placeholder="$t('listing.priceFrom')"
           style="margin-right: 1rem"
         />
         <span>-</span>
@@ -43,18 +43,18 @@
           outlined
           dense
           v-model="priceToFilter"
-          placeholder="do"
+          :placeholder="$t('listing.priceTo')"
           style="margin-left: 1rem"
         />
       </div>
 
-      <h3 class="subsection-title">Lokalizacja</h3>
+      <h3 class="subsection-title">{{ $t('listing.location') }}</h3>
 
       <v-text-field
         outlined
         dense
         v-model="locationFilter"
-        placeholder="Miejscowość"
+        :placeholder="$t('listing.city')"
       />
     </v-card-text>
   </v-card>
@@ -63,6 +63,7 @@
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api';
 import { SearchFilter } from '@/components/listing/leftpanel/typings/SearchFilter';
+import { i18n } from '@/main';
 
 export default defineComponent({
   setup() {
@@ -96,33 +97,33 @@ function useFilters() {
   const locationFilter = ref('');
   const conditionFilters: SearchFilter[] = [
     {
-      name: 'nowy',
+      name: i18n.t('listing.conditionFilters.new') as string,
       value: 'NEW'
     },
     {
-      name: 'brak śladów użytkowania',
+      name: i18n.t('listing.conditionFilters.perfect') as string,
       value: 'PERFECT'
     },
     {
-      name: 'widoczne ślady użytkowania',
+      name: i18n.t('listing.conditionFilters.lightlyUsed') as string,
       value: 'LIGHTLY_USED'
     },
     {
-      name: 'liczne ślady użytkowania',
+      name: i18n.t('listing.conditionFilters.moderatelyUsed') as string,
       value: 'MODERATELY_USED'
     },
     {
-      name: 'w złym stanie',
+      name: i18n.t('listing.conditionFilters.bad') as string,
       value: 'BAD'
     }
   ];
   const offerTypesFilters: SearchFilter[] = [
     {
-      name: 'kup',
+      name: i18n.t('listing.offerTypeFilters.buy') as string,
       value: 'BUY'
     },
     {
-      name: 'wymień',
+      name: i18n.t('listing.offerTypeFilters.exchange') as string,
       value: 'EXCHANGE'
     }
   ];

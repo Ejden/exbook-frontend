@@ -24,6 +24,7 @@ import { defineComponent, PropType } from '@vue/composition-api';
 import { DataTableHeader } from 'vuetify';
 import { ExchangeBook } from '@/api/BasketApi';
 import { getConditionText } from '@/components/basket/mixins';
+import { i18n } from '@/main';
 
 export default defineComponent({
   name: "BasketExchangingBooksTable",
@@ -36,32 +37,32 @@ export default defineComponent({
   setup(_, { emit }) {
     const tableHeaders = [
       {
-        text: 'Autor',
+        text: i18n.t('basket.booksTable.author'),
         value: 'author',
         class: 'pl-0',
         cellClass: 'pl-0'
       },
       {
-        text: 'Tytuł',
+        text: i18n.t('basket.booksTable.title'),
         value: 'title',
       },
       {
-        text: 'ISBN',
+        text: i18n.t('basket.booksTable.isbn'),
         value: 'isbn',
       },
       {
-        text: 'Kondycja',
+        text: i18n.t('basket.booksTable.condition'),
         value: 'condition',
         width: '100pt'
       },
       {
-        text: 'Ilość',
+        text: i18n.t('basket.booksTable.quantity'),
         value: 'quantity',
         width: '60pt',
         align: 'end'
       },
       {
-        text: 'Usuń',
+        text: i18n.t('basket.booksTable.remove'),
         value: 'removeAction',
         width: '60pt',
         align: 'end',
