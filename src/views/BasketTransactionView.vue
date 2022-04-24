@@ -10,7 +10,7 @@
           indeterminate
       />
 
-      <span class="margin-top-16">Momencik... Przeliczamy twoje zamówienie</span>
+      <span class="margin-top-16">{{ $t('basketTransaction.loading') }}</span>
     </v-container>
 
     <v-container v-else class="basket">

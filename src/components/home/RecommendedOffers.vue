@@ -1,6 +1,6 @@
 <template>
   <div class="recommended-offers glass rounded">
-    <v-subheader>Polecane oferty</v-subheader>
+    <v-subheader>{{ $t('home.recommendedOffers') }}</v-subheader>
 
     <v-divider/>
   </div>

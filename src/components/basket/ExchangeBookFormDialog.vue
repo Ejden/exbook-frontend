@@ -12,7 +12,7 @@
     </template>
 
     <v-card>
-      <v-card-title>Formularz książki</v-card-title>
+      <v-card-title>{{ $t('basket.bookModal.title') }}</v-card-title>
 
       <v-card-text>
         <v-form>
@@ -65,7 +65,7 @@
               color="primary"
               @click="submit"
           >
-            Dodaj
+            {{ $t('basket.bookModal.add') }}
           </v-btn>
 
           <v-btn
@@ -74,7 +74,7 @@
               color="primary"
               @click="cancel"
           >
-            Anuluj
+            {{ $t('basket.bookModal.cancel') }}
           </v-btn>
         </div>
       </v-card-text>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-subheader>Rekomendacje</v-subheader>
+    <v-subheader>{{ $t('offerRecommendations.title') }}</v-subheader>
     <v-divider/>
   </div>
 </template>

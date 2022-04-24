@@ -9,12 +9,12 @@
     </template>
 
     <v-card>
-      <v-card-title>Wpisz adres dostawy</v-card-title>
+      <v-card-title>{{ $t('basketTransaction.shippingAddressModal.title') }}</v-card-title>
 
       <v-card-text>
         <v-form>
           <v-text-field
-              label="Imię i nazwisko"
+              :label="$t('basketTransaction.shippingAddressModal.firstAndLastName')"
               dense
               outlined
               v-model="address.firstAndLastName"
@@ -23,7 +23,7 @@
           />
 
           <v-text-field
-              label="Numer telefonu"
+              :label="$t('basketTransaction.shippingAddressModal.phoneNumber')"
               dense
               outlined
               v-model="address.phoneNumber"
@@ -32,7 +32,7 @@
           />
 
           <v-text-field
-              label="Email"
+              :label="$t('basketTransaction.shippingAddressModal.email')"
               dense
               outlined
               v-model="address.email"
@@ -40,7 +40,7 @@
           />
 
           <v-text-field
-              label="Adres"
+              :label="$t('basketTransaction.shippingAddressModal.address')"
               dense
               outlined
               v-model="address.address"
@@ -48,7 +48,7 @@
           />
 
           <v-text-field
-              label="Kod pocztowy"
+              :label="$t('basketTransaction.shippingAddressModal.postalCode')"
               dense
               outlined
               v-model="address.postalCode"
@@ -56,7 +56,7 @@
           />
 
           <v-text-field
-              label="Miasto"
+              :label="$t('basketTransaction.shippingAddressModal.city')"
               dense
               outlined
               v-model="address.city"
@@ -64,7 +64,7 @@
           />
 
           <v-text-field
-              label="Kraj wysyłki"
+              :label="$t('basketTransaction.shippingAddressModal.country')"
               dense
               outlined
               v-model="address.country"
@@ -78,7 +78,7 @@
               color="primary"
               @click.prevent="submit"
           >
-            Zatwierdź
+            {{ $t('basketTransaction.shippingAddressModal.cancel') }}
           </v-btn>
 
           <v-btn
@@ -88,7 +88,7 @@
               @click="closeModal"
               class="margin-top-8"
           >
-            Anuluj
+            {{ $t('basketTransaction.shippingAddressModal.cancel') }}
           </v-btn>
         </div>
       </v-card-text>
@@ -99,6 +99,7 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
 import { PreviewPurchaseShippingAddressData } from '@/api/TransactionApi';
+import { i18n } from '@/main';
 
 export default defineComponent({
   props: {
@@ -128,7 +129,7 @@ export default defineComponent({
     } as PreviewPurchaseShippingAddressData);
     const rules = {
       textField: [
-        (value: string) => value.trim().length !== 0 || 'Wymagane'
+        (value: string) => value.trim().length !== 0 || i18n.t('basketTransaction.shippingAddressModal.required')
       ]
     };
     const submit = () => {

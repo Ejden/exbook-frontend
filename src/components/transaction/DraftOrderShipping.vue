@@ -1,18 +1,18 @@
 <template>
   <div>
-    <h4>Dostawa</h4>
+    <h4>{{ $t('basketTransaction.shipping') }}</h4>
 
-    <span v-if="shippingOptions.length === 0">Brak możliwości wyznaczenia wspólnej dostawy. Usuń niektóre przedmioty z koszyka.</span>
+    <span v-if="shippingOptions.length === 0">{{ $t('basketTransaction.noShippingOptions') }}</span>
 
     <div v-else>
-      <h5 v-if="showDeliveryAddress">Adres dostawy</h5>
+      <h5 v-if="showDeliveryAddress">{{ $t('basketTransaction.shippingAddress') }}</h5>
       <draft-order-delivery-address
           v-if="showDeliveryAddress"
           :shipping-address="shippingAddress"
           @changeAddress="changeAddressEventHandler"
       />
 
-      <h5 v-if="showPickupPoint">Punkt dostawy</h5>
+      <h5 v-if="showPickupPoint">{{ $t('basketTransaction.pickupPoint') }}</h5>
       <draft-order-pickup-point
           v-if="showPickupPoint"
           :pickup-point="pickupPoint"
@@ -21,7 +21,7 @@
 
       <v-radio-group v-model="selectedShippingMethod">
         <template v-slot:label>
-          <span>Sposób dostawy</span>
+          <span>{{ $t('basketTransaction.shippingMethod') }}</span>
         </template>
         <v-radio
             v-for="shippingOption in shippingOptions"

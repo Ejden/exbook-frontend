@@ -1,6 +1,6 @@
 <template>
   <v-container class="body">
-    <span class="searching-text">szukana fraza: "{{ search }}"</span>
+    <span class="searching-text">{{ $t('listing.searchingPhrase') }} "{{ search }}"</span>
     <div class="mt-3 main-box">
       <left-panel class="left-panel glass"/>
 

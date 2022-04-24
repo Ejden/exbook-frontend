@@ -1,6 +1,6 @@
 <template>
   <v-card-text>
-    <span class="form-label">Metody dostawy*</span>
+    <span class="form-label">{{ $t('newOfferForm.shippingMethods') }}</span>
 
     <div>
       <div class="d-flex justify-space-between" v-for="shippingMethod in shippingMethods" :key="shippingMethod.id">

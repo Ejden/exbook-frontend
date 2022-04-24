@@ -22,7 +22,7 @@
       <div v-for="offer in offers" :key="offer.id">
         <offer-row
             :offer="offer"
-            class="offer transparent"
+            class="offer"
         />
       </div>
     </v-card-text>
@@ -105,9 +105,5 @@ export default defineComponent({
 
   .top-pagination-button {
     margin-top: 0;
-  }
-
-  .transparent {
-    background: transparent;
   }
 </style>

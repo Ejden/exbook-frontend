@@ -1,17 +1,17 @@
 <template>
   <v-card class="mx-auto">
     <v-card-title>
-      Utworzyłeś nową ofertę
+      {{ $t('newOfferForm.offerCreated.title') }}
     </v-card-title>
 
     <v-card-text class="new-offer-info">
-      <span>Niedługo twoja oferta powinna pojawić się w tym miejscu: <a :href="offerUrl">{{ offerUrl }}</a>.</span>
-      <span>Jeśli masz ochotę możesz też dodać kolejną ofertę.</span>
+      <span>{{ $t('newOfferForm.offerCreated.offerLinkDescription') }} <a :href="offerUrl">{{ offerUrl }}</a>.</span>
+      <span>{{ $t('newOfferForm.offerCreated.addNewOfferDescription') }}</span>
     </v-card-text>
 
     <v-card-actions>
       <v-btn text to="/add-offer">
-        <span>Dodaj nową ofertę</span>
+        <span>{{ $t('newOfferForm.offerCreated.addNewOffer') }}</span>
       </v-btn>
     </v-card-actions>
   </v-card>

@@ -1,13 +1,13 @@
 <template>
   <v-container class="body margin-top-8 rounded container-standard-background">
     <div>
-      <h1 class="not-found-text">404</h1>
+      <h1 class="not-found-text">{{ $t('notFoundPage.code') }}</h1>
     </div>
 
     <div class="message-text">
-      <h2>Wygląda na to, że się zgubiłeś...</h2>
+      <h2>{{ $t('notFoundPage.title') }}</h2>
 
-      <span>Nie mogliśmy znaleźć żądanej strony</span>
+      <span>{{ $t('notFoundPage.description') }}</span>
     </div>
   </v-container>
 </template>

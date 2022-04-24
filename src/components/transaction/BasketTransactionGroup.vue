@@ -1,8 +1,8 @@
 <template>
   <div class="glass rounded container">
     <div class="group-title">
-      <h3>Sprzedawca: {{ draftOrder.seller.firstName }} {{ draftOrder.seller.lastName }}</h3>
-      <h5>Rodzaj zamówienia: {{ orderTypeText }}</h5>
+      <h3>{{ $t('basketTransaction.seller') }} {{ draftOrder.seller.firstName }} {{ draftOrder.seller.lastName }}</h3>
+      <h5>{{ $t('basketTransaction.orderType') }} {{ orderTypeText }}</h5>
     </div>
 
     <div class="basket-items">
