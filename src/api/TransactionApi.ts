@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { apiHeaders, OrderType, Money, BookCondition, ShippingMethodType } from '@/api/CommonTypings';
+import { apiHeaders, OrderType, Money, BookCondition, ShippingMethodType, acceptHeader } from '@/api/CommonTypings';
 
 export interface PreviewPurchaseRequestData {
     orders: PreviewPurchaseOrderData[];
@@ -146,6 +146,37 @@ export interface PreviewPurchaseShippingOption {
     price: Money;
 }
 
+export interface PurchaseCreationResult {
+    result: CreationResult;
+}
+
+export interface UnsuccessfulPurchaseCreationResult extends PurchaseCreationResult {
+    reason: PurchaseNotCreatedReason;
+}
+
+export interface SuccessfulPurchaseCreationResult extends PurchaseCreationResult {
+    createdOrders: CreatedOrder[];
+}
+
+export interface CreatedOrder {
+    id: string;
+}
+
+export enum CreationResult {
+    CREATED = 'CREATED',
+    NOT_CREATED = 'NOT_CREATED'
+}
+
+export enum PurchaseNotCreatedReason {
+    DRAFT_TOO_OLD = 'DRAFT_TOO_OLD',
+    EMPTY_DRAFT = 'EMPTY_DRAFT',
+    DELIVERY_INFO_NOT_COMPLETE = 'DELIVERY_INFO_NOT_COMPLETE'
+}
+
 export async function previewPurchase(requestData: PreviewPurchaseRequestData): Promise<AxiosResponse<DetailedDraftPurchase>> {
     return axios.put('api/purchase/preview', requestData, { headers: apiHeaders });
+}
+
+export async function realisePurchase(): Promise<AxiosResponse<PurchaseCreationResult>> {
+    return axios.post('api/purchase/realise', undefined, { headers: acceptHeader })
 }

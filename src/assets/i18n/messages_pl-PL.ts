@@ -230,6 +230,9 @@ export default {
         },
         loading: 'Momencik... Przeliczamy twoje zamówienie'
     },
+    purchaseRealisedPage: {
+
+    },
     loginPage: {
         title: 'Zaloguj się',
         username: 'Nazwa użytkownika',
