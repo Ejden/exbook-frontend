@@ -4,6 +4,7 @@
     color="rgba(255, 255, 255, 0.7)"
     elevation="3"
     elevate-on-scroll
+    class="main"
   >
     <v-container class="app-bar">
       <router-link to="/">
@@ -23,7 +24,7 @@
         flat
         hide-details
         solo-inverted
-        label="Czego szukasz?"
+        :label="$t('appBar.searchBar.message')"
         @keydown.enter="search"
       />
 
@@ -58,6 +59,7 @@ export default defineComponent({
 <style scoped>
   .app-bar {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
   }
 
@@ -67,8 +69,12 @@ export default defineComponent({
 
   @media only screen and (max-width: 768px) {
     .app-bar {
-      display: flex !important;
-      justify-content: flex-start !important;
+      justify-content: space-between !important;
+      padding: 0;
+    }
+
+    .search-bar {
+      display: none;
     }
   }
 </style>

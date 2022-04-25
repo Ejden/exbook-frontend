@@ -1,11 +1,11 @@
 <template>
-  <v-card>
-    <v-card-title>Informacje o sprzedającym</v-card-title>
+  <v-card elevation="0">
+    <v-card-title>{{ $t('offer.sellerInfo.title') }}</v-card-title>
 
     <v-card-text class="self-container">
-      <span class="id">Id użytkownika: {{ seller.id }}</span>
-      <span class="username">Nazwa użytkownika: {{ seller.username }}</span>
-      <span class="grade">Ocena użytkownika: {{ seller.grade }}</span>
+      <span class="id">{{ $t('offer.sellerInfo.userId') }} {{ seller.id }}</span>
+      <span class="username">{{ $t('offer.sellerInfo.username') }} {{ seller.username }}</span>
+      <span class="grade">{{ $t('offer.sellerInfo.userGrade') }} {{ seller.grade }}</span>
     </v-card-text>
   </v-card>
 </template>

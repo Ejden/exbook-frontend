@@ -1,6 +1,6 @@
 <template>
-  <div class="transparent">
-    <v-container v-if="offer" class="transparent">
+  <div>
+    <v-container v-if="offer">
       <OfferSnippet
           :offer="offer"
       />

@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <v-subheader>Szybkie akcje</v-subheader>
+    <v-subheader>{{ $t('myAccount.quickActions') }}</v-subheader>
 
     <v-divider/>
 
@@ -9,7 +9,7 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
-              <v-btn plain height="20" small>Moje zamówienia</v-btn>
+              <v-btn plain height="20" small>{{ $t('myAccount.myOrders') }}</v-btn>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -17,7 +17,7 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
-              <v-btn plain height="20" small>Obserwowane oferty</v-btn>
+              <v-btn plain height="20" small>{{ $t('myAccount.observableOffers') }}</v-btn>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -27,7 +27,7 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
-              <v-btn plain height="20" small>Moje oferty</v-btn>
+              <v-btn plain height="20" small>{{ $t('myAccount.myOffers') }}</v-btn>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -40,7 +40,7 @@
                   height="20"
                   small
                   to="/add-offer"
-              >Wystaw ofertę</v-btn>
+              >{{ $t('myAccount.createOffer') }}</v-btn>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

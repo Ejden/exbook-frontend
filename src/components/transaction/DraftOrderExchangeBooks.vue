@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>Propozycja wymiany</h4>
+    <h4>{{ $t('basketTransaction.exchangeProposal') }}</h4>
 
     <v-data-table
         :headers="tableHeaders"

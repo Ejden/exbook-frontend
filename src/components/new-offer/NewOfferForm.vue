@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card elevation="0">
     <v-window>
       <v-window-item>
         <v-card-text>
@@ -9,15 +9,15 @@
               <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
             </svg>
             <div class="mt-4 ml-4">
-              <h2 class="form-label mb-2">Dodaj zdjęcia książki</h2>
-              <span>Dodaj do 10 zdjęć w formacie PNG, JPG, BMP</span>
+              <h2 class="form-label mb-2">{{ $t('newOfferForm.addImagesTitle') }}</h2>
+              <span>{{ $t('newOfferForm.addImagesDescription') }}</span>
             </div>
           </div>
           <v-file-input
             v-model="pictures"
             class="mt-5"
             accept="image/png, image/jpeg, image/bmp"
-            placeholder="Zdjęcia oferty"
+            :placeholder="$t('newOfferForm.offersImages')"
             outlined
             counter
             multiple
@@ -27,7 +27,7 @@
         <v-divider/>
 
         <v-card-text>
-          <label class="form-label">ISBN</label>
+          <label class="form-label">{{ $t('newOfferForm.isbn') }}</label>
           <v-text-field
             outlined
             v-model="offerFormIsbn"
@@ -38,7 +38,7 @@
         <v-divider/>
 
         <v-card-text>
-          <label class="form-label">Tytuł książki*</label>
+          <label class="form-label">{{ $t('newOfferForm.bookTitle') }}</label>
           <v-text-field
             outlined
             v-model="offerFormTitle"
@@ -46,7 +46,7 @@
             maxlength="30"
             counter
           />
-          <label class="form-label">Autor książki*</label>
+          <label class="form-label">{{ $t('newOfferForm.bookAuthor') }}</label>
           <v-text-field
             outlined
             v-model="offerFormAuthor"
@@ -54,7 +54,7 @@
             :rules="[rules.required, rules.counter(offerFormTitle, 25)]"
             maxlength="25"
           />
-          <label class="form-label">Opis</label>
+          <label class="form-label">{{ $t('newOfferForm.offerDescription') }}</label>
           <v-textarea
               outlined
               v-model="offerFormDescription"
@@ -65,7 +65,7 @@
         </v-card-text>
 
         <v-card-text>
-          <label class="form-label">Liczba sztuk</label>
+          <label class="form-label">{{ $t('newOfferForm.quantity') }}</label>
           <v-text-field
               outlined
               v-model.number="initialStock"
@@ -75,12 +75,12 @@
         </v-card-text>
 
         <v-card-text>
-          <label class="form-label">Kategoria*</label>
+          <label class="form-label">{{ $t('newOfferForm.category') }}</label>
           <CategoriesSelectableList v-on:changedCategory="pushCategoryFromChildTreeToForm"/>
         </v-card-text>
 
         <v-card-text class="d-flex flex-column">
-          <label class="form-label">Stan książki*</label>
+          <label class="form-label">{{ $t('newOfferForm.bookCondition') }}</label>
 
           <v-btn-toggle
             mandatory
@@ -99,7 +99,7 @@
         <v-divider/>
 
         <v-card-text>
-          <label class="form-label">Rodzaj oferty*</label>
+          <label class="form-label">{{ $t('newOfferForm.offerType') }}</label>
 
           <v-btn-toggle
             mandatory
@@ -116,7 +116,7 @@
           </v-btn-toggle>
 
           <div v-if="offerFormType.buyAbility" class="mt-6">
-            <span class="form-label">Cena książki*</span>
+            <span class="form-label">{{ $t('newOfferForm.price') }}</span>
             <v-text-field
                 v-model="offerFormPrice"
                 suffix="zł"
@@ -131,7 +131,7 @@
         <v-divider/>
 
         <v-card-text>
-          <label class="form-label">Lokalizacja*</label>
+          <label class="form-label">{{ $t('newOfferForm.location') }}</label>
           <v-text-field
               v-model="offerFormLocation"
               outlined
@@ -155,6 +155,7 @@ import CategoriesSelectableList from '@/components/new-offer/CategoriesSelectabl
 import ShippingMethods from './ShippingMethods.vue';
 import { Category } from '@/api/CategoryApi';
 import { Store } from 'vuex';
+import { i18n } from '@/main';
 
 interface Rules {
   required: any;
@@ -168,7 +169,7 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const rules = ref<Rules>({
-      required: (value: string) => !!value || 'Wymagane',
+      required: (value: string) => !!value || i18n.t('newOfferForm.required'),
       counter: (value: string, max: number) => {
         if (value == null) return true;
         return value.length <= max || 'Max ' + max + ' characters';
@@ -178,23 +179,23 @@ export default defineComponent({
     const conditions = [
       {
         condition: 'NEW',
-        name: 'Nowa'
+        name: i18n.t('bookCondition.new') as string
       },
       {
         condition: 'PERFECT',
-        name: 'Brak śladów użytkowania'
+        name: i18n.t('bookCondition.perfect') as string
       },
       {
         condition: 'LIGHTLY_USED',
-        name: 'Nosi ślady użytkowania'
+        name: i18n.t('bookCondition.lightlyUsed') as string
       },
       {
         condition: 'MODERATELY_USED',
-        name: 'Nosi liczne ślady użytkowania'
+        name: i18n.t('bookCondition.moderatelyUsed') as string
       },
       {
         condition: 'BAD',
-        name: 'W złym stanie'
+        name: i18n.t('bookCondition.bad') as string
       }
     ];
     const selectedCondition = ref('');

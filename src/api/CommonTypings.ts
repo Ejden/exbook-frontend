@@ -4,7 +4,7 @@ export enum OrderType {
 }
 
 export interface Money {
-    amount: string;
+    amount: number;
     currency: string;
 }
 
@@ -14,6 +14,12 @@ export enum BookCondition {
     LIGHTLY_USED = 'LIGHTLY_USED',
     MODERATELY_USED = 'MODERATELY_USED',
     BAD = 'BAD'
+}
+
+export enum ShippingMethodType {
+    PICKUP_DELIVERY = 'PICKUP_DELIVERY',
+    ADDRESS_DELIVERY = 'ADDRESS_DELIVERY',
+    PERSONAL_DELIVERY = 'PERSONAL_DELIVERY'
 }
 
 export const acceptHeader = {

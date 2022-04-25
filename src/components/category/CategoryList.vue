@@ -1,6 +1,6 @@
 <template>
   <div class="categories glass rounded">
-    <v-subheader>Kategorie</v-subheader>
+    <v-subheader>{{ $t('categoriesList.categories') }}</v-subheader>
     <v-divider/>
     <v-list
         dense

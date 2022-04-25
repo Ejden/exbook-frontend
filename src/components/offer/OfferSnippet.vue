@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card elevation="0" class="rounded">
     <v-card-title>{{ offer.book.title }}</v-card-title>
 
     <v-card-subtitle>{{ offer.book.author }}</v-card-subtitle>
@@ -22,7 +22,7 @@
         <div style="display: flex; flex-direction: column">
           <h2>{{ offer.book.title }}</h2>
           <div style="display: flex; align-items: center; flex-wrap: wrap">
-            <span>Od <strong>{{ offer.seller.username }}</strong></span>
+            <span>{{ $t('offer.snippet.from') }} <strong>{{ offer.seller.username }}</strong></span>
             <v-rating
               color="warning"
               background-color="grey"
@@ -50,25 +50,25 @@
 
         <div class="price-block">
           <div v-if="canBuy && offer.price">
-            <span>cena zakupu: </span><span style="font-size: 20pt; font-weight: bold; margin-left: 3pt">{{ offer.price.amount }}</span>
+            <span>{{ $t('offer.snippet.price') }} </span><span style="font-size: 20pt; font-weight: bold; margin-left: 3pt">{{ offer.price.amount }}</span>
             <span class="ml-2">zł</span>
           </div>
           <div v-else>
-            <span>Ten przedmiot nie ma ceny. Sprzedawca zgodził się jedynie na wymianę</span>
+            <span>{{ $t('offer.snippet.noPrice') }}</span>
           </div>
         </div>
 
         <v-divider/>
 
         <div style="margin-top: 0.5rem; margin-bottom: 0.5rem" v-if="offer.shipping.cheapestMethod">
-          <span>Dostawa już od: {{ offer.shipping.cheapestMethod.price.amount }} zł</span>
+          <span>{{ $t('offer.snippet.shippingFrom') }} {{ offer.shipping.cheapestMethod.price.amount }} zł</span>
           <div>
-            <span>Stan: {{ offer.book.condition }}</span>
+            <span>{{ $t('offer.snippet.bookCondition') }} {{ bookCondition() }}</span>
           </div>
-          <div>
-            <span>ISBN: {{ offer.book.isbn }}</span>
+          <div v-if="!!offer.book.isbn">
+            <span>{{ $t('offer.snippet.isbn') }} {{ offer.book.isbn }}</span>
           </div>
-          <div>Dostępnych sztuk: {{ offer.inStock }}</div>
+          <div>{{ $t('offer.snippet.onStock') }} {{ offer.inStock }}</div>
         </div>
 
         <v-divider/>
@@ -93,8 +93,9 @@
               block
               large
               color="rgba(220, 179, 116, 0.5)"
+              elevation="0"
           >
-            Zaproponuj wymianę
+            {{ $t('offer.snippet.proposeExchange') }}
           </v-btn>
 
           <v-btn
@@ -104,8 +105,9 @@
               block
               large
               color="rgba(0, 184, 141, 0.5)"
+              elevation="0"
           >
-            Kup
+            {{ $t('offer.snippet.buy') }}
           </v-btn>
         </div>
       </div>
@@ -117,6 +119,7 @@
 import { defineComponent, PropType, ref, computed } from '@vue/composition-api';
 import { Book, BookCondition, DetailedOffer, Image, OfferType } from '@/api/ListingApi';
 import { addItemToBasket, OrderType } from '@/api/BasketApi';
+import { i18n } from '@/main';
 
 export default defineComponent({
   props: {
@@ -140,23 +143,23 @@ export default defineComponent({
     const selectableConditions = ref([
       {
         condition: 'NEW',
-        name: 'Nowa'
+        name: i18n.t('bookCondition.new') as string
       },
       {
         condition: 'PERFECT',
-        name: 'Brak śladów użytkowania'
+        name: i18n.t('bookCondition.perfect') as string
       },
       {
         condition: 'LIGHTLY_USED',
-        name: 'Nosi ślady użytkowania'
+        name: i18n.t('bookCondition.lightlyUsed') as string
       },
       {
         condition: 'MODERATELY_USED',
-        name: 'Nosi liczne ślady użytkowania'
+        name: i18n.t('bookCondition.moderatelyUsed') as string
       },
       {
         condition: 'BAD',
-        name: 'W złym stanie'
+        name: i18n.t('bookCondition.bad') as string
       }
     ]);
 
@@ -204,14 +207,14 @@ export default defineComponent({
       return types
     });
 
-    const bookCondition = () => {
+    const bookCondition = (): string => {
       switch (props.offer.book.condition) {
-        case 'NEW': return 'NOWA'
-        case 'PERFECT': return 'UŻYWANA'
-        case 'LIGHTLY_USED': return 'WIDOCZNE ŚLADY UŻYTKOWANIA'
-        case 'MODERATELY_USED': return 'LICZNE ŚLADY UŻYTKOWANIA'
-        case 'BAD': return 'W ZŁYM STANIE'
-        default: return 'NIEZNANY'
+        case 'NEW': return i18n.t('bookCondition.new') as string
+        case 'PERFECT': return i18n.t('bookCondition.perfect') as string
+        case 'LIGHTLY_USED': return i18n.t('bookCondition.lightlyUsed') as string
+        case 'MODERATELY_USED': return i18n.t('bookCondition.moderatelyUsed') as string
+        case 'BAD': return i18n.t('bookCondition.bad') as string
+        default: return i18n.t('bookCondition.unknown') as string
       }
     };
 
@@ -232,57 +235,56 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.book-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  flex-direction: row;
+}
+
+.images-carousel {
+  border-radius: 5px;
+  overflow: hidden;
+  flex-grow: 2;
+  max-width: 60%;
+  margin-right: 1rem;
+}
+
+.offer-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.image {
+  width: content-box;
+}
+
+.price-block {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.offer-button-block {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.stock-input-container {
+  display: flex;
+  width: 150pt;
+  align-items: flex-end;
+}
+
+@media screen and (max-width: 768px) {
   .book-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: stretch;
-    flex-direction: row;
+    flex-direction: column;
   }
 
   .images-carousel {
-    border-radius: 5px;
-    overflow: hidden;
-    flex-grow: 2;
-    max-width: 60%;
-    margin-right: 1rem;
+    max-width: 100%;
+    margin-right: 0;
   }
-
-  .offer-info {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .image {
-    width: content-box;
-  }
-
-  .price-block {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .offer-button-block {
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .stock-input-container {
-    display: flex;
-    width: 150pt;
-    align-items: flex-end;
-  }
-
-  @media screen and (max-width: 768px) {
-    .book-info {
-      flex-direction: column;
-    }
-
-    .images-carousel {
-      max-width: 100%;
-      margin-right: 0;
-    }
-
-  }
+}
 </style>

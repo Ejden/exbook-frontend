@@ -4,11 +4,12 @@
         :src="item.offer.images.thumbnail.url"
         max-height="80"
         max-width="80"
-        class="image"
+        class="image image-link"
+        @click="goToOffer"
     />
 
     <div class="author-and-title">
-      <span style="font-weight: bolder">{{ item.offer.book.title }}</span>
+      <span style="font-weight: bolder" @click="goToOffer" class="link">{{ item.offer.book.title }}</span>
       <span>{{ item.offer.book.author }}</span>
     </div>
 
@@ -44,6 +45,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, watchPostEffect } from '@vue/composition-api';
 import { BasketItem } from '@/api/BasketApi';
+import router from '@/router';
 
 export interface BasketItemQuantityChangeEvent {
   offerId: string;
@@ -74,11 +76,15 @@ export default defineComponent({
     const removeItem = () => {
       emit('removeItem', props.item.offer.id);
     };
+    const goToOffer = () => {
+      router.push({ name: 'Offer', params: { offerId: props.item.offer.id } })
+    }
 
     return {
       quantityIsNotOne,
       itemQuantity,
-      removeItem
+      removeItem,
+      goToOffer
     }
   }
 })

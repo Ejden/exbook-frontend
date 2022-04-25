@@ -2,11 +2,16 @@
   <div class="main">
     <div class="cost-container">
       <div class="cost">
-        <span class="mr-2">Do zapłaty:</span>
+        <span class="mr-2">{{ $t('basketTransaction.toPay') }}</span>
         <span class="totalOffersCost">{{ totalCost.amount }} {{ totalCost.currency }}</span>
       </div>
-      <span v-if="shippingPriceMissing">+ koszty dostawy</span>
-      <span v-else>w tym: {{ shippingCost.amount }} {{ shippingCost.currency }} kosztów dostawy</span>
+      <span v-if="isShippingInfoComplete && !isFreeDelivery">
+        {{ $t('basketTransaction.includingShipping') }} {{ shippingCost.amount }} {{ shippingCost.currency }}
+        {{ $t('basketTransaction.shippingPrice') }}
+      </span>
+
+      <span v-if="isFreeDelivery && isShippingInfoComplete">{{ $t('basketTransaction.freeShipping') }}</span>
+      <span v-if="!isShippingInfoComplete">{{ $t('basketTransaction.plusShippingCost') }}</span>
     </div>
 
     <v-btn
@@ -16,8 +21,9 @@
         color="primary"
         elevation="0"
         :loading="loading"
+        :disabled="!buttonEnabled"
         @click="makePurchaseEventHandler"
-    >POTWIERDŹ ZAKUP</v-btn>
+    >{{ $t('basketTransaction.confirmTransaction') }}</v-btn>
   </div>
 </template>
 
@@ -37,7 +43,7 @@ export default defineComponent({
     },
     shippingCost: {
       type: Object as PropType<Money>,
-      required: false
+      required: true
     },
     loading: {
       type: Boolean,
@@ -46,18 +52,21 @@ export default defineComponent({
     buttonEnabled: {
       type: Boolean,
       required: true
+    },
+    isShippingInfoComplete: {
+      type: Boolean,
+      required: true
     }
   },
   setup(props, { emit }) {
-    const shippingPriceMissing = () => computed(() => props.shippingCost === undefined);
-
     const makePurchaseEventHandler = () => {
       emit('makePurchase');
     };
+    const isFreeDelivery = computed(() => props.isShippingInfoComplete && props.shippingCost.amount === 0);
 
     return {
       makePurchaseEventHandler,
-      shippingPriceMissing
+      isFreeDelivery
     }
   }
 });

@@ -1,9 +1,9 @@
 <template>
-  <v-card>
-    <v-card-title>Inne oferty użytkownika</v-card-title>
+  <v-card elevation="0">
+    <v-card-title>{{ $t('offer.recommendations.title') }}</v-card-title>
 
     <v-card-text v-if="offers.length === 0">
-      Ten użytkownik nie posiada więcej ofert
+      {{ $t('offer.recommendations.noRecommendations') }}
     </v-card-text>
   </v-card>
 </template>

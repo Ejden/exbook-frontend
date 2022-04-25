@@ -8,7 +8,7 @@
         max-width="500"
       >
         <v-card-title>
-          <span>Zaloguj się</span>
+          <span>{{ $t('loginPage.title') }}</span>
         </v-card-title>
         <v-window>
           <v-window-item>
@@ -16,19 +16,19 @@
               <v-text-field
                 autofocus
                 v-model="loginForm.username"
-                label="Nazwa użytkownika"
+                :label="$t('loginPage.username')"
                 autocomplete="username"
                 required
               ></v-text-field>
               <v-text-field
                 v-model="loginForm.password"
-                label="Hasło"
+                :label="$t('loginPage.password')"
                 autocomplete="current-password"
                 required
                 type="password"
               ></v-text-field>
               <span>
-                <router-link to="password-reset">Zapomniałeś hasła?</router-link>
+                <router-link to="password-reset">{{ $t('loginPage.forgotPassword') }}</router-link>
               </span>
               <v-layout
                 justify-space-between
@@ -36,12 +36,12 @@
               >
                 <v-checkbox
                   v-model="rememberPassword"
-                  label="Zapamiętaj mnie"
+                  :label="$t('loginPage.rememberMe')"
                 ></v-checkbox>
                 <v-btn
                   class="mr-4"
                   @click="submit"
-                >Zaloguj</v-btn>
+                >{{ $t('loginPage.login') }}</v-btn>
               </v-layout>
             </v-card-text>
           </v-window-item>

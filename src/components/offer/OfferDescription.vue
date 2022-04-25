@@ -1,14 +1,9 @@
 <template>
-  <v-card>
-    <v-card-title>Opis</v-card-title>
+  <v-card elevation="0">
+    <v-card-title>{{ $t('offer.description.title') }}</v-card-title>
 
     <v-card-text>
-      <div v-if="description.length > 0">
-        {{ description }}
-      </div>
-      <div v-else>
-        Brak opisu
-      </div>
+      <div>{{ description }}</div>
     </v-card-text>
   </v-card>
 </template>

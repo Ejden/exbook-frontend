@@ -1,11 +1,15 @@
 <template>
-  <v-card>
-    <v-card-title>Dostawa</v-card-title>
+  <v-card elevation="0">
+    <v-card-title>{{ $t('offer.shipping.title') }}</v-card-title>
 
     <v-card-text>
       <v-simple-table>
         <template>
           <thead>
+            <tr>
+              <td class="pl-0 font-weight-bold">{{ $t('offer.shipping.name') }}</td>
+              <td class="font-weight-bold">{{ $t('offer.shipping.price') }}</td>
+            </tr>
           </thead>
           <tbody>
             <OfferDeliveryOption

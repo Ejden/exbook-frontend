@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { apiHeaders, OrderType, Money, BookCondition } from '@/api/CommonTypings';
+import { apiHeaders, OrderType, Money, BookCondition, ShippingMethodType } from '@/api/CommonTypings';
 
 export interface PreviewPurchaseRequestData {
     orders: PreviewPurchaseOrderData[];
@@ -41,6 +41,8 @@ export interface DetailedDraftPurchase {
     totalOffersPrice: Money;
     totalShippingPrice: Money;
     totalPrice: Money;
+    isPurchasable: boolean;
+    isShippingInfoComplete: boolean;
 }
 
 export interface DraftPurchaseBuyer {
@@ -106,8 +108,8 @@ export interface DraftOrderExchangeBook {
 
 export interface DraftOrderShipping {
     shippingMethod: DraftOrderShippingMethod;
-    pickupPoint: DraftOrderShippingPickupPoint;
-    shippingAddress: DraftOrderShippingAddress;
+    pickupPoint?: DraftOrderShippingPickupPoint;
+    shippingAddress?: DraftOrderShippingAddress;
 }
 
 export interface DraftOrderShippingMethod {
@@ -140,7 +142,7 @@ export interface DraftOrderShippingAddress {
 export interface PreviewPurchaseShippingOption {
     shippingMethodId: string;
     shippingMethodName: string;
-    pickupPointMethod: boolean;
+    shippingMethodType: ShippingMethodType;
     price: Money;
 }
 

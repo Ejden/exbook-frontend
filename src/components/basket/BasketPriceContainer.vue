@@ -2,10 +2,10 @@
   <div class="main">
     <div class="cost-container">
       <div class="cost">
-        <span class="mr-2">Do zapłaty:</span>
+        <span class="mr-2">{{ $t('basket.toPay') }}</span>
         <span class="totalOffersCost">{{ totalCost.amount }} {{ totalCost.currency }}</span>
       </div>
-      <span>+ koszty dostawy</span>
+      <span>{{ $t('basket.plusShippingCost') }}</span>
     </div>
 
     <v-btn
@@ -16,7 +16,7 @@
         elevation="0"
         :loading="loading"
         @click="pickDeliveryEventHandler"
-    >WYBÓR DOSTAWY</v-btn>
+    >{{ $t('basket.pickShipping') }}</v-btn>
   </div>
 </template>
 

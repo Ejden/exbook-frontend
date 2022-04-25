@@ -1,5 +1,5 @@
 <template>
-  <div class="margin-top-16">
+  <div class="margin-top-8 main">
     <v-container
         v-if="basketIsLoading"
         class="rounded loading-basket"
@@ -15,7 +15,7 @@
         class="glass rounded empty-basket-container"
     >
       <v-icon class="basket-icon" size="300">fas fa-shopping-basket</v-icon>
-      <span class="empty-basket">Wygląda na to, że twój koszyk jest pusty...</span>
+      <span class="empty-basket">{{ $t('basket.empty') }}</span>
     </v-container>
 
     <v-container v-else class="basket">
@@ -163,8 +163,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.main {
+  display: flex;
+}
+
 .basket {
   display: flex;
+  flex-direction: row;
   gap: 10pt;
 }
 
@@ -181,7 +186,7 @@ export default defineComponent({
   height: 120pt;
   flex-basis: 34%;
   position: sticky;
-  top: 66pt;
+  top: 80px;
 }
 
 .basket-groups {
@@ -201,5 +206,11 @@ export default defineComponent({
   flex-grow: 1;
   text-align: center;
   font-size: 16pt;
+}
+
+@media screen and (max-width: 900px) {
+  .basket {
+    flex-direction: column;
+  }
 }
 </style>

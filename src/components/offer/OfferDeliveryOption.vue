@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>
+    <td class="pl-0">
       {{ name }}
     </td>
     <td>
@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from '@vue/composition-api';
-import {Money} from '@/api/ListingApi';
+import { Money } from '@/api/ListingApi';
 
 export default defineComponent({
   props: {
@@ -24,7 +24,7 @@ export default defineComponent({
       required: true
     }
   }
-})
+});
 </script>
 
 <style scoped>

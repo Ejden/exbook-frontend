@@ -4,8 +4,8 @@
     elevation="0"
   >
     <v-card-title class="order-title">
-      <span>Status: {{ getOrderStatus() }}</span>
-      <span class="seller">Sprzedawca: {{ order.seller.firstName + ' ' + order.seller.lastName }}</span>
+      <span>{{ $t('myAccount.status') }}: {{ getOrderStatus() }}</span>
+      <span class="seller">{{ $t('myAccount.seller') }}: {{ order.seller.firstName + ' ' + order.seller.lastName }}</span>
     </v-card-title>
 
     <v-card-text>
@@ -33,6 +33,7 @@ import OrderItemSnippet from "@/components/account/OrderItemSnippet.vue";
 import OrderDeliverySnippet from "@/components/account/OrderDeliverySnippet.vue";
 import OrderSnippetSummary from "@/components/account/OrderSnippetSummary.vue";
 import { OrderStatus, UserOrderSnippet } from '@/api/OrderApi';
+import { i18n } from '@/main';
 
 export default defineComponent({
   components: {
@@ -50,15 +51,15 @@ export default defineComponent({
     const getOrderStatus = () => {
       switch (props.order.status) {
         case OrderStatus.NEW:
-          return 'NOWE'
+          return i18n.t('myAccount.orderStatus.new')
         case OrderStatus.DECLINED:
-          return 'ODRZUCONE'
+          return i18n.t('myAccount.orderStatus.declined')
         case OrderStatus.ACCEPTED:
-          return 'ZAAKCEPTOWANE'
+          return i18n.t('myAccount.orderStatus.accepted')
         case OrderStatus.RETURNED:
-          return 'ZWRÓCONE'
+          return i18n.t('myAccount.orderStatus.returned')
         default:
-          return 'NIEZNANE'
+          return i18n.t('myAccount.orderStatus.unknown')
       }
     }
 
