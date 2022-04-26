@@ -139,7 +139,9 @@ export default {
         offerTypeFilters: {
             buy: 'Kup',
             exchange: 'Wymień'
-        }
+        },
+        filtersButtonText: 'Pokaż filtry',
+        filtersModalTitle: 'Filtry'
     },
     menu: {
         modal: {
@@ -229,6 +231,11 @@ export default {
             cancel: 'Anuluj'
         },
         loading: 'Momencik... Przeliczamy twoje zamówienie'
+    },
+    purchaseRealisedPage: {
+        title: 'Dziękujemy za zakup',
+        description: 'Szczegóły na temat tego zamówienia możesz znaleźć na swoim koncie',
+        goToMyOrders: 'Przejdź do moich zamówień'
     },
     loginPage: {
         title: 'Zaloguj się',

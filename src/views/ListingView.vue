@@ -2,16 +2,21 @@
   <v-container class="body">
     <span class="searching-text">{{ $t('listing.searchingPhrase') }} "{{ search }}"</span>
     <div class="mt-3 main-box">
-      <left-panel class="left-panel glass"/>
+      <left-panel class="left-panel"/>
 
       <offer-listing
-          class="offer-listing glass"
+          class="offer-listing"
           :offers="offers"
           :pages="pages"
           :pageable="pageable"
           v-on:updateResultsDueToSorting="updateResultsDueToSorting"
+          @showFiltersModal="showFiltersModalEventHandler"
       />
     </div>
+
+    <left-panel-modal
+        v-model="showLeftPanelModal"
+    />
   </v-container>
 </template>
 
@@ -21,9 +26,11 @@ import { getListing, DetailedOffer } from '@/api/ListingApi';
 import LeftPanel from '../components/listing/leftpanel/LeftPanel.vue';
 import OfferListing from '../components/listing/offerlisting/OfferListing.vue';
 import { Pageable } from '@/typings/Page';
+import LeftPanelModal from '@/components/listing/leftpanel/LeftPanelModal.vue';
 
 export default defineComponent({
   components: {
+    LeftPanelModal,
     OfferListing,
     LeftPanel
   },
@@ -84,49 +91,56 @@ export default defineComponent({
         search: props.search
       }
     });
+    const showLeftPanelModal = ref(false);
+    const showFiltersModalEventHandler = () => showLeftPanelModal.value = true;
 
     return {
       offers,
       pageable,
       pages,
-      updateResultsDueToSorting
+      updateResultsDueToSorting,
+      showLeftPanelModal,
+      showFiltersModalEventHandler
     }
   }
-})
+});
 </script>
 
 <style scoped>
-  .searching-text {
-    width: 100%;
-    font-size: 1.5rem;
-    font-weight: 430;
-  }
+.searching-text {
+  width: 100%;
+  font-size: 1.5rem;
+  font-weight: 430;
+}
 
-  .body {
-    display: flex;
-    flex-direction: column;
-  }
+.body {
+  display: flex;
+  flex-direction: column;
+}
 
+.left-panel {
+  flex-basis: 20%;
+}
+
+.main-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.offer-listing {
+  flex: 1;
+}
+
+@media screen and (max-width: 1300px){
   .left-panel {
-    width: 25%;
+    flex-basis: 30%;
   }
+}
 
-  .main-box {
-    display: flex;
-    align-items: flex-start;
+@media screen and (max-width: 900px) {
+  .left-panel {
+    display: none;
   }
-
-  .offer-listing {
-    margin-left: 1rem;
-    flex: 1;
-  }
-
-  .glass {
-    background: linear-gradient(
-        to right bottom,
-        rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 0.7)
-    );
-    backdrop-filter: blur(10px);
-  }
+}
 </style>

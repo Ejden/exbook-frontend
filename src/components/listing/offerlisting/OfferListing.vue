@@ -1,15 +1,29 @@
 <template>
-  <v-card class="offers-container">
+  <v-card
+      elevation="0"
+      class="offers-container"
+  >
     <v-card-text class="actions">
-      <v-select
-        :items="sortingMethods"
-        v-model="selectedSortingMethod"
-        outlined
-        dense
-        return-object
-        class="sorting-methods-select"
-        @change="sortResults()"
-      />
+      <div class="first-button-group">
+        <v-select
+          :items="sortingMethods"
+          v-model="selectedSortingMethod"
+          outlined
+          dense
+          return-object
+          class="sorting-methods-select"
+          @change="sortResults()"
+        />
+
+        <v-btn
+            class="filter-button"
+            text
+            @click="showFiltersModal"
+            left
+        >
+          {{ $t('listing.filtersButtonText') }}
+        </v-btn>
+      </div>
 
       <v-pagination
         total-visible="3"
@@ -77,33 +91,46 @@ export default defineComponent({
     ]);
 
     const sortResults = () => emit('updateResultsDueToSorting', selectedSortingMethod.value.value);
+    const showFiltersModal = () => emit('showFiltersModal');
 
     return {
       selectedSortingMethod,
       sortingMethods,
-      sortResults
+      sortResults,
+      showFiltersModal
     }
   }
-})
+});
 </script>
 
 <style scoped>
-  .actions {
-    display: flex;
-    justify-content: space-between;
-  }
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
 
-  .sorting-methods-select {
-    max-width: 250px;
-  }
+.first-button-group {
+  display: flex;
+  flex-direction: column;
+}
 
-  .offer {
-    height: 150px;
-    width: 100%;
-    margin-bottom: 1rem;
-  }
+.sorting-methods-select {
+  max-width: 250px;
+}
 
-  .top-pagination-button {
-    margin-top: 0;
+.offer {
+  height: 150px;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.top-pagination-button {
+  margin-top: 0;
+}
+
+@media screen and (min-width: 900px) {
+  .filter-button {
+    display: none;
   }
+}
 </style>

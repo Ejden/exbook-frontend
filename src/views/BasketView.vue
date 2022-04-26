@@ -12,10 +12,16 @@
 
     <v-container
         v-else-if="basketIsEmpty"
-        class="glass rounded empty-basket-container"
+        class="empty-basket-main-container"
     >
-      <v-icon class="basket-icon" size="300">fas fa-shopping-basket</v-icon>
-      <span class="empty-basket">{{ $t('basket.empty') }}</span>
+      <v-container class="empty-basket-container container-standard-background">
+        <v-icon class="basket-icon" size="300">fas fa-shopping-basket</v-icon>
+        <span class="empty-basket">{{ $t('basket.empty') }}</span>
+      </v-container>
+
+      <v-container class="container-standard-background rounded">
+        <offers-recommendations/>
+      </v-container>
     </v-container>
 
     <v-container v-else class="basket">
@@ -39,10 +45,6 @@
             @pickDelivery="pickDeliveryEventHandler"
         />
       </v-container>
-    </v-container>
-
-    <v-container v-if="!basketIsLoading && basketIsEmpty" class="container-standard-background rounded mt-3">
-      <offers-recommendations class="container-standard-background rounded"/>
     </v-container>
 
     <notification-popup
@@ -196,6 +198,12 @@ export default defineComponent({
   gap: 15pt;
 }
 
+.empty-basket-main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .empty-basket-container {
   display: flex;
   padding: 50pt;
@@ -210,6 +218,10 @@ export default defineComponent({
 
 @media screen and (max-width: 900px) {
   .basket {
+    flex-direction: column;
+  }
+
+  .empty-basket-container {
     flex-direction: column;
   }
 }

@@ -31,6 +31,7 @@
             :loading="loading"
             :button-enabled="detailedDraftPurchase.isPurchasable"
             :is-shipping-info-complete="detailedDraftPurchase.isShippingInfoComplete"
+            @makePurchase="makePurchaseEventHandler"
         />
       </v-container>
     </v-container>
@@ -43,7 +44,7 @@ import {
   DetailedDraftPurchase,
   previewPurchase,
   PreviewPurchaseOrderData, PreviewPurchasePickupPointData, PreviewPurchaseShippingAddressData,
-  PreviewPurchaseShippingData
+  PreviewPurchaseShippingData, realisePurchase
 } from '@/api/TransactionApi';
 import router from '@/router';
 import BasketTransactionGroup from '@/components/transaction/BasketTransactionGroup.vue';
@@ -100,13 +101,19 @@ export default defineComponent({
         .then(() => disableTransactionLoadingAnimation())
         .catch(() => router.push({ name: 'Error' }));
 
+    const makePurchaseEventHandler = () => {
+      realisePurchase()
+        .then(() => router.push({ name: 'Home' }));
+    }
+
     return {
       transactionIsLoading,
       enableTransactionLoadingAnimation,
       disableTransactionLoadingAnimation,
       loading,
       detailedDraftPurchase,
-      pickedShippingMethodEventHandler
+      pickedShippingMethodEventHandler,
+      makePurchaseEventHandler
     }
   }
 });
