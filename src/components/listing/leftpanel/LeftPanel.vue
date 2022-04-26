@@ -1,5 +1,7 @@
 <template>
-  <v-card>
+  <v-card
+      elevation="0"
+  >
     <v-card-title class="section-title">{{ $t('listing.subcategories') }}</v-card-title>
 
     <v-card-title class="section-title">{{ $t('listing.filters') }}</v-card-title>

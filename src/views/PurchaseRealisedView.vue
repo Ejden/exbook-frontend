@@ -1,13 +1,15 @@
 <template>
   <v-layout fill-height>
-    <v-container class="margin-top-16 main">
-      <v-card>
+    <v-container
+        class="margin-top-16 main"
+    >
+      <v-card elevation="0">
         <v-card-title>
-          Dziękujemy za zakup
+          {{ $t('purchaseRealisedPage.title') }}
         </v-card-title>
 
         <v-card-text>
-          Szczegóły na temat tego zamówienia możesz znaleźć na swoim koncie
+          {{ $t('purchaseRealisedPage.description') }}
         </v-card-text>
 
         <v-card-actions>
@@ -17,7 +19,7 @@
               color="primary"
               @click="$router.push({ name: 'MyAccount' })"
           >
-            Przejdź do moich zamówień
+            {{ $t('purchaseRealisedPage.goToMyOrders') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -28,9 +30,7 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 
-export default defineComponent({
-  name: "PurchaseRealisedView"
-});
+export default defineComponent({});
 </script>
 
 <style scoped>
