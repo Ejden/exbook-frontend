@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from '@vue/composition-api';
-import OrderSnippet from '@/components/account/OrderSnippet.vue';
+import OrderSnippet from '@/components/account/latestorders/OrderSnippet.vue';
 import { getLatestOrdersSnippets, UserOrderSnippet } from '@/api/OrderApi';
 
 export default defineComponent({
@@ -29,7 +29,7 @@ export default defineComponent({
     const orders = ref<UserOrderSnippet[]>([]);
     const thereAreNoOrders = computed(() => orders.value.length === 0);
 
-    getLatestOrdersSnippets()
+    getLatestOrdersSnippets(1, 3)
         .then(response => orders.value = response.content);
 
     return {
@@ -37,29 +37,25 @@ export default defineComponent({
       thereAreNoOrders
     }
   }
-})
+});
 </script>
 
 <style scoped>
-  .main {
-    background: white;
-    display: flex;
-    flex-direction: column;
-  }
+.main {
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
 
-  .empty-orders {
-    margin: auto;
-  }
+.empty-orders {
+  margin: auto;
+}
 
-  .orders {
+.content {
+  padding: 10pt;
+}
 
-  }
-
-  .content {
-    padding: 10pt;
-  }
-
-  .no-orders-info {
-    text-align: center;
-  }
+.no-orders-info {
+  text-align: center;
+}
 </style>

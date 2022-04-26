@@ -1,13 +1,13 @@
 <template>
-  <v-dialog
+  <v-bottom-sheet
       v-model="showModal"
-      fullscreen
+      scrollable
   >
     <template v-slot:activator="{ on, attrs }">
       <slot v-bind="attrs" v-on="on"></slot>
     </template>
 
-    <v-card>
+    <v-card max-height="700px">
       <v-card-title class="title">
         <span>{{ $t('listing.filtersModalTitle') }}</span>
         <v-btn
@@ -22,7 +22,7 @@
         <left-panel/>
       </v-card-text>
     </v-card>
-  </v-dialog>
+  </v-bottom-sheet>
 </template>
 
 <script lang="ts">

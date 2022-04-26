@@ -83,6 +83,7 @@ const actions = {
             initialStock: form.initialStock
         };
 
+        console.log(body);
         createOffer(body)
             .then((response: CreatedOffer) => {
                 context.commit('clearNewOfferForm');

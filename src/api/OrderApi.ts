@@ -1,5 +1,5 @@
 import { Page } from '@/typings/Page';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
 export interface UserOrderSnippet {
     id: string;
@@ -14,6 +14,9 @@ export interface UserOrderSnippet {
 
 export interface Buyer {
     id: string;
+    name: string;
+    firstName: string;
+    lastName: string;
 }
 
 export interface Seller {
@@ -64,7 +67,8 @@ export enum OrderStatus {
     NEW = 'NEW',
     DECLINED = 'DECLINED',
     ACCEPTED = 'ACCEPTED',
-    RETURNED = 'RETURNED'
+    RETURNED = 'RETURNED',
+    WAITING_FOR_ACCEPT = 'WAITING_FOR_ACCEPT'
 }
 
 export enum OrderType {
@@ -72,7 +76,39 @@ export enum OrderType {
     BUY = 'BUY'
 }
 
-export function getLatestOrdersSnippets(): Promise<Page<UserOrderSnippet>> {
-    return axios.get('api/orders/snippet')
+export function getLatestOrdersSnippets(
+    page?: number,
+    perPage?: number
+): Promise<Page<UserOrderSnippet>> {
+    let url = 'api/orders/snippet';
+    if (page !== undefined) {
+        url += '?p=' + page;
+    }
+    if (perPage !== undefined) {
+        if (page === undefined) {
+            url += '?size=' + perPage
+        } else {
+            url += '&size=' + perPage
+        }
+    }
+    return axios.get(url)
         .then(r => r.data as Page<UserOrderSnippet>);
+}
+
+export function getLatestSoldOrdersSnippets(
+    page?: number,
+    perPage?: number
+): Promise<AxiosResponse<Page<UserOrderSnippet>>> {
+    let url = '/api/sale/orders/snippet';
+    if (page !== undefined) {
+        url += '?p=' + page;
+    }
+    if (perPage !== undefined) {
+        if (page === undefined) {
+            url += '?size=' + perPage
+        } else {
+            url += '&size=' + perPage
+        }
+    }
+    return axios.get(url);
 }

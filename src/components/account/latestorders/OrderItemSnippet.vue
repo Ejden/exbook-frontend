@@ -28,26 +28,22 @@ export default defineComponent({
       type: Object as PropType<OrderItem>
     }
   }
-})
+});
 </script>
 
 <style scoped>
-  .main {
-    display: flex;
-  }
+.main {
+  display: flex;
+}
 
-  .author-and-title {
-    margin-left: 10pt;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
+.author-and-title {
+  margin-left: 10pt;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
 
-  .image {
-    border-radius: 5pt;
-  }
-
-  .price-container {
-
-  }
+.image {
+  border-radius: 5pt;
+}
 </style>

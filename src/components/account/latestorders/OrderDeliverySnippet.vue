@@ -16,12 +16,12 @@ export default defineComponent({
       required: true
     }
   }
-})
+});
 </script>
 
 <style scoped>
-  .main {
-    display: flex;
-    justify-content: space-between;
-  }
+.main {
+  display: flex;
+  justify-content: space-between;
+}
 </style>

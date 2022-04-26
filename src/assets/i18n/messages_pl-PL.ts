@@ -32,12 +32,16 @@ export default {
         status: 'Status',
         summaryWithShipping: 'Łącznie z dostawą',
         orderStatus: {
-            new: 'NOWE',
-            declined: 'ODRZUCONE',
-            accepted: 'ZAAKCEPTOWANE',
-            returned: 'ZWRÓCONE',
-            unknown: 'NIEZNANE'
-        }
+            new: 'Nowe',
+            declined: 'Odrzucone',
+            accepted: 'Zaakceptowane',
+            returned: 'Zwrócone',
+            waitingForAccept: 'Oczekuje na akceptację',
+            unknown: 'Nieznany'
+        },
+        latestSold: 'Ostatnio sprzedane',
+        noSoldOrders: 'Wygląda na to, że nie sprzedałeś nic ostatnio...',
+        buyer: 'Kupujący'
     },
     basket: {
         exchangePropose: 'Propozycja wymiany',
@@ -113,7 +117,8 @@ export default {
             tip3: 'W opisie możesz wpisać książki, które Cię najbardziej interesują do wymiany!'
         },
         submitOffer: 'Dodaj ogłoszenie',
-        shippingMethods: 'Metody dostawy*'
+        shippingMethods: 'Metody dostawy*',
+        autofill: 'Autouzupełnij'
     },
     home: {
         recommendedOffers: 'Polecane oferty'
