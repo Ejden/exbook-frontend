@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import VueRouter, {Route} from 'vue-router';
+import VueRouter, { Route } from 'vue-router';
 import Home from '../views/HomeView.vue';
 import Register from '../views/RegisterView.vue';
 import Login from '../views/LoginView.vue';
@@ -14,6 +14,8 @@ import MyAccount from '../views/MyAccountView.vue';
 import Checkout from '@/views/BasketView.vue';
 import BasketTransactionView from '@/views/BasketTransactionView.vue'
 import PurchaseRealisedView from '@/views/PurchaseRealisedView.vue';
+import OrderDetailsView from '@/views/OrderDetailsView.vue';
+import SoldOrderDetailsView from '@/views/SoldOrderDetailsView.vue';
 
 Vue.use(VueRouter);
 
@@ -72,46 +74,58 @@ const routes = [
         meta: {requiresAuth: false}
     },
     {
+        path: '/my-account/order/:orderId',
+        name: 'OrderDetails',
+        component: OrderDetailsView,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/sale/orders/:orderId',
+        name: 'SoldOrderDetails',
+        component: SoldOrderDetailsView,
+        meta: {requiresAuth: true}
+    },
+    {
         path: '/category/:categoryName',
         name: 'CategoryDetailsView',
         component: CategoryDetailsView,
-        meta: { requiresAuth: false }
+        meta: {requiresAuth: false}
     },
     {
         path: '/error',
         name: 'Error',
         component: Error,
-        meta: { requiresAuth: false }
+        meta: {requiresAuth: false}
     },
     {
         path: '/my-account',
         name: 'MyAccount',
         component: MyAccount,
-        meta: { requiresAuth: true }
+        meta: {requiresAuth: true}
     },
     {
         path: '/checkout',
         name: 'Checkout',
         component: Checkout,
-        meta: { requiresAuth: true }
+        meta: {requiresAuth: true}
     },
     {
         path: '/transaction',
         name: 'Transaction',
         component: BasketTransactionView,
-        meta: { requiresAuth: true }
+        meta: {requiresAuth: true}
     },
     {
         path: '/purchase-realised',
         name: 'PurchaseRealised',
         component: PurchaseRealisedView,
-        meta: { requiresAuth: true }
+        meta: {requiresAuth: true}
     },
     {
         path: '*',
         name: 'NotFound',
         component: NotFound,
-        meta: { requiresAuth: false }
+        meta: {requiresAuth: false}
     }
 ];
 

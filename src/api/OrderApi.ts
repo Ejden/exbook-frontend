@@ -1,5 +1,6 @@
 import { Page } from '@/typings/Page';
 import axios, { AxiosResponse } from 'axios';
+import { ShippingMethodType } from '@/api/CommonTypings';
 
 export interface UserOrderSnippet {
     id: string;
@@ -7,7 +8,7 @@ export interface UserOrderSnippet {
     seller: Seller;
     shipping: Shipping;
     items: OrderItem[];
-    orderDate: string;
+    orderDate: Date;
     status: OrderStatus;
     totalCost: string;
 }
@@ -29,7 +30,27 @@ export interface Seller {
 export interface Shipping {
     id: string;
     methodName: string;
+    methodType: ShippingMethodType;
+    shippingAddress?: ShippingAddress;
+    pickupPoint?: PickupPoint;
     cost: ShippingCost;
+}
+
+export interface ShippingAddress {
+    firstAndLastName: string;
+    phoneNumber: string;
+    email: string;
+    address: string;
+    postalCode: string;
+    city: string;
+    country: string;
+}
+
+export interface PickupPoint {
+    firstAndLastName: string;
+    phoneNumber: string;
+    email: string;
+    pickupPointId: string;
 }
 
 export interface ShippingCost {
@@ -99,7 +120,7 @@ export function getLatestSoldOrdersSnippets(
     page?: number,
     perPage?: number
 ): Promise<AxiosResponse<Page<UserOrderSnippet>>> {
-    let url = '/api/sale/orders/snippet';
+    let url = 'api/sale/orders/snippet';
     if (page !== undefined) {
         url += '?p=' + page;
     }
@@ -111,4 +132,8 @@ export function getLatestSoldOrdersSnippets(
         }
     }
     return axios.get(url);
+}
+
+export function getOrderSnippet(orderId: string): Promise<AxiosResponse<UserOrderSnippet>> {
+    return axios.get('api/orders/' + orderId);
 }

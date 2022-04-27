@@ -14,10 +14,11 @@
       <div class="items">
         <sold-order-item-snippet
             class="order-item-snippet"
-            v-for="orderItem in order.items"
+            v-for="orderItem in order.items.slice(0, 3)"
             :key="orderItem.offerId"
             :order-item="orderItem"
         />
+        <span v-if="order.items.length > 3">I więcej...</span>
       </div>
 
       <v-divider class="divider"/>
@@ -25,7 +26,19 @@
       <sold-order-delivery-snippet class="order-delivery-snippet" :shipping="order.shipping"/>
 
       <sold-order-snippet-summary :total-cost="order.totalCost"/>
+
+      <div class="actions-container">
+        <v-btn
+            text
+            color="primary"
+            class="details-button"
+            @click="goToOrderDetails"
+        >
+          {{ $t('myAccount.orderDetails') }}
+        </v-btn>
+      </div>
     </v-card-text>
+    <v-divider/>
   </v-card>
 </template>
 
@@ -36,6 +49,7 @@ import { i18n } from '@/main';
 import SoldOrderItemSnippet from '@/components/account/latestsold/SoldOrderItemSnippet.vue';
 import SoldOrderDeliverySnippet from '@/components/account/latestsold/SoldOrderDeliverySnippet.vue';
 import SoldOrderSnippetSummary from '@/components/account/latestsold/SoldOrderSnippetSummary.vue';
+import router from '@/router';
 
 export default defineComponent({
   components: {
@@ -66,9 +80,13 @@ export default defineComponent({
           return i18n.t('myAccount.orderStatus.unknown')
       }
     }
+    const goToOrderDetails = () => {
+      router.push({ name: 'SoldOrderDetails', params: { orderId: props.order.id } })
+    }
 
     return {
-      getOrderStatus
+      getOrderStatus,
+      goToOrderDetails
     }
   }
 });
@@ -96,5 +114,13 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   row-gap: 10pt;
+}
+
+.actions-container {
+  display: flex;
+}
+
+.details-button {
+  margin: auto;
 }
 </style>

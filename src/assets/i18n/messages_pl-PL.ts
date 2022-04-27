@@ -41,7 +41,8 @@ export default {
         },
         latestSold: 'Ostatnio sprzedane',
         noSoldOrders: 'Wygląda na to, że nie sprzedałeś nic ostatnio...',
-        buyer: 'Kupujący'
+        buyer: 'Kupujący',
+        orderDetails: 'Szczegóły Zamówienia'
     },
     basket: {
         exchangePropose: 'Propozycja wymiany',
@@ -242,6 +243,37 @@ export default {
         description: 'Szczegóły na temat tego zamówienia możesz znaleźć na swoim koncie',
         goToMyOrders: 'Przejdź do moich zamówień'
     },
+    orderDetailsPage: {
+        status: 'Status:',
+        seller: 'Sprzedawca:',
+        shippingMethod: 'Metoda dostawy',
+        actions: 'Akcje',
+        summaryWithShipping: 'Łącznie z dostawą',
+        shipping: 'Dostawa',
+        shippingType: {
+            pickupDelivery: 'Odbiór w punkcie',
+            addressDelivery: 'Dostawa na adres',
+            personalDelivery: 'Odbiór osobisty'
+        },
+        action: {
+            return: 'Zwróć zamówienie',
+            cancel: 'Anuluj zamówienie',
+            rateSeller: 'Oceń sprzedawcę',
+            rateOffer: 'Oceń ofertę',
+            rateBook: 'Oceń książkę',
+            received: 'Oznacz jako dostarczone'
+        }
+    },
+    soldOrderDetailsPage: {
+        status: 'Status:',
+        buyer: 'Kupujący:',
+        summaryWithShipping: 'Łącznie z dostawą',
+        action: {
+            accept: 'Zaakceptuj wymianę',
+            discard: 'Odrzuć wymianę',
+            sent: 'Oznacz jako wysłane'
+        }
+    },
     loginPage: {
         title: 'Zaloguj się',
         username: 'Nazwa użytkownika',
@@ -268,5 +300,19 @@ export default {
         code: '404',
         title: 'Wygląda na to, że się zgubiłeś...',
         description: 'Nie mogliśmy znaleźć żądanej strony'
+    },
+    months: {
+        january: 'Stycznia',
+        february: 'Lutego',
+        march: 'Marca',
+        april: 'Kwietnia',
+        may: 'Maja',
+        june: 'Czerwca',
+        july: 'Lipca',
+        august: 'Sierpnia',
+        september: 'Września',
+        october: 'Października',
+        november: 'Listopada',
+        december: 'Grudnia'
     }
 }

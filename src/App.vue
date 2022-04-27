@@ -2,11 +2,9 @@
   <v-app>
     <NavBar/>
     <v-main class="app">
-      <router-view/>
+      <router-view class="margin-bottom-16"/>
     </v-main>
-    <Footer>
-
-    </Footer>
+    <Footer/>
   </v-app>
 </template>
 

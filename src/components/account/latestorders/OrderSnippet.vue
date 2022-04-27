@@ -14,10 +14,12 @@
       <div class="items">
         <order-item-snippet
             class="order-item-snippet"
-            v-for="orderItem in order.items"
+            v-for="orderItem in order.items.slice(0, 3)"
             :key="orderItem.offerId"
             :order-item="orderItem"
         />
+
+        <span v-if="order.items.length > 3">I więcej...</span>
       </div>
 
       <v-divider class="divider"/>
@@ -31,8 +33,9 @@
             text
             color="primary"
             class="details-button"
+            @click="goToOrderDetails"
         >
-          Szczegóły Zamówienia
+          {{ $t('myAccount.orderDetails') }}
         </v-btn>
       </div>
     </v-card-text>
@@ -47,6 +50,7 @@ import OrderDeliverySnippet from "@/components/account/latestorders/OrderDeliver
 import OrderSnippetSummary from "@/components/account/latestorders/OrderSnippetSummary.vue";
 import { OrderStatus, UserOrderSnippet } from '@/api/OrderApi';
 import { i18n } from '@/main';
+import router from '@/router';
 
 export default defineComponent({
   components: {
@@ -78,8 +82,11 @@ export default defineComponent({
       }
     }
 
+    const goToOrderDetails = () => router.push({ name: 'OrderDetails', params: { orderId: props.order.id } });
+
     return {
-      getOrderStatus
+      getOrderStatus,
+      goToOrderDetails
     }
   }
 })

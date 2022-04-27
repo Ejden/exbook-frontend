@@ -9,25 +9,13 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title>
-              <v-btn plain height="20" small>{{ $t('myAccount.myOrders') }}</v-btn>
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>
-              <v-btn plain height="20" small>{{ $t('myAccount.observableOffers') }}</v-btn>
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-
-      <v-list-item-group>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>
-              <v-btn plain height="20" small>{{ $t('myAccount.myOffers') }}</v-btn>
+              <v-btn
+                  class="button"
+                  text
+                  height="20"
+                  small
+                  :ripple="false"
+              >{{ $t('myAccount.myOrders') }}</v-btn>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -36,10 +24,39 @@
           <v-list-item-content>
             <v-list-item-title>
               <v-btn
-                  plain
+                  class="button"
+                  text
                   height="20"
                   small
-                  to="/add-offer"
+                  :ripple="false"
+              >{{ $t('myAccount.observableOffers') }}</v-btn>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>
+              <v-btn
+                  class="button"
+                  text
+                  height="20"
+                  small
+                  :ripple="false"
+              >{{ $t('myAccount.myOffers') }}</v-btn>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item @click="$router.push({ name: 'NewOffer' })">
+          <v-list-item-content>
+            <v-list-item-title>
+              <v-btn
+                  class="button"
+                  text
+                  height="20"
+                  small
+                  :ripple="false"
               >{{ $t('myAccount.createOffer') }}</v-btn>
             </v-list-item-title>
           </v-list-item-content>
@@ -56,18 +73,20 @@ export default defineComponent({})
 </script>
 
 <style scoped>
-  .main {
-    display: flex;
-    flex-direction: column;
-    background: linear-gradient(
-        to right bottom,
-        rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 0.8)
-    );
-  }
+.main {
+  display: flex;
+  flex-direction: column;
+}
 
-  .list {
-    border-radius: 5pt;
-    background: rgba(255, 255, 255, 0);
-  }
+.button:before {
+  background: transparent;
+}
+
+.button:after {
+  background: transparent;
+}
+
+.list {
+  border-radius: 5pt;
+}
 </style>
