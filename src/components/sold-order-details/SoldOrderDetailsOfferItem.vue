@@ -4,11 +4,18 @@
         :src="item.images.thumbnail.url"
         max-height="80"
         max-width="80"
-        class="image"
+        class="image image-link"
+        @click="goToOffer"
     />
 
     <div class="author-and-title">
-      <span style="font-weight: bolder">{{ item.book.title }}</span>
+      <div>
+        <span
+            class="link"
+            style="font-weight: bolder"
+            @click="goToOffer"
+        >{{ item.book.title }}</span>
+      </div>
       <span>{{ item.book.author }}</span>
     </div>
 
@@ -21,12 +28,20 @@
 <script lang="ts">
 import { defineComponent, PropType } from '@vue/composition-api';
 import { OrderItem } from '@/api/OrderApi';
+import router from '@/router';
 
 export default defineComponent({
   props: {
     item: {
       type: Object as PropType<OrderItem>,
       required: true
+    }
+  },
+  setup(props) {
+    const goToOffer = () => router.push({ name: 'Offer', params: { offerId: props.item.offerId } });
+
+    return {
+      goToOffer
     }
   }
 });

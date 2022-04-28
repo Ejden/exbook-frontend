@@ -8,9 +8,12 @@ export interface UserOrderSnippet {
     seller: Seller;
     shipping: Shipping;
     items: OrderItem[];
+    exchangeBooks: ExchangeBook[];
     orderDate: Date;
+    orderType: OrderType,
     status: OrderStatus;
     totalCost: string;
+    availableActions: AvailableActions;
 }
 
 export interface Buyer {
@@ -76,6 +79,15 @@ export interface Book {
     title: string;
 }
 
+export interface ExchangeBook {
+    id: string;
+    author: string;
+    title: string;
+    isbn?: string;
+    condition: string;
+    quantity: number;
+}
+
 export interface Images {
     thumbnail: Image;
 }
@@ -84,12 +96,33 @@ export interface Image {
     url: string;
 }
 
+export interface AvailableActions {
+    buyerActions: BuyerActions;
+    sellerActions: SellerActions;
+}
+
+export interface BuyerActions {
+    canBeReturned: boolean;
+    canBeCancelled: boolean;
+    canBeMarkedAsDelivered: boolean;
+}
+
+export interface SellerActions {
+    canBeCancelled: boolean;
+    canExchangeBeDismissed: boolean;
+    canExchangeBeAccepted: boolean;
+    canBeMarkedAsSent: boolean;
+}
+
 export enum OrderStatus {
     NEW = 'NEW',
+    SENT = 'SENT',
+    DELIVERED = 'DELIVERED',
     DECLINED = 'DECLINED',
     ACCEPTED = 'ACCEPTED',
     RETURNED = 'RETURNED',
-    WAITING_FOR_ACCEPT = 'WAITING_FOR_ACCEPT'
+    WAITING_FOR_ACCEPT = 'WAITING_FOR_ACCEPT',
+    CANCELED = 'CANCELED'
 }
 
 export enum OrderType {

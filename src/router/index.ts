@@ -16,6 +16,8 @@ import BasketTransactionView from '@/views/BasketTransactionView.vue'
 import PurchaseRealisedView from '@/views/PurchaseRealisedView.vue';
 import OrderDetailsView from '@/views/OrderDetailsView.vue';
 import SoldOrderDetailsView from '@/views/SoldOrderDetailsView.vue';
+import MyOrdersView from '@/views/MyOrdersView.vue';
+import SoldOrdersView from '@/views/SoldOrdersView.vue';
 
 Vue.use(VueRouter);
 
@@ -80,9 +82,21 @@ const routes = [
         meta: {requiresAuth: true}
     },
     {
+        path: '/my-account/my-orders',
+        name: 'MyOrders',
+        component: MyOrdersView,
+        meta: {requiresAuth: true}
+    },
+    {
         path: '/sale/orders/:orderId',
         name: 'SoldOrderDetails',
         component: SoldOrderDetailsView,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/sale/orders',
+        name: 'SoldOrders',
+        component: SoldOrdersView,
         meta: {requiresAuth: true}
     },
     {

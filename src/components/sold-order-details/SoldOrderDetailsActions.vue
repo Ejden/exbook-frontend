@@ -1,6 +1,7 @@
 <template>
   <div class="main">
     <v-btn
+        v-if="showExchangeButtons"
         class="button"
         elevation="0"
         text
@@ -11,6 +12,7 @@
     </v-btn>
 
     <v-btn
+        v-if="showExchangeButtons"
         class="button"
         elevation="0"
         text
@@ -26,17 +28,46 @@
         text
         color="#1976d2"
         large
+        :disabled="!actions.canBeMarkedAsSent"
     >
       {{ $t('soldOrderDetailsPage.action.sent') }}
+    </v-btn>
+
+    <v-btn
+        class="button"
+        elevation="0"
+        text
+        color="#1976d2"
+        large
+        :disabled="!actions.canBeCancelled"
+    >
+      {{ $t('soldOrderDetailsPage.action.cancel') }}
     </v-btn>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, PropType } from '@vue/composition-api';
+import { OrderType, SellerActions } from '@/api/OrderApi';
 
 export default defineComponent({
+  props: {
+    actions: {
+      type: Object as PropType<SellerActions>,
+      required: true
+    },
+    orderType: {
+      type: String as PropType<OrderType>,
+      required: true
+    }
+  },
+  setup(props) {
+    const showExchangeButtons = props.orderType === OrderType.EXCHANGE;
 
+    return {
+      showExchangeButtons
+    }
+  }
 });
 </script>
 

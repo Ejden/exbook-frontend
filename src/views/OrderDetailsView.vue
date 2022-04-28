@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!!order">
     <v-container class="container-standard-background margin-top-16 rounded main-container" v-if="!!order">
       <div class="order-details">
         <div class="info-container">
@@ -26,6 +26,13 @@
             :shipping="order.shipping"
         />
 
+        <v-divider v-if="showExchangeBooks" class="horizontal-section-divider"/>
+
+        <order-details-exchange-books
+            v-if="showExchangeBooks"
+            :exchange-books="order.exchangeBooks"
+        />
+
         <v-divider class="horizontal-section-divider"/>
 
         <order-details-info-section
@@ -37,27 +44,34 @@
       <v-divider vertical class="vertical-section-divider"/>
 
       <div class="order-actions">
-        <order-details-actions/>
+        <order-details-actions
+            :actions="order.availableActions.buyerActions"
+        />
       </div>
     </v-container>
 
     <v-container class="margin-top-16 container-standard-background mobile-actions">
-      <order-details-actions class="margin-top-16"/>
+      <order-details-actions
+          :actions="order.availableActions.buyerActions"
+          class="margin-top-16"
+      />
     </v-container>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
-import { getOrderSnippet, UserOrderSnippet } from '@/api/OrderApi';
+import { getOrderSnippet, OrderType, UserOrderSnippet } from '@/api/OrderApi';
 import { getMonth, getOrderStatus } from '@/mixin';
 import OrderDetailsOfferItem from '@/components/order-details/OrderDetailsOfferItem.vue';
 import OrderDetailsSummarySnippet from '@/components/order-details/OrderDetailsSummarySnippet.vue';
 import OrderDetailsInfoSection from '@/components/order-details/OrderDetailsInfoSection.vue';
 import OrderDetailsActions from '@/components/order-details/OrderDetailsActions.vue';
+import OrderDetailsExchangeBooks from '@/components/order-details/OrderDetailsExchangeBooks.vue';
 
 export default defineComponent({
   components: {
+    OrderDetailsExchangeBooks,
     OrderDetailsActions,
     OrderDetailsInfoSection,
     OrderDetailsSummarySnippet,
@@ -66,6 +80,7 @@ export default defineComponent({
   setup(_, { root }) {
     const order = ref<UserOrderSnippet | undefined>(undefined);
     const sellerName = computed(() => order.value?.seller.firstName + ' ' + order.value?.seller.lastName);
+    const showExchangeBooks = computed(() => order.value?.orderType === OrderType.EXCHANGE);
 
     getOrderSnippet(root.$route.params.orderId)
       .then(response => order.value = response.data);
@@ -85,7 +100,8 @@ export default defineComponent({
       order,
       getOrderStatus,
       sellerName,
-      orderDate
+      orderDate,
+      showExchangeBooks
     }
   }
 });

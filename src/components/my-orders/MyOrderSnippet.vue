@@ -45,9 +45,9 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from '@vue/composition-api';
-import OrderItemSnippet from "@/components/account/latestorders/OrderItemSnippet.vue";
-import OrderDeliverySnippet from "@/components/account/latestorders/OrderDeliverySnippet.vue";
-import OrderSnippetSummary from "@/components/account/latestorders/OrderSnippetSummary.vue";
+import OrderSnippetSummary from '@/components/account/latestorders/OrderSnippetSummary.vue';
+import OrderDeliverySnippet from '@/components/account/latestorders/OrderDeliverySnippet.vue';
+import OrderItemSnippet from '@/components/account/latestorders/OrderItemSnippet.vue';
 import { OrderStatus, UserOrderSnippet } from '@/api/OrderApi';
 import { i18n } from '@/main';
 import router from '@/router';

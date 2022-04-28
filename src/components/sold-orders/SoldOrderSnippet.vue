@@ -5,28 +5,27 @@
   >
     <v-card-title class="order-title">
       <span>{{ $t('myAccount.status') }}: {{ getOrderStatus() }}</span>
-      <span class="seller">{{ $t('myAccount.seller') }}: {{
-          order.seller.firstName + ' ' + order.seller.lastName
-        }}</span>
+      <span class="seller">
+        {{ $t('myAccount.buyer') }}: {{ order.buyer.firstName + ' ' + order.buyer.lastName }}
+      </span>
     </v-card-title>
 
     <v-card-text>
       <div class="items">
-        <order-item-snippet
+        <sold-order-item-snippet
             class="order-item-snippet"
             v-for="orderItem in order.items.slice(0, 3)"
             :key="orderItem.offerId"
             :order-item="orderItem"
         />
-
         <span v-if="order.items.length > 3">I więcej...</span>
       </div>
 
       <v-divider class="divider"/>
 
-      <order-delivery-snippet class="order-delivery-snippet" :shipping="order.shipping"/>
+      <sold-order-delivery-snippet class="order-delivery-snippet" :shipping="order.shipping"/>
 
-      <order-snippet-summary :total-cost="order.totalCost"/>
+      <sold-order-snippet-summary :total-cost="order.totalCost"/>
 
       <div class="actions-container">
         <v-btn
@@ -45,18 +44,18 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from '@vue/composition-api';
-import OrderItemSnippet from "@/components/account/latestorders/OrderItemSnippet.vue";
-import OrderDeliverySnippet from "@/components/account/latestorders/OrderDeliverySnippet.vue";
-import OrderSnippetSummary from "@/components/account/latestorders/OrderSnippetSummary.vue";
 import { OrderStatus, UserOrderSnippet } from '@/api/OrderApi';
 import { i18n } from '@/main';
+import SoldOrderItemSnippet from '@/components/account/latestsold/SoldOrderItemSnippet.vue';
+import SoldOrderDeliverySnippet from '@/components/account/latestsold/SoldOrderDeliverySnippet.vue';
+import SoldOrderSnippetSummary from '@/components/account/latestsold/SoldOrderSnippetSummary.vue';
 import router from '@/router';
 
 export default defineComponent({
   components: {
-    OrderSnippetSummary,
-    OrderDeliverySnippet,
-    OrderItemSnippet
+    SoldOrderSnippetSummary,
+    SoldOrderDeliverySnippet,
+    SoldOrderItemSnippet
   },
   props: {
     order: {
@@ -81,8 +80,9 @@ export default defineComponent({
           return i18n.t('myAccount.orderStatus.unknown')
       }
     }
-
-    const goToOrderDetails = () => router.push({ name: 'OrderDetails', params: { orderId: props.order.id } });
+    const goToOrderDetails = () => {
+      router.push({ name: 'SoldOrderDetails', params: { orderId: props.order.id } })
+    }
 
     return {
       getOrderStatus,

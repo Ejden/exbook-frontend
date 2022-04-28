@@ -6,7 +6,7 @@
 
     <v-list class="list">
       <v-list-item-group>
-        <v-list-item>
+        <v-list-item @click="goToMyOrders">
           <v-list-item-content>
             <v-list-item-title>
               <v-btn
@@ -20,7 +20,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item>
+        <v-list-item @click="goToSoldOrders">
           <v-list-item-content>
             <v-list-item-title>
               <v-btn
@@ -29,7 +29,7 @@
                   height="20"
                   small
                   :ripple="false"
-              >{{ $t('myAccount.observableOffers') }}</v-btn>
+              >{{ $t('myAccount.soldOrders') }}</v-btn>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -48,7 +48,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item @click="$router.push({ name: 'NewOffer' })">
+        <v-list-item @click="goToNewOfferForm">
           <v-list-item-content>
             <v-list-item-title>
               <v-btn
@@ -68,8 +68,21 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
+import router from '@/router';
 
-export default defineComponent({})
+export default defineComponent({
+  setup() {
+    const goToNewOfferForm = () => router.push({ name: 'NewOffer' });
+    const goToMyOrders = () => router.push({ name: 'MyOrders' });
+    const goToSoldOrders = () => router.push({ name: 'SoldOrders' });
+
+    return {
+      goToNewOfferForm,
+      goToMyOrders,
+      goToSoldOrders
+    }
+  }
+});
 </script>
 
 <style scoped>

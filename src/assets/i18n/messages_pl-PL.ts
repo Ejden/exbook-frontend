@@ -14,6 +14,7 @@ export default {
         quickActions: 'Szybkie akcje',
         myOrders: 'Moje zamówienia',
         observableOffers: 'Oberwowane oferty',
+        soldOrders: 'Moja sprzedaż',
         myOffers: 'Moje oferty',
         createOffer: 'Wystaw ofertę',
         myStatistics: 'Twoje statystyki',
@@ -37,6 +38,9 @@ export default {
             accepted: 'Zaakceptowane',
             returned: 'Zwrócone',
             waitingForAccept: 'Oczekuje na akceptację',
+            canceled: 'Anulowane',
+            sent: 'Wysłano',
+            delivered: 'Dostarczono',
             unknown: 'Nieznany'
         },
         latestSold: 'Ostatnio sprzedane',
@@ -250,6 +254,7 @@ export default {
         actions: 'Akcje',
         summaryWithShipping: 'Łącznie z dostawą',
         shipping: 'Dostawa',
+        noShippingDetails: 'Brak szczegółów',
         shippingType: {
             pickupDelivery: 'Odbiór w punkcie',
             addressDelivery: 'Dostawa na adres',
@@ -262,17 +267,24 @@ export default {
             rateOffer: 'Oceń ofertę',
             rateBook: 'Oceń książkę',
             received: 'Oznacz jako dostarczone'
-        }
+        },
+        orderId: 'Identyfikator zamówienia'
     },
     soldOrderDetailsPage: {
         status: 'Status:',
         buyer: 'Kupujący:',
         summaryWithShipping: 'Łącznie z dostawą',
+        noShippingDetails: 'Brak szczegółów',
         action: {
             accept: 'Zaakceptuj wymianę',
             discard: 'Odrzuć wymianę',
-            sent: 'Oznacz jako wysłane'
-        }
+            sent: 'Oznacz jako wysłane',
+            cancel: 'Anuluj zamówienie'
+        },
+        orderId: 'Identyfikator zamówienia'
+    },
+    myOrdersPage: {
+        noOrders: 'Wygląda na to, że nie posiadasz żadnych zamówień...'
     },
     loginPage: {
         title: 'Zaloguj się',

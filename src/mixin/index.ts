@@ -19,6 +19,12 @@ export function getOrderStatus(orderStatus: OrderStatus): string {
             return i18n.t('myAccount.orderStatus.returned') as string;
         case OrderStatus.WAITING_FOR_ACCEPT:
             return i18n.t('myAccount.orderStatus.waitingForAccept') as string;
+        case OrderStatus.CANCELED:
+            return i18n.t('myAccount.orderStatus.canceled') as string;
+        case OrderStatus.SENT:
+            return i18n.t('myAccount.orderStatus.sent') as string;
+        case OrderStatus.DELIVERED:
+            return i18n.t('myAccount.orderStatus.delivered') as string;
         default:
             return i18n.t('myAccount.orderStatus.unknown') as string;
     }

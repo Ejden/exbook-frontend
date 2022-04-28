@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!!order">
     <v-container class="container-standard-background margin-top-16 rounded main-container" v-if="!!order">
       <div class="order-details">
         <div class="info-container">
@@ -26,6 +26,13 @@
             :shipping="order.shipping"
         />
 
+        <v-divider v-if="showExchangeBooks" class="horizontal-section-divider"/>
+
+        <sold-order-details-exchange-books
+            v-if="showExchangeBooks"
+            :exchange-books="order.exchangeBooks"
+        />
+
         <v-divider class="horizontal-section-divider"/>
 
         <sold-order-details-info-section
@@ -37,33 +44,43 @@
       <v-divider vertical class="vertical-section-divider"/>
 
       <div class="order-actions">
-        <sold-order-details-actions/>
+        <sold-order-details-actions
+            :order-type="order.orderType"
+            :actions="order.availableActions.sellerActions"
+        />
       </div>
     </v-container>
 
     <v-container class="margin-top-16 container-standard-background mobile-actions">
-      <sold-order-details-actions class="margin-top-16"/>
+      <sold-order-details-actions
+          class="margin-top-16"
+          :order-type="order.orderType"
+          :actions="order.availableActions.sellerActions"
+      />
     </v-container>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
-import { getOrderSnippet, UserOrderSnippet } from '@/api/OrderApi';
+import { getOrderSnippet, OrderType, UserOrderSnippet } from '@/api/OrderApi';
 import { getMonth } from '@/mixin';
 import { getOrderStatus } from '@/mixin';
 import SoldOrderDetailsOfferItem from '@/components/sold-order-details/SoldOrderDetailsOfferItem.vue';
 import SoldOrderDetailsSummarySnippet from '@/components/sold-order-details/SoldOrderDetailsSummarySnippet.vue';
 import SoldOrderDetailsActions from '@/components/sold-order-details/SoldOrderDetailsActions.vue';
 import SoldOrderDetailsInfoSection from '@/components/sold-order-details/SoldOrderDetailsInfoSection.vue';
+import SoldOrderDetailsExchangeBooks from '@/components/sold-order-details/SoldOrderDetailsExchangeBooks.vue';
 
 export default defineComponent({
   components: {
+    SoldOrderDetailsExchangeBooks,
     SoldOrderDetailsInfoSection,
     SoldOrderDetailsActions, SoldOrderDetailsSummarySnippet, SoldOrderDetailsOfferItem},
   setup(_, { root }) {
     const order = ref<UserOrderSnippet | undefined>(undefined);
     const buyerName = computed(() => order.value?.buyer.firstName + ' ' + order.value?.buyer.lastName);
+    const showExchangeBooks = computed(() => order.value?.orderType === OrderType.EXCHANGE);
 
     getOrderSnippet(root.$route.params.orderId)
       .then(response => order.value = response.data);
@@ -84,7 +101,8 @@ export default defineComponent({
       order,
       buyerName,
       orderDate,
-      getOrderStatus
+      getOrderStatus,
+      showExchangeBooks
     }
   }
 });

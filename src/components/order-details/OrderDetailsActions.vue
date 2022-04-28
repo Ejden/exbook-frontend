@@ -4,6 +4,17 @@
         class="button"
         elevation="0"
         text
+        color="#1976d2"
+        large
+        :disabled="!actions.canBeMarkedAsDelivered"
+    >
+      {{ $t('orderDetailsPage.action.received') }}
+    </v-btn>
+
+    <v-btn
+        class="button"
+        elevation="0"
+        text
         color="primary"
         large
         :ripple="false"
@@ -37,6 +48,7 @@
         text
         color="primary"
         large
+        :disabled="!actions.canBeCancelled"
     >
       {{ $t('orderDetailsPage.action.cancel') }}
     </v-btn>
@@ -47,6 +59,7 @@
         text
         color="#1976d2"
         large
+        :disabled="!actions.canBeReturned"
     >
       {{ $t('orderDetailsPage.action.return') }}
     </v-btn>
@@ -54,10 +67,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api';
+import { defineComponent, PropType } from '@vue/composition-api';
+import { BuyerActions } from '@/api/OrderApi';
 
 export default defineComponent({
-
+  props: {
+    actions: {
+      type: Object as PropType<BuyerActions>,
+      required: true
+    }
+  }
 });
 </script>
 

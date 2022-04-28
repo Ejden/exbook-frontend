@@ -13,11 +13,16 @@
            {{ shipping.shippingAddress.country}}
         </span>
       </div>
+
       <div v-if="showPickupPointDetails">
         <span>{{ shipping.pickupPoint.firstAndLastName }}</span>
         <span>{{ shipping.pickupPoint.phoneNumber }}</span>
         <span>{{ shipping.pickupPoint.email }}</span>
         <span>{{ shipping.pickupPoint.pickupPointId }}</span>
+      </div>
+
+      <div v-if="showPersonalDeliveryDetails">
+        <span>{{ $t('soldOrderDetailsPage.noShippingDetails') }}</span>
       </div>
     </div>
 
@@ -27,7 +32,7 @@
     </div>
 
     <div>
-      <h4>Identyfikator zamówienia</h4>
+      <h4>{{ $t('orderDetailsPage.orderId') }}</h4>
       <span>{{ order.id }}</span>
     </div>
   </div>
@@ -64,11 +69,13 @@ export default defineComponent({
     }
     const showAddressDetails = props.shipping.methodType === ShippingMethodType.ADDRESS_DELIVERY;
     const showPickupPointDetails = props.shipping.methodType === ShippingMethodType.PICKUP_DELIVERY;
+    const showPersonalDeliveryDetails = props.shipping.methodType === ShippingMethodType.PERSONAL_DELIVERY;
 
     return {
       shippingType,
       showAddressDetails,
-      showPickupPointDetails
+      showPickupPointDetails,
+      showPersonalDeliveryDetails
     }
   }
 });
