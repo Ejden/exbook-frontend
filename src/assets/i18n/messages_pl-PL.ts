@@ -284,7 +284,14 @@ export default {
         orderId: 'Identyfikator zamówienia'
     },
     myOrdersPage: {
-        noOrders: 'Wygląda na to, że nie posiadasz żadnych zamówień...'
+        noOrders: 'Wygląda na to, że nie posiadasz żadnych zamówień o podanych kryteriach',
+        filters: 'Filtruj',
+        status: 'Status'
+    },
+    myOffersPage: {
+        noOffers: 'Wygląda na to, że nie posiadasz żadnych ofert...',
+        edit: 'Edytuj',
+        terminate: 'Zakończ'
     },
     loginPage: {
         title: 'Zaloguj się',

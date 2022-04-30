@@ -132,39 +132,43 @@ export enum OrderType {
 
 export function getLatestOrdersSnippets(
     page?: number,
-    perPage?: number
+    perPage?: number,
+    statusFilters?: OrderStatus[]
 ): Promise<Page<UserOrderSnippet>> {
-    let url = 'api/orders/snippet';
+    const url = new URL("/api/orders/snippet", axios.defaults.baseURL);
+
     if (page !== undefined) {
-        url += '?p=' + page;
+        url.searchParams.append("p", page.toString());
     }
     if (perPage !== undefined) {
-        if (page === undefined) {
-            url += '?size=' + perPage
-        } else {
-            url += '&size=' + perPage
-        }
+        url.searchParams.append("size", perPage.toString());
     }
-    return axios.get(url)
+    if (statusFilters !== undefined) {
+        statusFilters.forEach(status => url.searchParams.append("status", status));
+    }
+
+    return axios.get(url.href)
         .then(r => r.data as Page<UserOrderSnippet>);
 }
 
 export function getLatestSoldOrdersSnippets(
     page?: number,
-    perPage?: number
+    perPage?: number,
+    statusFilters?: OrderStatus[]
 ): Promise<AxiosResponse<Page<UserOrderSnippet>>> {
-    let url = 'api/sale/orders/snippet';
+    const url = new URL('api/sale/orders/snippet', axios.defaults.baseURL);
+
     if (page !== undefined) {
-        url += '?p=' + page;
+        url.searchParams.append("p", page.toString());
     }
     if (perPage !== undefined) {
-        if (page === undefined) {
-            url += '?size=' + perPage
-        } else {
-            url += '&size=' + perPage
-        }
+        url.searchParams.append("size", perPage.toString());
     }
-    return axios.get(url);
+    if (statusFilters !== undefined) {
+        statusFilters.forEach(status => url.searchParams.append("status", status));
+    }
+
+    return axios.get(url.href);
 }
 
 export function getOrderSnippet(orderId: string): Promise<AxiosResponse<UserOrderSnippet>> {

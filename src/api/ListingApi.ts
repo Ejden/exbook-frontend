@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Page } from '@/typings/Page';
 
 export interface DetailedOffer {
@@ -80,4 +80,8 @@ export async function getSingleOffer(offerId: string) {
     const offerUrl = 'api/listing/' + offerId;
     return axios.get(offerUrl)
         .then(response => response.data as DetailedOffer);
+}
+
+export async function getUserOffers(page: number, perPage: number): Promise<AxiosResponse<Page<DetailedOffer>>> {
+    return axios.get('api/sale/offers?p=' + page + '&size=' + perPage);
 }

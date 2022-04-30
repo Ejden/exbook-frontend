@@ -18,6 +18,7 @@ import OrderDetailsView from '@/views/OrderDetailsView.vue';
 import SoldOrderDetailsView from '@/views/SoldOrderDetailsView.vue';
 import MyOrdersView from '@/views/MyOrdersView.vue';
 import SoldOrdersView from '@/views/SoldOrdersView.vue';
+import MyOffersView from '@/views/MyOffersView.vue';
 
 Vue.use(VueRouter);
 
@@ -97,6 +98,12 @@ const routes = [
         path: '/sale/orders',
         name: 'SoldOrders',
         component: SoldOrdersView,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/sale/offers',
+        name: 'MyOffers',
+        component: MyOffersView,
         meta: {requiresAuth: true}
     },
     {

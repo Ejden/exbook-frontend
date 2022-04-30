@@ -34,7 +34,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item>
+        <v-list-item @click="goToMyOffers">
           <v-list-item-content>
             <v-list-item-title>
               <v-btn
@@ -75,11 +75,13 @@ export default defineComponent({
     const goToNewOfferForm = () => router.push({ name: 'NewOffer' });
     const goToMyOrders = () => router.push({ name: 'MyOrders' });
     const goToSoldOrders = () => router.push({ name: 'SoldOrders' });
+    const goToMyOffers = () => router.push({ name: 'MyOffers' });
 
     return {
       goToNewOfferForm,
       goToMyOrders,
-      goToSoldOrders
+      goToSoldOrders,
+      goToMyOffers
     }
   }
 });
