@@ -67,7 +67,7 @@ const routes = [
             search: route.query.search,
             categoryId: route.query.categoryId,
             condition: route.query.condition,
-            type: route.query.type,
+            offerType: route.query.offerType,
             priceFrom: route.query.priceFrom,
             priceTo: route.query.priceTo,
             location: route.query.location,

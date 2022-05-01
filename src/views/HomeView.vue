@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="home">
-      <categories/>
+      <categories class="categories"/>
 
       <recommended-offers class="ml-4 recommendations"/>
     </div>
@@ -18,15 +18,19 @@ export default defineComponent({
     Categories,
     RecommendedOffers
   }
-})
+});
 </script>
 
 <style scoped>
-  .home {
-    display: flex;
-  }
+.home {
+  display: flex;
+}
 
-  .recommendations {
-    flex-grow: 1;
-  }
+.categories {
+  flex-basis: 10%;
+}
+
+.recommendations {
+  flex-basis: 90%;
+}
 </style>

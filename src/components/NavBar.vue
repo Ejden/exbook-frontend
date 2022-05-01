@@ -46,7 +46,11 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const searchText = ref<string>('');
-    const search = () => root.$router.push({ name: 'Listing', query: { search: searchText.value }})
+    const search = () => {
+      if (searchText.value.trim().length !== 0) {
+        root.$router.replace({ name: 'Listing', query: { search: searchText.value } }).catch(() => {})
+      }
+    }
 
     return {
       searchText,

@@ -151,7 +151,8 @@ export default {
             exchange: 'Wymień'
         },
         filtersButtonText: 'Pokaż filtry',
-        filtersModalTitle: 'Filtry'
+        filtersModalTitle: 'Filtry',
+        refresh: 'Odśwież wyniki'
     },
     menu: {
         modal: {
