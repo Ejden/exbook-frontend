@@ -36,7 +36,8 @@ export default {
             new: 'Nowe',
             declined: 'Odrzucone',
             accepted: 'Zaakceptowane',
-            returned: 'Zwrócone',
+            returnInProgress: 'Oczekuje na zwrot',
+            returnDelivered: 'Zwrócono',
             waitingForAccept: 'Oczekuje na akceptację',
             canceled: 'Anulowane',
             sent: 'Wysłano',
@@ -75,7 +76,9 @@ export default {
             add: 'Dodaj',
             cancel: 'Anuluj'
         },
-        empty: 'Wygląda na to, że twój koszyk jest pusty...'
+        empty: 'Wygląda na to, że twój koszyk jest pusty...',
+        bookAdded: 'Dodano książkę',
+        closePopup: 'Zamknij'
     },
     bookCondition: {
         new: 'Nowa',
@@ -126,7 +129,8 @@ export default {
         autofill: 'Autouzupełnij'
     },
     home: {
-        recommendedOffers: 'Polecane oferty'
+        recommendedOffers: 'Polecane oferty',
+        free: 'Darmowe'
     },
     listing: {
         subcategories: 'Podkategorie',
@@ -194,7 +198,11 @@ export default {
             userId: 'Id użytkownika:',
             username: 'Nazwa użytkownika:',
             userGrade: 'Ocena użytkownika:'
-        }
+        },
+        closeInfoMessage: 'Zamknij',
+        errorMessage: 'Nie udało się dodać ksiażki do koszyka',
+        addedToBasket: 'Dodano do koszyka',
+        emptyStock: 'Brak towaru'
     },
     offerRecommendations: {
         title: 'Rekomendacje'
@@ -239,7 +247,8 @@ export default {
             city: 'Miasto',
             country: 'Kraj wysyłki',
             submit: 'Zatwierdź',
-            cancel: 'Anuluj'
+            cancel: 'Anuluj',
+            required: 'Wymagane'
         },
         loading: 'Momencik... Przeliczamy twoje zamówienie'
     },
@@ -280,7 +289,8 @@ export default {
             accept: 'Zaakceptuj wymianę',
             discard: 'Odrzuć wymianę',
             sent: 'Oznacz jako wysłane',
-            cancel: 'Anuluj zamówienie'
+            cancel: 'Anuluj zamówienie',
+            returnDelivered: 'Dostarczono zwrot'
         },
         orderId: 'Identyfikator zamówienia'
     },
@@ -311,6 +321,9 @@ export default {
         password: 'Hasło',
         confirmPassword: 'Potwierdź hasło',
         register: 'Zarejestruj'
+    },
+    recommendations: {
+        freePrice: 'Tylko wymiana'
     },
     errorPage: {
         title: 'Oh no...',

@@ -77,7 +77,7 @@ import { BookCondition } from '@/api/CommonTypings';
 
 export default defineComponent({
   props: {
-    types: {
+    offerTypes: {
       required: false
     },
     priceFrom: {
@@ -98,7 +98,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const bookConditions = (props.bookConditions instanceof String) ? [props.bookConditions] : props.bookConditions as Array<string>;
-    const offerTypes = (props.types instanceof String) ? [props.types] : props.types as Array<string>;
+    const offerTypes = (props.offerTypes instanceof String) ? [props.offerTypes] : props.offerTypes as Array<string>;
 
     const {
       selectedConditionFilters,

@@ -50,8 +50,8 @@
           <v-text-field
             outlined
             v-model="offerFormTitle"
-            :rules="[rules.required, rules.counter(offerFormTitle, 30)]"
-            maxlength="30"
+            :rules="[rules.required, rules.counter(offerFormTitle, 50)]"
+            maxlength="50"
             counter
           />
           <label class="form-label">{{ $t('newOfferForm.bookAuthor') }}</label>
@@ -59,8 +59,8 @@
             outlined
             v-model="offerFormAuthor"
             counter
-            :rules="[rules.required, rules.counter(offerFormTitle, 25)]"
-            maxlength="25"
+            :rules="[rules.required, rules.counter(offerFormTitle, 50)]"
+            maxlength="50"
           />
           <label class="form-label">{{ $t('newOfferForm.offerDescription') }}</label>
           <v-textarea

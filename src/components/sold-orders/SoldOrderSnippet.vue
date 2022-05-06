@@ -4,7 +4,7 @@
       elevation="0"
   >
     <v-card-title class="order-title">
-      <span>{{ $t('myAccount.status') }}: {{ getOrderStatus() }}</span>
+      <span>{{ $t('myAccount.status') }}: {{ getOrderStatus(order.status) }}</span>
       <span class="seller">
         {{ $t('myAccount.buyer') }}: {{ order.buyer.firstName + ' ' + order.buyer.lastName }}
       </span>
@@ -44,12 +44,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from '@vue/composition-api';
-import { OrderStatus, UserOrderSnippet } from '@/api/OrderApi';
-import { i18n } from '@/main';
+import { UserOrderSnippet } from '@/api/OrderApi';
 import SoldOrderItemSnippet from '@/components/account/latestsold/SoldOrderItemSnippet.vue';
 import SoldOrderDeliverySnippet from '@/components/account/latestsold/SoldOrderDeliverySnippet.vue';
 import SoldOrderSnippetSummary from '@/components/account/latestsold/SoldOrderSnippetSummary.vue';
 import router from '@/router';
+import { getOrderStatus } from '@/mixin';
 
 export default defineComponent({
   components: {
@@ -64,22 +64,6 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const getOrderStatus = () => {
-      switch (props.order.status) {
-        case OrderStatus.NEW:
-          return i18n.t('myAccount.orderStatus.new')
-        case OrderStatus.DECLINED:
-          return i18n.t('myAccount.orderStatus.declined')
-        case OrderStatus.ACCEPTED:
-          return i18n.t('myAccount.orderStatus.accepted')
-        case OrderStatus.RETURNED:
-          return i18n.t('myAccount.orderStatus.returned')
-        case OrderStatus.WAITING_FOR_ACCEPT:
-          return i18n.t('myAccount.orderStatus.waitingForAccept')
-        default:
-          return i18n.t('myAccount.orderStatus.unknown')
-      }
-    }
     const goToOrderDetails = () => {
       router.push({ name: 'SoldOrderDetails', params: { orderId: props.order.id } })
     }

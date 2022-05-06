@@ -116,8 +116,12 @@ function orderStatusOptions(): MyOrderStatusOption[] {
       value: OrderStatus.WAITING_FOR_ACCEPT
     },
     {
-      text: getOrderStatus(OrderStatus.RETURNED),
-      value: OrderStatus.RETURNED
+      text: getOrderStatus(OrderStatus.RETURN_DELIVERED),
+      value: OrderStatus.RETURN_DELIVERED
+    },
+    {
+      text: getOrderStatus(OrderStatus.RETURN_IN_PROGRESS),
+      value: OrderStatus.RETURN_IN_PROGRESS
     },
     {
       text: getOrderStatus(OrderStatus.ACCEPTED),

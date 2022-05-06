@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const headers = {
     'Content-Type': 'application/vnd.exbook.v1+json',
@@ -11,7 +11,7 @@ interface NewOfferForm {
     images: Images;
     category: string;
     type: string;
-    price: Money;
+    price?: Money;
     location: string,
     shippingMethods: ShippingMethod[];
     initialStock: number;
@@ -47,7 +47,7 @@ interface CreatedOffer {
     id: string;
 }
 
-async function createOffer(offer: NewOfferForm): Promise<CreatedOffer> {
+async function createOffer(offer: NewOfferForm): Promise<AxiosResponse<CreatedOffer>> {
     return axios.post('api/offers', offer, { withCredentials: true, headers: headers });
 }
 

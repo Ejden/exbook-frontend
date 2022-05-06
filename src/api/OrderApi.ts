@@ -1,6 +1,6 @@
 import { Page } from '@/typings/Page';
 import axios, { AxiosResponse } from 'axios';
-import { ShippingMethodType } from '@/api/CommonTypings';
+import { apiHeaders, ShippingMethodType } from '@/api/CommonTypings';
 
 export interface UserOrderSnippet {
     id: string;
@@ -112,16 +112,18 @@ export interface SellerActions {
     canExchangeBeDismissed: boolean;
     canExchangeBeAccepted: boolean;
     canBeMarkedAsSent: boolean;
+    canBeMarkedAsReturnDelivered: boolean;
 }
 
 export enum OrderStatus {
     NEW = 'NEW',
+    WAITING_FOR_ACCEPT = 'WAITING_FOR_ACCEPT',
     SENT = 'SENT',
     DELIVERED = 'DELIVERED',
     DECLINED = 'DECLINED',
     ACCEPTED = 'ACCEPTED',
-    RETURNED = 'RETURNED',
-    WAITING_FOR_ACCEPT = 'WAITING_FOR_ACCEPT',
+    RETURN_DELIVERED = 'RETURN_DELIVERED',
+    RETURN_IN_PROGRESS = 'RETURN_IN_PROGRESS',
     CANCELED = 'CANCELED'
 }
 
@@ -173,4 +175,8 @@ export function getLatestSoldOrdersSnippets(
 
 export function getOrderSnippet(orderId: string): Promise<AxiosResponse<UserOrderSnippet>> {
     return axios.get('api/orders/' + orderId);
+}
+
+export function changeOrderStatus(orderId: string, newStatus: OrderStatus): Promise<AxiosResponse<UserOrderSnippet>> {
+    return axios.put('api/orders/' + orderId + '/status', { newStatus: newStatus }, { headers: apiHeaders })
 }

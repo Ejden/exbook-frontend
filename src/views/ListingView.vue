@@ -4,7 +4,7 @@
     <div class="mt-3 main-box">
       <left-panel
           class="left-panel"
-          :types="offerType"
+          :offer-types="offerType"
           :location="location"
           :price-from="priceFrom"
           :price-to="priceTo"
@@ -28,7 +28,7 @@
 
     <left-panel-modal
         v-model="showLeftPanelModal"
-        :types="offerType"
+        :offer-types="offerType"
         :location="location"
         :price-from="priceFrom"
         :price-to="priceTo"

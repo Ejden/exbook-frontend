@@ -137,10 +137,10 @@ export default defineComponent({
     });
     const rules = {
       textField: [
-        (value: string) => value.trim().length !== 0 || 'Wymagane'
+        (value: string) => value?.trim().length !== 0 || 'Wymagane'
       ],
       isbn: [
-        (value: string) => (value.trim().length === 0 || value.trim().length === 10 || value.trim().length === 13) || 'ISBN musi składać się z 10 lub 13 znaków'
+        (value: string) => (value?.trim().length === 0 || value?.trim().length === 10 || value?.trim().length === 13) || 'ISBN musi składać się z 10 lub 13 znaków'
       ]
     };
 

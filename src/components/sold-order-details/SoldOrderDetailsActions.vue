@@ -7,6 +7,8 @@
         text
         color="primary"
         large
+        :disabled="!actions.canExchangeBeAccepted"
+        @click="acceptExchange"
     >
       {{ $t('soldOrderDetailsPage.action.accept') }}
     </v-btn>
@@ -18,6 +20,8 @@
         text
         color="#1976d2"
         large
+        :disabled="!actions.canExchangeBeDismissed"
+        @click="discardExchange"
     >
       {{ $t('soldOrderDetailsPage.action.discard') }}
     </v-btn>
@@ -29,6 +33,7 @@
         color="#1976d2"
         large
         :disabled="!actions.canBeMarkedAsSent"
+        @click="markAsSent"
     >
       {{ $t('soldOrderDetailsPage.action.sent') }}
     </v-btn>
@@ -39,7 +44,20 @@
         text
         color="#1976d2"
         large
+        :disabled="!actions.canBeMarkedAsReturnDelivered"
+        @click="confirmReturnDelivered"
+    >
+      {{ $t('soldOrderDetailsPage.action.returnDelivered') }}
+    </v-btn>
+
+    <v-btn
+        class="button"
+        elevation="0"
+        text
+        color="#1976d2"
+        large
         :disabled="!actions.canBeCancelled"
+        @click="cancelOrder"
     >
       {{ $t('soldOrderDetailsPage.action.cancel') }}
     </v-btn>
@@ -61,11 +79,36 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const showExchangeButtons = props.orderType === OrderType.EXCHANGE;
 
+    const acceptExchange = () => {
+      emit('acceptExchange');
+    }
+
+    const discardExchange = () => {
+      emit('discardExchange');
+    }
+
+    const markAsSent = () => {
+      emit('markAsSent');
+    }
+
+    const confirmReturnDelivered = () => {
+      emit('confirmReturnDelivered');
+    }
+
+    const cancelOrder = () => {
+      emit('cancelOrder');
+    }
+
     return {
-      showExchangeButtons
+      showExchangeButtons,
+      acceptExchange,
+      discardExchange,
+      markAsSent,
+      confirmReturnDelivered,
+      cancelOrder
     }
   }
 });

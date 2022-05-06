@@ -22,7 +22,8 @@
         </v-chip-group>
       </div>
 
-      <span class="price"> {{ offer.price.amount }} <span style="font-size: 1rem; font-weight:500">zł</span></span>
+      <span v-if="hasPrice" class="price"> {{ offer.price.amount }} <span style="font-size: 1rem; font-weight:500">zł</span></span>
+      <span v-else class="price">{{ $t('recommendations.freePrice') }}</span>
     </div>
   </v-card>
 </template>
@@ -70,9 +71,12 @@ export default defineComponent({
       return types;
     });
 
+    const hasPrice = props.offer.type !== OfferType.EXCHANGE_ONLY;
+
     return {
       goToOffer,
-      offerTypes
+      offerTypes,
+      hasPrice
     }
   }
 });
@@ -92,7 +96,6 @@ export default defineComponent({
 .offer {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   border-radius: 5px;
   width: 150px;
 }

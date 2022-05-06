@@ -8,11 +8,12 @@ export interface DetailedOffer {
     description: string;
     type: OfferType;
     seller: Seller;
-    price: Money;
+    price?: Money;
     location: string;
     category: Category;
     shipping: Shipping;
     inStock: number;
+    available: number;
 }
 
 export enum OfferType {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!!order">
+  <v-container v-if="order" class="pt-0 pb-0">
     <v-container class="container-standard-background margin-top-16 rounded main-container" v-if="!!order">
       <div class="order-details">
         <div class="info-container">
@@ -46,6 +46,9 @@
       <div class="order-actions">
         <order-details-actions
             :actions="order.availableActions.buyerActions"
+            @changeStatusToDelivered="changeStatusToDeliveredEventHandler"
+            @cancelOrder="cancelOrderEventHandler"
+            @returnOrder="returnOrderEventHandler"
         />
       </div>
     </v-container>
@@ -54,14 +57,17 @@
       <order-details-actions
           :actions="order.availableActions.buyerActions"
           class="margin-top-16"
+          @changeStatusToDelivered="changeStatusToDeliveredEventHandler"
+          @cancelOrder="cancelOrderEventHandler"
+          @returnOrder="returnOrderEventHandler"
       />
     </v-container>
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
-import { getOrderSnippet, OrderType, UserOrderSnippet } from '@/api/OrderApi';
+import { changeOrderStatus, getOrderSnippet, OrderStatus, OrderType, UserOrderSnippet } from '@/api/OrderApi';
 import { getMonth, getOrderStatus } from '@/mixin';
 import OrderDetailsOfferItem from '@/components/order-details/OrderDetailsOfferItem.vue';
 import OrderDetailsSummarySnippet from '@/components/order-details/OrderDetailsSummarySnippet.vue';
@@ -84,6 +90,7 @@ export default defineComponent({
 
     getOrderSnippet(root.$route.params.orderId)
       .then(response => order.value = response.data);
+
     const orderDate = computed(() => {
       let date = '';
       if (order.value === undefined) return '';
@@ -96,12 +103,36 @@ export default defineComponent({
       return date;
     });
 
+    const changeStatusToDeliveredEventHandler = () => {
+      if (order.value !== undefined) {
+        changeOrderStatus(order.value!.id, OrderStatus.DELIVERED)
+          .then(response => order.value = response.data);
+      }
+    }
+
+    const cancelOrderEventHandler = () => {
+      if (order.value !== undefined) {
+        changeOrderStatus(order.value!.id, OrderStatus.CANCELED)
+          .then(response => order.value = response.data);
+      }
+    }
+
+    const returnOrderEventHandler = () => {
+      if (order.value !== undefined) {
+        changeOrderStatus(order.value!.id, OrderStatus.RETURN_IN_PROGRESS)
+          .then(response => order.value = response.data);
+      }
+    }
+
     return {
       order,
       getOrderStatus,
       sellerName,
       orderDate,
-      showExchangeBooks
+      showExchangeBooks,
+      changeStatusToDeliveredEventHandler,
+      cancelOrderEventHandler,
+      returnOrderEventHandler
     }
   }
 });

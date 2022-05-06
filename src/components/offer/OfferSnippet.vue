@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="0" class="rounded">
+  <v-card elevation="0" class="rounded" v-if="!!offer">
     <v-card-title>{{ offer.book.title }}</v-card-title>
 
     <v-card-subtitle>{{ offer.book.author }}</v-card-subtitle>
@@ -10,7 +10,7 @@
       <div class="images-carousel">
         <v-carousel v-model="pictureIndex">
           <v-carousel-item
-              v-for="(picture, i) in pictures.value" :key="i"
+              v-for="(picture, i) in pictures" :key="i"
               :src="picture.url"
               reverse-transition="fade-transition"
               transition="fade-transition"
@@ -40,7 +40,7 @@
         <div>
           <v-chip-group>
             <v-chip
-                v-for="(offerType, i) in offerTypes.value"
+                v-for="(offerType, i) in offerTypes"
                 :key="i"
                 :color="offerType.color"
                 small
@@ -81,33 +81,36 @@
               hide-details
               type="number"
               style="width: 10pt"
-              v-bind="pickedQuantity"
+              v-model="pickedQuantity"
+              :disabled="!offer.available"
             />
             <span class="ml-1">z {{ offer.inStock }}</span>
           </div>
 
           <v-btn
-              v-if="canExchange.value"
+              v-if="canExchange"
               @click="addToBasket('EXCHANGE')"
               style="margin-top: 0.5rem"
               block
               large
               color="rgba(220, 179, 116, 0.5)"
               elevation="0"
+              :disabled="!offer.available"
           >
-            {{ $t('offer.snippet.proposeExchange') }}
+            {{ $t('offer.snippet.proposeExchange') }} <span v-if="!offer.available">({{ $t('offer.emptyStock') }})</span>
           </v-btn>
 
           <v-btn
-              v-if="canBuy.value"
+              v-if="canBuy"
               @click="addToBasket('BUY')"
               style="margin-top: 0.5rem"
               block
               large
               color="rgba(0, 184, 141, 0.5)"
               elevation="0"
+              :disabled="!offer.available"
           >
-            {{ $t('offer.snippet.buy') }}
+            {{ $t('offer.snippet.buy') }} <span v-if="!offer.available">({{ $t('offer.emptyStock') }})</span>
           </v-btn>
         </div>
       </div>
@@ -128,10 +131,12 @@ export default defineComponent({
       required: true
     }
   },
-  data(props) {
+  setup(props, { emit }) {
     const pickedQuantity = ref<number>(1);
     const addToBasket = (type: string) => {
-      addItemToBasket(props.offer.id, type as OrderType, pickedQuantity.value);
+      addItemToBasket(props.offer.id, type as OrderType, pickedQuantity.value)
+        .then(() => emit('itemAddedToBasket'))
+        .catch(() => emit('errorOnAddingToBasket'));
     };
     const pictureIndex = ref<number>(0);
     const exchangingBook = ref<Book>({

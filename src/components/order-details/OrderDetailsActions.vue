@@ -4,9 +4,10 @@
         class="button"
         elevation="0"
         text
-        color="#1976d2"
+        color="primary"
         large
         :disabled="!actions.canBeMarkedAsDelivered"
+        @click="changeStatusToDelivered"
     >
       {{ $t('orderDetailsPage.action.received') }}
     </v-btn>
@@ -17,7 +18,6 @@
         text
         color="primary"
         large
-        :ripple="false"
     >
       {{ $t('orderDetailsPage.action.rateSeller') }}
     </v-btn>
@@ -49,6 +49,7 @@
         color="primary"
         large
         :disabled="!actions.canBeCancelled"
+        @click="cancelOrder"
     >
       {{ $t('orderDetailsPage.action.cancel') }}
     </v-btn>
@@ -60,6 +61,7 @@
         color="#1976d2"
         large
         :disabled="!actions.canBeReturned"
+        @click="returnOrder"
     >
       {{ $t('orderDetailsPage.action.return') }}
     </v-btn>
@@ -75,6 +77,25 @@ export default defineComponent({
     actions: {
       type: Object as PropType<BuyerActions>,
       required: true
+    }
+  },
+  setup(_, { emit }) {
+    const changeStatusToDelivered = () => {
+      emit('changeStatusToDelivered');
+    }
+
+    const cancelOrder = () => {
+      emit('cancelOrder');
+    }
+
+    const returnOrder = () => {
+      emit('returnOrder');
+    }
+
+    return {
+      changeStatusToDelivered,
+      cancelOrder,
+      returnOrder
     }
   }
 });

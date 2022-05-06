@@ -39,5 +39,6 @@ export default defineComponent({
   flex-direction: row;
   gap: 16px;
   padding: 16px;
+  overflow-x: auto;
 }
 </style>

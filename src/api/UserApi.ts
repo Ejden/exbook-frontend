@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { apiHeaders } from '@/api/CommonTypings';
 
 interface UserApi {
     register(registerUserForm: RegisterUserForm): Promise<void>;
@@ -69,13 +70,13 @@ async function login(loginUserForm: LoginUserForm): Promise<void> {
 }
 
 async function register(registerUserForm: RegisterUserForm): Promise<void> {
-    return axios.post('api/auth/signup', {
+    return axios.post('api/signup', {
         email: registerUserForm.email,
         username: registerUserForm.username,
         firstName: registerUserForm.firstName,
         lastName: registerUserForm.lastName,
         password: registerUserForm.password
-    }, {headers: {'Content-Type': 'application/json'}});
+    }, { headers: apiHeaders });
 }
 
 export { getLoggedUserInfo, login, register, RegisterUserForm, LoginUserForm, UserInfo };

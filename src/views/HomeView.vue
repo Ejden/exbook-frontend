@@ -3,7 +3,7 @@
     <div class="home">
       <categories class="categories"/>
 
-      <recommended-offers class="ml-4 recommendations"/>
+      <recommended-offers class="recommendations"/>
     </div>
   </v-container>
 </template>
@@ -24,6 +24,8 @@ export default defineComponent({
 <style scoped>
 .home {
   display: flex;
+  flex-direction: row;
+  gap: 16px;
 }
 
 .categories {
@@ -32,5 +34,21 @@ export default defineComponent({
 
 .recommendations {
   flex-basis: 90%;
+  max-width: 90%;
+}
+
+@media screen and (max-width: 768px) {
+  .home {
+    flex-direction: column-reverse;
+  }
+
+  .categories {
+    flex-basis: 100%;
+  }
+
+  .recommendations {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
 }
 </style>

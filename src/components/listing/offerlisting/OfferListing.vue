@@ -14,16 +14,16 @@
           class="sorting-methods-select"
           @change="sortResults()"
         />
-
-        <v-btn
-            class="filter-button"
-            text
-            @click="showFiltersModal"
-            left
-        >
-          {{ $t('listing.filtersButtonText') }}
-        </v-btn>
       </div>
+
+      <v-btn
+          class="filter-button"
+          @click="showFiltersModal"
+          left
+          icon
+      >
+        <v-icon>fas fa-filter</v-icon>
+      </v-btn>
 
       <v-pagination
         total-visible="3"
@@ -131,6 +131,12 @@ export default defineComponent({
 @media screen and (min-width: 900px) {
   .filter-button {
     display: none;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .sorting-methods-select {
+    max-width: 150px;
   }
 }
 </style>

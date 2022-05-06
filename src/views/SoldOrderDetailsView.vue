@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!!order">
+  <v-container v-if="!!order" class="pt-0 pb-0">
     <v-container class="container-standard-background margin-top-16 rounded main-container" v-if="!!order">
       <div class="order-details">
         <div class="info-container">
@@ -47,6 +47,11 @@
         <sold-order-details-actions
             :order-type="order.orderType"
             :actions="order.availableActions.sellerActions"
+            @acceptExchange="acceptExchangeEventHandler"
+            @discardExchange="discardExchangeEventHandler"
+            @markAsSent="markAsSentEventHandler"
+            @confirmReturnDelivered="confirmReturnDeliveredEventHandler"
+            @cancelOrder="cancelOrderEventHandler"
         />
       </div>
     </v-container>
@@ -56,14 +61,19 @@
           class="margin-top-16"
           :order-type="order.orderType"
           :actions="order.availableActions.sellerActions"
+          @acceptExchange="acceptExchangeEventHandler"
+          @discardExchange="discardExchangeEventHandler"
+          @markAsSent="markAsSentEventHandler"
+          @confirmReturnDelivered="confirmReturnDeliveredEventHandler"
+          @cancelOrder="cancelOrderEventHandler"
       />
     </v-container>
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
-import { getOrderSnippet, OrderType, UserOrderSnippet } from '@/api/OrderApi';
+import { changeOrderStatus, getOrderSnippet, OrderStatus, OrderType, UserOrderSnippet } from '@/api/OrderApi';
 import { getMonth } from '@/mixin';
 import { getOrderStatus } from '@/mixin';
 import SoldOrderDetailsOfferItem from '@/components/sold-order-details/SoldOrderDetailsOfferItem.vue';
@@ -97,12 +107,52 @@ export default defineComponent({
       return date;
     });
 
+    const acceptExchangeEventHandler = () => {
+      if (order.value !== undefined) {
+        changeOrderStatus(order.value!.id, OrderStatus.ACCEPTED)
+          .then(response => order.value = response.data);
+      }
+    }
+
+    const discardExchangeEventHandler = () => {
+      if (order.value !== undefined) {
+        changeOrderStatus(order.value!.id, OrderStatus.DECLINED)
+            .then(response => order.value = response.data);
+      }
+    }
+
+    const markAsSentEventHandler = () => {
+      if (order.value !== undefined) {
+        changeOrderStatus(order.value!.id, OrderStatus.SENT)
+            .then(response => order.value = response.data);
+      }
+    }
+
+    const confirmReturnDeliveredEventHandler = () => {
+      if (order.value !== undefined) {
+        changeOrderStatus(order.value!.id, OrderStatus.RETURN_DELIVERED)
+            .then(response => order.value = response.data);
+      }
+    }
+
+    const cancelOrderEventHandler = () => {
+      if (order.value !== undefined) {
+        changeOrderStatus(order.value!.id, OrderStatus.CANCELED)
+            .then(response => order.value = response.data);
+      }
+    }
+
     return {
       order,
       buyerName,
       orderDate,
       getOrderStatus,
-      showExchangeBooks
+      showExchangeBooks,
+      acceptExchangeEventHandler,
+      discardExchangeEventHandler,
+      markAsSentEventHandler,
+      confirmReturnDeliveredEventHandler,
+      cancelOrderEventHandler
     }
   }
 });

@@ -20,7 +20,7 @@
       </v-container>
 
       <v-container class="container-standard-background rounded">
-        <offers-recommendations/>
+        <recommended-offers/>
       </v-container>
     </v-container>
 
@@ -47,21 +47,16 @@
       </v-container>
     </v-container>
 
-    <notification-popup
-        :type="notificationType"
-        close-button-message="Zamknij"
-        :duration="notificationDuration"
-        message="Dodano książkę"
+    <message-popup
         v-model="showNotification"
+        :message="$t('basket.bookAdded')"
+        :close-message="$t('basket.closePopup')"
      />
   </div>
 </template>
 
 <script lang="ts">
-import OffersRecommendations from '@/components/offer/OffersRecommendations.vue';
 import BasketPriceContainer from '@/components/basket/BasketPriceContainer.vue';
-import { NotificationType } from '@/components/notification/@types/NotificationType';
-import { NotificationDuration } from '@/components/notification/@types/NotificationDuration';
 import { computed, defineComponent, onBeforeMount, ref } from '@vue/composition-api';
 import {
   addExchangeBookToBasket,
@@ -75,15 +70,16 @@ import BasketItemsGroup, {
   RemoveItemEvent
 } from '@/components/basket/BasketItemsGroup.vue';
 import { AddExchangeBookEvent } from '@/components/basket/@types/AddExchangeBookEvent';
-import NotificationPopup from '@/components/notification/NotificationPopup.vue';
 import { RemoveExchangeBookEvent } from '@/components/basket/@types/RemoveExchangeBookEvent';
 import router from '@/router';
+import MessagePopup from '@/components/message-popup/MessagePopup.vue';
+import RecommendedOffers from '@/components/home/RecommendedOffers.vue';
 
 export default defineComponent({
   components: {
-    NotificationPopup,
+    RecommendedOffers,
+    MessagePopup,
     BasketItemsGroup,
-    OffersRecommendations,
     BasketPriceContainer
   },
   setup() {
@@ -91,9 +87,7 @@ export default defineComponent({
     const basketIsLoading = computed(() => basket.value === undefined);
     const basketIsEmpty = computed(() => basket.value?.itemsGroups.length === 0);
     const nextStepButtonLoading = ref<boolean>(false);
-    const notificationType = ref<NotificationType>(NotificationType.INFO);
     const showNotification = ref(false);
-    const notificationDuration = NotificationDuration.NORMAL;
     const enableLoadingState = () => nextStepButtonLoading.value = true;
     const disableLoadingState = () => nextStepButtonLoading.value = false;
     const itemQuantityChangedEventHandler = ({ offerId, newQuantity, orderType } : BasketItemGroupQuantityChangeEvent) => {
@@ -155,9 +149,7 @@ export default defineComponent({
       addExchangeBookEventHandler,
       removeExchangeBookEventHandler,
       nextStepButtonLoading,
-      notificationType,
       showNotification,
-      notificationDuration,
       pickDeliveryEventHandler
     }
   }

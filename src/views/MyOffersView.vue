@@ -1,10 +1,6 @@
 <template>
   <div class="main">
-    <v-container v-if="thereAreNoOffers" class="no-orders-container">
-      <span>{{ $t('myOffersPage.noOffers') }}</span>
-    </v-container>
-
-    <div v-else class="orders-container">
+    <div class="offers-container">
       <v-container>
         <v-pagination
             v-model="page"
@@ -12,7 +8,12 @@
         />
       </v-container>
 
+      <v-container v-if="thereAreNoOffers" class="no-offers-container">
+        <span>{{ $t('myOffersPage.noOffers') }}</span>
+      </v-container>
+
       <v-container
+          v-else
           v-for="offer in offers"
           :key="offer.id"
       >
@@ -70,5 +71,22 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.main {
+  height: 100%;
+  margin: auto;
+}
 
+.no-offers-container {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.offers-container {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  max-width: 1000px;
+}
 </style>
