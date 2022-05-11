@@ -20,7 +20,7 @@
       </div>
       <div class="offer-info">
         <div style="display: flex; flex-direction: column">
-          <h2>{{ offer.book.title }}</h2>
+          <h2 class="book-title">{{ offer.book.title }}</h2>
           <div style="display: flex; align-items: center; flex-wrap: wrap">
             <span>{{ $t('offer.snippet.from') }} <strong>{{ offer.seller.username }}</strong></span>
             <v-rating
@@ -290,6 +290,10 @@ export default defineComponent({
   .images-carousel {
     max-width: 100%;
     margin-right: 0;
+  }
+
+  .book-title {
+    margin-top: 16px;
   }
 }
 </style>

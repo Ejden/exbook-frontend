@@ -73,32 +73,38 @@ export default defineComponent({
       savedMoney
     }
   }
-})
+});
 </script>
 
 <style scoped>
-  .main {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-  }
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
 
-  .statistics {
-    display: flex;
-    width: 100%;
-    flex-wrap: wrap;
-    padding: 0 12pt 12pt 12pt;
-    justify-content: space-between;
-  }
+.statistics {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 0 12pt 12pt 12pt;
+  justify-content: space-between;
+}
 
-  .stat-tile {
-    text-align: center;
-    width: 25pt;
-    padding: 10pt;
-    flex: 1 0 21%;
-  }
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-align: center;
+  padding: 10pt;
+  flex: 1 0 21%;
+}
 
-  .stat-value {
-    color: #42b983;
-  }
+.stat-value {
+  color: #42b983;
+}
+
+@media screen {
+
+}
 </style>

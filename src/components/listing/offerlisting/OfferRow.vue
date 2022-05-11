@@ -79,47 +79,61 @@ export default defineComponent({
       offerTypes
     }
   }
-})
+});
 </script>
 
 <style scoped>
+.thumbnail {
+  height: 100%;
+  margin-right: 1rem;
+}
+
+.image {
+  height: 100%;
+  border-radius: 5pt 0 0 5pt;
+}
+
+.offer {
+  display: flex;
+  overflow: hidden;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.offer:hover {
+  background: #c1d5ff;
+}
+
+.offer-info {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.price {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-top: auto;
+  margin-bottom: 0.5rem;
+}
+
+@media screen and (max-width: 900px) {
   .thumbnail {
-    height: 130px;
-    margin-right: 1rem;
+    height: 80px;
   }
 
-  .image {
-    height: 100%;
-    border-radius: 5pt 0 0 5pt;
+  .title {
+    font-size: 8pt;
   }
 
   .offer {
-    display: flex;
-    overflow: hidden;
-    border-radius: 5px;
-    padding: 10px;
-  }
-
-  .offer:hover {
-    background: #c1d5ff;
-  }
-
-  .offer-info {
-    display: flex;
-    flex: 1;
-    height: 100%;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .price {
-    font-size: 1.5rem;
-    font-weight: 500;
-    margin-top: auto;
-    margin-bottom: 0.5rem;
+    overflow: visible;
   }
 
   .seller-info {
-
+    display: none;
   }
+}
 </style>

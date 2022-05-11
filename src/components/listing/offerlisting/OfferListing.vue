@@ -136,7 +136,12 @@ export default defineComponent({
 
 @media screen and (max-width: 900px) {
   .sorting-methods-select {
-    max-width: 150px;
+    max-width: 100px;
+  }
+
+  .offer {
+    height: auto;
+    min-height: 150px;
   }
 }
 </style>

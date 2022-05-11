@@ -1,43 +1,65 @@
 <template>
-  <div class="main">
-    <v-img
-        :src="item.offer.images.thumbnail.url"
-        max-height="80"
-        max-width="80"
-        class="image image-link"
-        @click="goToOffer"
-    />
-
-    <div class="author-and-title">
-      <span style="font-weight: bolder" @click="goToOffer" class="link">{{ item.offer.book.title }}</span>
-      <span>{{ item.offer.book.author }}</span>
-    </div>
-
-    <div class="quantity-input-container">
-      <v-text-field
-          class="quantity-input"
-          type="number"
-          v-model.number="itemQuantity"
-          outlined
-          dense
-          hide-details
+  <div>
+    <div class="main">
+      <v-img
+          :src="item.offer.images.thumbnail.url"
+          max-height="80"
+          max-width="80"
+          class="image image-link"
+          @click="goToOffer"
       />
-    </div>
 
-    <div class="price-container">
-      <div class="price">
-        <span>{{ item.totalPrice.amount }} {{ item.totalPrice.currency }}</span>
-        <span v-if="quantityIsNotOne" class="price-per-piece"> za sztukę: {{ item.offer.price.amount }} {{ item.offer.price.currency }}</span>
+      <div class="author-and-title">
+        <span style="font-weight: bolder" @click="goToOffer" class="link">{{ item.offer.book.title }}</span>
+        <span>{{ item.offer.book.author }}</span>
+      </div>
+
+      <div class="quantity-input-container">
+        <v-text-field
+            class="quantity-input"
+            type="number"
+            v-model.number="itemQuantity"
+            outlined
+            dense
+            hide-details
+        />
+      </div>
+
+      <div class="price-container">
+        <div class="price">
+          <span>{{ item.totalPrice.amount }} {{ item.totalPrice.currency }}</span>
+          <span v-if="quantityIsNotOne" class="price-per-piece"> za sztukę: {{ item.offer.price.amount }} {{ item.offer.price.currency }}</span>
+        </div>
+      </div>
+
+      <div class="remove-button-container">
+        <v-btn icon>
+          <v-icon
+              size="20"
+              @click="removeItem"
+          >far fa-trash-alt</v-icon>
+        </v-btn>
       </div>
     </div>
 
-    <div class="remove-button-container">
-      <v-btn icon>
-        <v-icon
-            size="20"
-            @click="removeItem"
-        >far fa-trash-alt</v-icon>
-      </v-btn>
+    <div class="mobile-lower-row">
+      <div class="mobile-quantity-input-container">
+        <v-text-field
+            class="quantity-input"
+            type="number"
+            v-model.number="itemQuantity"
+            outlined
+            dense
+            hide-details
+        />
+      </div>
+
+      <div class="mobile-price-container">
+        <div class="price">
+          <span>{{ item.totalPrice.amount }} {{ item.totalPrice.currency }}</span>
+          <span v-if="quantityIsNotOne" class="price-per-piece"> za sztukę: {{ item.offer.price.amount }} {{ item.offer.price.currency }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -132,5 +154,38 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+
+.mobile-lower-row {
+  display: none;
+}
+
+.mobile-quantity-input-container {
+  display: flex;
+  align-items: center;
+  margin-right: 20pt;
+}
+
+.mobile-price-container {
+  display: flex;
+  align-items: center;
+  width: 150px;
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 768px) {
+  .mobile-lower-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+
+  .price-container {
+    display: none;
+  }
+
+  .quantity-input-container {
+    display: none;
+  }
 }
 </style>
