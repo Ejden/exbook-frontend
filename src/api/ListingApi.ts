@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Page } from '@/typings/Page';
 
 export interface DetailedOffer {
@@ -8,11 +8,12 @@ export interface DetailedOffer {
     description: string;
     type: OfferType;
     seller: Seller;
-    price: Money;
+    price?: Money;
     location: string;
     category: Category;
     shipping: Shipping;
     inStock: number;
+    available: number;
 }
 
 export enum OfferType {
@@ -29,7 +30,7 @@ export interface Book {
 }
 
 export enum BookCondition {
-    NEW= 'NEW',
+    NEW = 'NEW',
     PERFECT = 'PERFECT',
     LIGHTLY_USED = 'LIGHTLY_USED',
     MODERATELY_USED = 'MODERATELY_USED',
@@ -71,8 +72,38 @@ export interface ShippingMethod {
     price: Money;
 }
 
-export async function getListing() {
-    return axios.get('api/listing')
+export async function getListing(
+    searchingPhrase: string,
+    bookConditions?: string[],
+    offerTypes?: string[],
+    priceFrom?: number,
+    priceTo?: number,
+    location?: string,
+    categoryId?: string
+): Promise<Page<DetailedOffer>> {
+    const url = new URL("/api/listing", axios.defaults.baseURL);
+    if (searchingPhrase !== undefined) {
+        url.searchParams.append("search", searchingPhrase);
+    }
+    if (bookConditions !== undefined) {
+        bookConditions.filter(it => it !== undefined).forEach(it => url.searchParams.append("condition", it));
+    }
+    if (offerTypes !== undefined) {
+        offerTypes.filter(it => it !== undefined).forEach(it => url.searchParams.append("offerType", it));
+    }
+    if (priceFrom !== undefined) {
+        url.searchParams.append("priceFrom", priceFrom.toString());
+    }
+    if (priceTo !== undefined) {
+        url.searchParams.append("priceTo", priceTo.toString());
+    }
+    if (location !== undefined) {
+        url.searchParams.append("location", location);
+    }
+    if (categoryId !== undefined) {
+        url.searchParams.append("category", categoryId);
+    }
+    return axios.get(url.href)
         .then(response => response.data as Page<DetailedOffer>);
 }
 
@@ -80,4 +111,8 @@ export async function getSingleOffer(offerId: string) {
     const offerUrl = 'api/listing/' + offerId;
     return axios.get(offerUrl)
         .then(response => response.data as DetailedOffer);
+}
+
+export async function getUserOffers(page: number, perPage: number): Promise<AxiosResponse<Page<DetailedOffer>>> {
+    return axios.get('api/sale/offers?p=' + page + '&size=' + perPage);
 }

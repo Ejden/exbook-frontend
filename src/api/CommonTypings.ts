@@ -22,6 +22,12 @@ export enum ShippingMethodType {
     PERSONAL_DELIVERY = 'PERSONAL_DELIVERY'
 }
 
+export enum OfferType {
+    BUY_ONLY = 'BUY_ONLY',
+    EXCHANGE_ONLY = 'EXCHANGE_ONLY',
+    EXCHANGE_AND_BUY = 'EXCHANGE_AND_BUY'
+}
+
 export const acceptHeader = {
     'Accept': 'application/vnd.exbook.v1+json'
 }

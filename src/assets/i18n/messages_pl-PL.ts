@@ -14,6 +14,7 @@ export default {
         quickActions: 'Szybkie akcje',
         myOrders: 'Moje zamówienia',
         observableOffers: 'Oberwowane oferty',
+        soldOrders: 'Moja sprzedaż',
         myOffers: 'Moje oferty',
         createOffer: 'Wystaw ofertę',
         myStatistics: 'Twoje statystyki',
@@ -32,12 +33,21 @@ export default {
         status: 'Status',
         summaryWithShipping: 'Łącznie z dostawą',
         orderStatus: {
-            new: 'NOWE',
-            declined: 'ODRZUCONE',
-            accepted: 'ZAAKCEPTOWANE',
-            returned: 'ZWRÓCONE',
-            unknown: 'NIEZNANE'
-        }
+            new: 'Nowe',
+            declined: 'Odrzucone',
+            accepted: 'Zaakceptowane',
+            returnInProgress: 'Oczekuje na zwrot',
+            returnDelivered: 'Zwrócono',
+            waitingForAccept: 'Oczekuje na akceptację',
+            canceled: 'Anulowane',
+            sent: 'Wysłano',
+            delivered: 'Dostarczono',
+            unknown: 'Nieznany'
+        },
+        latestSold: 'Ostatnio sprzedane',
+        noSoldOrders: 'Wygląda na to, że nie sprzedałeś nic ostatnio...',
+        buyer: 'Kupujący',
+        orderDetails: 'Szczegóły Zamówienia'
     },
     basket: {
         exchangePropose: 'Propozycja wymiany',
@@ -66,7 +76,9 @@ export default {
             add: 'Dodaj',
             cancel: 'Anuluj'
         },
-        empty: 'Wygląda na to, że twój koszyk jest pusty...'
+        empty: 'Wygląda na to, że twój koszyk jest pusty...',
+        bookAdded: 'Dodano książkę',
+        closePopup: 'Zamknij'
     },
     bookCondition: {
         new: 'Nowa',
@@ -113,10 +125,14 @@ export default {
             tip3: 'W opisie możesz wpisać książki, które Cię najbardziej interesują do wymiany!'
         },
         submitOffer: 'Dodaj ogłoszenie',
-        shippingMethods: 'Metody dostawy*'
+        shippingMethods: 'Metody dostawy*',
+        autofill: 'Autouzupełnij',
+        errorFillingBookData: 'Nie znaleziono książki',
+        closeErrorFillingBookData: 'Zamknij'
     },
     home: {
-        recommendedOffers: 'Polecane oferty'
+        recommendedOffers: 'Polecane oferty',
+        free: 'Darmowe'
     },
     listing: {
         subcategories: 'Podkategorie',
@@ -141,7 +157,8 @@ export default {
             exchange: 'Wymień'
         },
         filtersButtonText: 'Pokaż filtry',
-        filtersModalTitle: 'Filtry'
+        filtersModalTitle: 'Filtry',
+        refresh: 'Odśwież wyniki'
     },
     menu: {
         modal: {
@@ -183,7 +200,11 @@ export default {
             userId: 'Id użytkownika:',
             username: 'Nazwa użytkownika:',
             userGrade: 'Ocena użytkownika:'
-        }
+        },
+        closeInfoMessage: 'Zamknij',
+        errorMessage: 'Nie udało się dodać ksiażki do koszyka',
+        addedToBasket: 'Dodano do koszyka',
+        emptyStock: 'Brak towaru'
     },
     offerRecommendations: {
         title: 'Rekomendacje'
@@ -228,7 +249,8 @@ export default {
             city: 'Miasto',
             country: 'Kraj wysyłki',
             submit: 'Zatwierdź',
-            cancel: 'Anuluj'
+            cancel: 'Anuluj',
+            required: 'Wymagane'
         },
         loading: 'Momencik... Przeliczamy twoje zamówienie'
     },
@@ -236,6 +258,53 @@ export default {
         title: 'Dziękujemy za zakup',
         description: 'Szczegóły na temat tego zamówienia możesz znaleźć na swoim koncie',
         goToMyOrders: 'Przejdź do moich zamówień'
+    },
+    orderDetailsPage: {
+        status: 'Status:',
+        seller: 'Sprzedawca:',
+        shippingMethod: 'Metoda dostawy',
+        actions: 'Akcje',
+        summaryWithShipping: 'Łącznie z dostawą',
+        shipping: 'Dostawa',
+        noShippingDetails: 'Brak szczegółów',
+        shippingType: {
+            pickupDelivery: 'Odbiór w punkcie',
+            addressDelivery: 'Dostawa na adres',
+            personalDelivery: 'Odbiór osobisty'
+        },
+        action: {
+            return: 'Zwróć zamówienie',
+            cancel: 'Anuluj zamówienie',
+            rateSeller: 'Oceń sprzedawcę',
+            rateOffer: 'Oceń ofertę',
+            rateBook: 'Oceń książkę',
+            received: 'Oznacz jako dostarczone'
+        },
+        orderId: 'Identyfikator zamówienia'
+    },
+    soldOrderDetailsPage: {
+        status: 'Status:',
+        buyer: 'Kupujący:',
+        summaryWithShipping: 'Łącznie z dostawą',
+        noShippingDetails: 'Brak szczegółów',
+        action: {
+            accept: 'Zaakceptuj wymianę',
+            discard: 'Odrzuć wymianę',
+            sent: 'Oznacz jako wysłane',
+            cancel: 'Anuluj zamówienie',
+            returnDelivered: 'Dostarczono zwrot'
+        },
+        orderId: 'Identyfikator zamówienia'
+    },
+    myOrdersPage: {
+        noOrders: 'Wygląda na to, że nie posiadasz żadnych zamówień o podanych kryteriach',
+        filters: 'Filtruj',
+        status: 'Status'
+    },
+    myOffersPage: {
+        noOffers: 'Wygląda na to, że nie posiadasz żadnych ofert...',
+        edit: 'Edytuj',
+        terminate: 'Zakończ'
     },
     loginPage: {
         title: 'Zaloguj się',
@@ -255,6 +324,9 @@ export default {
         confirmPassword: 'Potwierdź hasło',
         register: 'Zarejestruj'
     },
+    recommendations: {
+        freePrice: 'Tylko wymiana'
+    },
     errorPage: {
         title: 'Oh no...',
         description: 'Wygląda na to, że wystąpił nieoczekiwany błąd. Spróbuj ponownie później.'
@@ -263,5 +335,19 @@ export default {
         code: '404',
         title: 'Wygląda na to, że się zgubiłeś...',
         description: 'Nie mogliśmy znaleźć żądanej strony'
+    },
+    months: {
+        january: 'Stycznia',
+        february: 'Lutego',
+        march: 'Marca',
+        april: 'Kwietnia',
+        may: 'Maja',
+        june: 'Czerwca',
+        july: 'Lipca',
+        august: 'Sierpnia',
+        september: 'Września',
+        october: 'Października',
+        november: 'Listopada',
+        december: 'Grudnia'
     }
 }

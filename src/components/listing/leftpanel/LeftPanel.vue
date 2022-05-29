@@ -2,9 +2,8 @@
   <v-card
       elevation="0"
   >
-    <v-card-title class="section-title">{{ $t('listing.subcategories') }}</v-card-title>
-
     <v-card-title class="section-title">{{ $t('listing.filters') }}</v-card-title>
+
     <v-card-text class="condition-box">
       <h3 class="subsection-title">{{ $t('listing.condition') }}</h3>
 
@@ -36,7 +35,10 @@
         <v-text-field
           outlined
           dense
-          v-model="priceFromFilter"
+          :value="priceFromFilter"
+          @input="lazyCallerPriceFrom($event)"
+          @focusout="lazyCallerPriceFrom($event.target.value, true)"
+          @keydown.enter="lazyCallerPriceFrom($event.target.value, true)"
           :placeholder="$t('listing.priceFrom')"
           style="margin-right: 1rem"
         />
@@ -44,7 +46,10 @@
         <v-text-field
           outlined
           dense
-          v-model="priceToFilter"
+          :value="priceToFilter"
+          @input="lazyCallerPriceTo($event)"
+          @focusout="lazyCallerPriceTo($event.target.value, true)"
+          @keydown.enter="lazyCallerPriceTo($event.target.value, true)"
           :placeholder="$t('listing.priceTo')"
           style="margin-left: 1rem"
         />
@@ -57,27 +62,59 @@
         dense
         v-model="locationFilter"
         :placeholder="$t('listing.city')"
+        @focusout="updateLocationFilter"
+        @keydown.enter="updateLocationFilter"
       />
     </v-card-text>
   </v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
-import { SearchFilter } from '@/components/listing/leftpanel/typings/SearchFilter';
+import { defineComponent, ref, watch } from '@vue/composition-api';
+import { ConditionFilter, OfferType, OfferTypeFilter } from '@/components/listing/leftpanel/typings';
 import { i18n } from '@/main';
+import { BookCondition } from '@/api/CommonTypings';
 
 export default defineComponent({
-  setup() {
+  props: {
+    offerTypes: {
+      required: false
+    },
+    priceFrom: {
+      type: String,
+      required: false
+    },
+    priceTo: {
+      type: String,
+      required: false
+    },
+    location: {
+      type: String,
+      required: false
+    },
+    bookConditions: {
+      required: false
+    }
+  },
+  setup(props, { emit }) {
+    const bookConditions = (props.bookConditions instanceof String) ? [props.bookConditions] : props.bookConditions as Array<string>;
+    const offerTypes = (props.offerTypes instanceof String) ? [props.offerTypes] : props.offerTypes as Array<string>;
+
     const {
       selectedConditionFilters,
       selectedOfferTypeFilters,
       priceFromFilter,
+      lazyCallerPriceFrom,
       priceToFilter,
+      lazyCallerPriceTo,
       locationFilter,
       conditionFilters,
       offerTypesFilters
-    } = useFilters();
+    } = useFilters(emit, offerTypes as Array<string>, props.priceFrom, props.priceTo, props.location, bookConditions as Array<string>);
+
+    const updateLocationFilter = () => {
+      emit('locationUpdated', locationFilter.value);
+    }
 
     return {
       selectedConditionFilters,
@@ -86,47 +123,89 @@ export default defineComponent({
       priceToFilter,
       locationFilter,
       conditionFilters,
-      offerTypesFilters
+      offerTypesFilters,
+      lazyCallerPriceFrom,
+      lazyCallerPriceTo,
+      updateLocationFilter
     }
   }
 });
 
-function useFilters() {
-  const selectedConditionFilters = ref<SearchFilter[]>([]);
-  const selectedOfferTypeFilters = ref<SearchFilter[]>([]);
-  const priceFromFilter = ref('');
-  const priceToFilter = ref('');
-  const locationFilter = ref('');
-  const conditionFilters: SearchFilter[] = [
+function useFilters(emit: any, types?: string[], priceFrom?: string, priceTo?: string, location?: string, condition?: string[]) {
+  const selectedConditionFilters = ref<string[]>(condition || []);
+  const selectedOfferTypeFilters = ref<string[]>(types || []);
+  const priceFromFilter = ref<string>(priceFrom || '');
+  const priceToFilter = ref<string>(priceTo || '');
+  const locationFilter = ref<string>(location || '');
+  const timeoutPriceFrom = ref<number | undefined>(undefined);
+  const timeoutPriceTo = ref<number | undefined>(undefined);
+
+  const lazyCallerPriceFrom = (value?: any, forceUpdate: boolean = false) => {
+    clearTimeout(timeoutPriceFrom.value);
+    if (value === priceFromFilter?.value && !forceUpdate) return;
+    if (forceUpdate) {
+      priceFromFilter.value = value;
+      emit('priceFromUpdated', value);
+    } else {
+      timeoutPriceFrom.value = setTimeout(() => {
+        priceFromFilter.value = value;
+        emit('priceFromUpdated', value);
+      }, 1500);
+    }
+  }
+
+  const lazyCallerPriceTo = (value?: any, forceUpdate: boolean = false) => {
+    clearTimeout(timeoutPriceTo.value);
+    if (value === priceToFilter?.value && !forceUpdate) return;
+    if (forceUpdate) {
+      priceToFilter.value = value;
+      emit('priceToUpdated', value);
+    } else {
+      timeoutPriceTo.value = setTimeout(() => {
+        priceToFilter.value = value;
+        emit('priceToUpdated', value);
+      }, 1500)
+    }
+  }
+
+  watch(selectedConditionFilters, (selectedConditions: string[]) => {
+    emit('bookConditionUpdated', selectedConditions);
+  });
+
+  watch(selectedOfferTypeFilters, (selectedOfferTypes: string[]) => {
+    emit('offerTypeUpdated', selectedOfferTypes);
+  });
+
+  const conditionFilters: ConditionFilter[] = [
     {
       name: i18n.t('listing.conditionFilters.new') as string,
-      value: 'NEW'
+      value: BookCondition.NEW
     },
     {
       name: i18n.t('listing.conditionFilters.perfect') as string,
-      value: 'PERFECT'
+      value: BookCondition.PERFECT
     },
     {
       name: i18n.t('listing.conditionFilters.lightlyUsed') as string,
-      value: 'LIGHTLY_USED'
+      value: BookCondition.LIGHTLY_USED
     },
     {
       name: i18n.t('listing.conditionFilters.moderatelyUsed') as string,
-      value: 'MODERATELY_USED'
+      value: BookCondition.MODERATELY_USED
     },
     {
       name: i18n.t('listing.conditionFilters.bad') as string,
-      value: 'BAD'
+      value: BookCondition.BAD
     }
   ];
-  const offerTypesFilters: SearchFilter[] = [
+  const offerTypesFilters: OfferTypeFilter[] = [
     {
       name: i18n.t('listing.offerTypeFilters.buy') as string,
-      value: 'BUY'
+      value: OfferType.BUY
     },
     {
       name: i18n.t('listing.offerTypeFilters.exchange') as string,
-      value: 'EXCHANGE'
+      value: OfferType.EXCHANGE
     }
   ];
 
@@ -134,7 +213,9 @@ function useFilters() {
     selectedConditionFilters,
     selectedOfferTypeFilters,
     priceFromFilter,
+    lazyCallerPriceFrom,
     priceToFilter,
+    lazyCallerPriceTo,
     locationFilter,
     conditionFilters,
     offerTypesFilters

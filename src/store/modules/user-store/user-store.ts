@@ -1,6 +1,7 @@
 import { RegisterUserForm, UserInfo, LoginUserForm, register, login, getLoggedUserInfo } from "@/api/UserApi";
 import { VuexModule , Module, Mutation, Action } from "vuex-module-decorators";
 import { LoggedUser } from "@/store/modules/user-store/types/user";
+import router from '@/router';
 
 export interface IUserState {
     loggedUser?: LoggedUser;
@@ -42,6 +43,7 @@ export default class UserModule extends VuexModule implements IUserState {
     @Action
     public async logout(): Promise<void> {
         this.clearUser();
+        await router.push({name: 'Home'})
     }
 
     @Mutation

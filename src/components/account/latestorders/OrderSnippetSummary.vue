@@ -16,13 +16,13 @@ export default defineComponent({
       required: true
     }
   }
-})
+});
 </script>
 
 <style scoped>
-  .main {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bolder;
-  }
+.main {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bolder;
+}
 </style>

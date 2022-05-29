@@ -1,8 +1,8 @@
-import { Money } from '@/api/ShippingApi';
+import { Money, ShippingMethodType } from '@/api/CommonTypings';
 
 export interface NewOfferShippingMethod {
     id: string;
     name: string;
-    pickupPointMethod: boolean;
+    type: ShippingMethodType;
     price: Money;
 }

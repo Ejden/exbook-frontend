@@ -103,7 +103,7 @@ export default defineComponent({
 
     const makePurchaseEventHandler = () => {
       realisePurchase()
-        .then(() => router.push({ name: 'Home' }));
+        .then(() => router.push({ name: 'PurchaseRealised' }));
     }
 
     return {

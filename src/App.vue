@@ -2,11 +2,9 @@
   <v-app>
     <NavBar/>
     <v-main class="app">
-      <router-view/>
+      <router-view class="margin-bottom-16" :key="$route.fullPath"/>
     </v-main>
-    <Footer>
-
-    </Footer>
+    <Footer/>
   </v-app>
 </template>
 
@@ -19,7 +17,7 @@ export default defineComponent({
     NavBar,
     Footer
   }
-})
+});
 </script>
 
 <style>

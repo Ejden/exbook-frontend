@@ -25,7 +25,7 @@
 
           <v-text-field
               :label="$t('registerPage.username')"
-              v-model="registerForm.login"
+              v-model="registerForm.username"
           />
 
           <v-text-field

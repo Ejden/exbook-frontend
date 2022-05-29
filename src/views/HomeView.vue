@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <div class="home">
-      <categories/>
+      <categories class="categories"/>
 
-      <recommended-offers class="ml-4 recommendations"/>
+      <recommended-offers class="recommendations"/>
     </div>
   </v-container>
 </template>
@@ -18,15 +18,37 @@ export default defineComponent({
     Categories,
     RecommendedOffers
   }
-})
+});
 </script>
 
 <style scoped>
+.home {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+.categories {
+  flex-basis: 10%;
+}
+
+.recommendations {
+  flex-basis: 90%;
+  max-width: 90%;
+}
+
+@media screen and (max-width: 768px) {
   .home {
-    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .categories {
+    flex-basis: 100%;
   }
 
   .recommendations {
-    flex-grow: 1;
+    flex-basis: 100%;
+    max-width: 100%;
   }
+}
 </style>

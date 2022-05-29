@@ -6,7 +6,7 @@
     elevate-on-scroll
     class="main"
   >
-    <v-container class="app-bar">
+    <v-container v-if="!showFullSearchBar" class="app-bar">
       <router-link to="/">
         <v-img
             src="/img/Exbook_cr.svg"
@@ -29,9 +29,24 @@
       />
 
       <div>
+        <v-icon class="mr-5 search-button" @click="openSearch">fas fa-search</v-icon>
         <v-icon v-on:click="$router.push('/checkout')">fas fa-shopping-basket</v-icon>
         <menu-modal/>
       </div>
+    </v-container>
+
+    <v-container v-else class="app-bar">
+      <v-text-field
+          v-model="searchText"
+          dense
+          flat
+          hide-details
+          solo-inverted
+          :label="$t('appBar.searchBar.message')"
+          @keydown.enter="search"
+      />
+
+      <v-icon @click="closeSearch" class="margin-left-8">fas fa-times</v-icon>
     </v-container>
   </v-app-bar>
 </template>
@@ -46,35 +61,58 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const searchText = ref<string>('');
-    const search = () => root.$router.push({ name: 'Listing', query: { search: searchText.value }})
+    const search = () => {
+      if (searchText.value.trim().length !== 0) {
+        root.$router.replace({ name: 'Listing', query: { search: searchText.value } }).catch(() => {})
+      }
+    }
+    const showFullSearchBar = ref(false);
+
+    const openSearch = () => {
+      showFullSearchBar.value = true;
+    }
+    const closeSearch = () => {
+      showFullSearchBar.value = false;
+    }
 
     return {
       searchText,
-      search
+      search,
+      openSearch,
+      closeSearch,
+      showFullSearchBar
     }
   }
-})
+});
 </script>
 
 <style scoped>
+.app-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.search-bar {
+  max-width: 600px;
+}
+
+.search-button {
+  display: none;
+}
+
+@media only screen and (max-width: 900px) {
   .app-bar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-between !important;
+    padding: 0;
   }
 
   .search-bar {
-    max-width: 600px;
+    display: none;
   }
 
-  @media only screen and (max-width: 768px) {
-    .app-bar {
-      justify-content: space-between !important;
-      padding: 0;
-    }
-
-    .search-bar {
-      display: none;
-    }
+  .search-button {
+    display: unset;
   }
+}
 </style>

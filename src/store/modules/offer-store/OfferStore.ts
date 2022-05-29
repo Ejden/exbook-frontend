@@ -3,6 +3,7 @@ import { NewOfferForm, CreatedOffer, createOffer } from '@/api/OfferApi';
 import { ActionContext } from 'vuex';
 import { IRootState } from '@/store';
 import { OfferStoreState, PossibleOfferType, ShippingMethod } from '@/store/modules/offer-store/types';
+import { AxiosResponse } from 'axios';
 
 const availableOfferTypes: PossibleOfferType[] = [
     {
@@ -62,6 +63,7 @@ function parseToShippingMethod(shippingMethod: ShippingMethod) {
 const actions = {
     async addOffer(context: ActionContext<OfferStoreState, IRootState>) {
         const form = context.state.newOfferForm;
+        const price = (form.price === undefined || form.price.trim().length === 0) ? undefined : { amount: form.price, currency: 'PLN' }
 
         const body: NewOfferForm = {
             book: {
@@ -77,16 +79,17 @@ const actions = {
             },
             category: form.category,
             type: form.type.type,
-            price: { amount: form.price, currency: 'PLN' },
+            price: price,
             location: form.location,
             shippingMethods: form.shippingMethods.map((s: ShippingMethod) => parseToShippingMethod(s)),
             initialStock: form.initialStock
         };
 
+        console.log(body);
         createOffer(body)
-            .then((response: CreatedOffer) => {
+            .then((response: AxiosResponse<CreatedOffer>) => {
                 context.commit('clearNewOfferForm');
-                router.push('offer/' + response.id + '/new');
+                router.push('offer/' + response.data.id + '/new');
             })
             .catch(() => router.push('error'));
     }

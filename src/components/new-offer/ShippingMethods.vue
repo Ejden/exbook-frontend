@@ -39,10 +39,10 @@ export default defineComponent({
     onMounted(() => {
       getShippingMethods()
           .then(response => {
-            response.forEach(shippingMethod => {
+            response.data.shippingMethods.forEach(shippingMethod => {
               shippingMethods.value.push({
                 ...shippingMethod,
-                price: shippingMethod.defaultCost
+                price: shippingMethod.defaultCost.cost
               } as NewOfferShippingMethod);
             });
           })

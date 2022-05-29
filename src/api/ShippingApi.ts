@@ -1,19 +1,22 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import { Money, ShippingMethodType } from '@/api/CommonTypings';
+
+export interface ShippingMethods {
+    shippingMethods: ShippingMethod[];
+}
 
 export interface ShippingMethod {
     id: string;
     name: string;
-    pickupPointMethod: boolean;
-    defaultCost: Money;
+    type: ShippingMethodType;
+    defaultCost: ShippingCost;
 }
 
-export interface Money {
-    amount: string;
-    currency: string;
+export interface ShippingCost {
+    cost: Money;
     canBeOverridden: boolean;
 }
 
-export async function getShippingMethods(): Promise<ShippingMethod[]> {
-    return axios.get('api/shipping', { headers: { 'Accept': 'application/vnd.exbook.v1+json' } })
-        .then(r => r.data as ShippingMethod[]);
+export async function getShippingMethods(): Promise<AxiosResponse<ShippingMethods>> {
+    return axios.get('api/shipping', { headers: { 'Accept': 'application/vnd.exbook.v1+json' } });
 }

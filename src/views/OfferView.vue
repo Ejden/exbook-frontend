@@ -1,8 +1,22 @@
 <template>
   <div>
+    <message-popup
+        v-model="showPopup"
+        :message="$t('offer.addedToBasket')"
+        :close-message="$t('offer.closeInfoMessage')"
+    />
+
+    <message-popup
+        v-model="showErrorPopup"
+        :message="$t('offer.errorMessage')"
+        :close-message="$t('offer.closeInfoMessage')"
+    />
+
     <v-container v-if="offer">
       <OfferSnippet
           :offer="offer"
+          @itemAddedToBasket="itemAddedToBasketEventHandler"
+          @errorOnAddingToBasket="errorOnAddingToBasketEventHandler"
       />
     </v-container>
 
@@ -42,9 +56,11 @@ import SellerInfo from '../components/offer/SellerInfo.vue';
 import { DetailedOffer, getSingleOffer } from '@/api/ListingApi';
 import { publishOfferViewEvent } from '@/api/AnalyticsApi';
 import { userModuleStore } from '@/utils/store-accessor';
+import MessagePopup from '@/components/message-popup/MessagePopup.vue';
 
 export default defineComponent({
   components: {
+    MessagePopup,
     SellerInfo,
     OfferSnippet,
     OfferDelivery,
@@ -53,14 +69,29 @@ export default defineComponent({
   },
   setup(_, { root }) {
     const offer = ref<DetailedOffer | undefined>(undefined);
+    const showPopup = ref(false);
+    const showErrorPopup = ref(false);
+
     onMounted(() => getSingleOffer(root.$route.params.offerId)
       .then(r => offer.value = r)
       .catch(() => root.$router.push({ name: 'NotFound' }))
       .then(() => publishOfferViewEvent({ offerId: offer.value!.id, viewer: { userId: userModuleStore.getLoggedUser?.id } }))
     );
 
+    const itemAddedToBasketEventHandler = () => {
+      showPopup.value = true;
+    }
+
+    const errorOnAddingToBasketEventHandler = () => {
+      showErrorPopup.value = true;
+    }
+
     return {
-      offer
+      offer,
+      showPopup,
+      showErrorPopup,
+      itemAddedToBasketEventHandler,
+      errorOnAddingToBasketEventHandler
     }
   }
 })

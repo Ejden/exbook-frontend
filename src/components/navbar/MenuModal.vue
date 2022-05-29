@@ -58,7 +58,7 @@ export default defineComponent({
       },
       {
         name: i18n.t('menu.modal.login') as string,
-        url: 'login',
+        url: '/login',
         loginRequired: false
       },
       {

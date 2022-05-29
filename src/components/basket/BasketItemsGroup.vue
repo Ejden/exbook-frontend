@@ -114,4 +114,11 @@ export default defineComponent({
  row-gap: 8px;
  margin-top: 16px;
 }
+
+@media screen and (max-width: 768px) {
+  .group-title {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
 </style>

@@ -28,11 +28,19 @@
 
         <v-card-text>
           <label class="form-label">{{ $t('newOfferForm.isbn') }}</label>
-          <v-text-field
-            outlined
-            v-model="offerFormIsbn"
-            :rules="[rules.counter(offerFormIsbn, 9)]"
-          />
+          <div class="isbn-row">
+            <v-text-field
+              outlined
+              v-model="offerFormIsbn"
+            />
+
+            <v-btn
+                text
+                color="primary"
+                @click="autofillForm"
+            >{{ $t('newOfferForm.autofill') }}
+            </v-btn>
+          </div>
         </v-card-text>
 
         <v-divider/>
@@ -42,8 +50,8 @@
           <v-text-field
             outlined
             v-model="offerFormTitle"
-            :rules="[rules.required, rules.counter(offerFormTitle, 30)]"
-            maxlength="30"
+            :rules="[rules.required, rules.counter(offerFormTitle, 50)]"
+            maxlength="50"
             counter
           />
           <label class="form-label">{{ $t('newOfferForm.bookAuthor') }}</label>
@@ -51,8 +59,8 @@
             outlined
             v-model="offerFormAuthor"
             counter
-            :rules="[rules.required, rules.counter(offerFormTitle, 25)]"
-            maxlength="25"
+            :rules="[rules.required, rules.counter(offerFormTitle, 50)]"
+            maxlength="50"
           />
           <label class="form-label">{{ $t('newOfferForm.offerDescription') }}</label>
           <v-textarea
@@ -122,7 +130,6 @@
                 suffix="zł"
                 placeholder="0.00"
                 outlined
-                label="Cena"
                 class="price-input"
             />
           </div>
@@ -156,6 +163,7 @@ import ShippingMethods from './ShippingMethods.vue';
 import { Category } from '@/api/CategoryApi';
 import { Store } from 'vuex';
 import { i18n } from '@/main';
+import { getBookInfoSuggestion } from '@/api/BookApi';
 
 interface Rules {
   required: any;
@@ -167,7 +175,7 @@ export default defineComponent({
     ShippingMethods,
     CategoriesSelectableList
   },
-  setup(_, { root }) {
+  setup(_, { root, emit }) {
     const rules = ref<Rules>({
       required: (value: string) => !!value || i18n.t('newOfferForm.required'),
       counter: (value: string, max: number) => {
@@ -201,7 +209,6 @@ export default defineComponent({
     const selectedCondition = ref('');
     const price = ref('0.00');
     const offerTypes = root.$store.getters.offerTypes;
-    console.log(root.$store.state.offer.offerTypes);
 
     const pushCategoryFromChildTreeToForm = (payload: Category) => {
       root.$store.commit('updateSelectedCategoriesInNewOfferForm', payload);
@@ -223,6 +230,15 @@ export default defineComponent({
       offerFormShippingMethods,
       initialStock
     } = offerModifiers(root.$store);
+
+    const autofillForm = () => {
+      getBookInfoSuggestion(offerFormIsbn.value)
+        .then(response => {
+          offerFormTitle.value = response.data.title;
+          offerFormAuthor.value = response.data.author;
+        })
+        .catch(() => emit('show-book-filling-error-message'));
+    }
 
     onMounted(() => {
       updateSelectedShippingMethods(undefined);
@@ -246,10 +262,11 @@ export default defineComponent({
       offerFormPrice,
       offerFormLocation,
       offerFormShippingMethods,
-      initialStock
+      initialStock,
+      autofillForm
     }
   }
-})
+});
 
 function offerModifiers(store: Store<any>) {
   const offerFormIsbn = computed({
@@ -318,7 +335,12 @@ function offerModifiers(store: Store<any>) {
 </script>
 
 <style scoped>
-  .form-label {
-    font-weight: 500;
-  }
+.form-label {
+  font-weight: 500;
+}
+
+.isbn-row {
+  display: flex;
+  align-items: baseline;
+}
 </style>

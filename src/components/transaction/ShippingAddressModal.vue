@@ -78,7 +78,7 @@
               color="primary"
               @click.prevent="submit"
           >
-            {{ $t('basketTransaction.shippingAddressModal.cancel') }}
+            {{ $t('basketTransaction.shippingAddressModal.submit') }}
           </v-btn>
 
           <v-btn

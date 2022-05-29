@@ -2,7 +2,19 @@
   <v-container class="body">
     <span class="searching-text">{{ $t('listing.searchingPhrase') }} "{{ search }}"</span>
     <div class="mt-3 main-box">
-      <left-panel class="left-panel"/>
+      <left-panel
+          class="left-panel"
+          :offer-types="offerType"
+          :location="location"
+          :price-from="priceFrom"
+          :price-to="priceTo"
+          :book-conditions="condition"
+          @priceFromUpdated="priceFromUpdatedEventHandler"
+          @priceToUpdated="priceToUpdatedEventHandler"
+          @locationUpdated="locationUpdatedEventHandler"
+          @bookConditionUpdated="bookConditionUpdatedEventHandler"
+          @offerTypeUpdated="offerTypeUpdatedEventHandler"
+      />
 
       <offer-listing
           class="offer-listing"
@@ -16,6 +28,16 @@
 
     <left-panel-modal
         v-model="showLeftPanelModal"
+        :offer-types="offerType"
+        :location="location"
+        :price-from="priceFrom"
+        :price-to="priceTo"
+        :book-conditions="condition"
+        @priceFromUpdated="priceFromUpdatedEventHandler"
+        @priceToUpdated="priceToUpdatedEventHandler"
+        @locationUpdated="locationUpdatedEventHandler"
+        @bookConditionUpdated="bookConditionUpdatedEventHandler"
+        @offerTypeUpdated="offerTypeUpdatedEventHandler"
     />
   </v-container>
 </template>
@@ -27,6 +49,7 @@ import LeftPanel from '../components/listing/leftpanel/LeftPanel.vue';
 import OfferListing from '../components/listing/offerlisting/OfferListing.vue';
 import { Pageable } from '@/typings/Page';
 import LeftPanelModal from '@/components/listing/leftpanel/LeftPanelModal.vue';
+import router from '@/router';
 
 export default defineComponent({
   components: {
@@ -44,11 +67,9 @@ export default defineComponent({
       required: false
     },
     condition: {
-      type: String,
       required: false
     },
-    type: {
-      type: String,
+    offerType: {
       required: false
     },
     priceFrom: {
@@ -72,27 +93,115 @@ export default defineComponent({
       required: false
     }
   },
-  setup(props, { root }) {
+  setup(props) {
     const offers = ref<DetailedOffer[]>([]);
     const pageable = ref<Pageable | undefined>(undefined);
     const pages = ref(1);
 
-    getListing()
+    const priceTo = (props.priceTo === '') ? undefined : props.priceTo as unknown as number;
+    const priceFrom = (props.priceFrom === '') ? undefined : props.priceFrom as unknown as number;
+
+    getListing(
+        props.search,
+        props.condition as Array<string>,
+        props.offerType as Array<string>,
+        priceFrom,
+        priceTo,
+        (props.location === '') ? undefined : props.location
+    )
         .then(r => {
           offers.value = r.content;
           pageable.value = r.pageable;
           pages.value = r.totalPages;
         });
 
-    const updateResultsDueToSorting = (sort: string) => root.$router.push({
-      name: 'Listing',
-      query: {
-        sorting: sort,
-        search: props.search
-      }
-    });
+    const updateResultsDueToSorting = (sort: string) => {
+      router.push({
+        name: 'Listing',
+        query: {
+          search: props.search,
+          condition: !(props.condition instanceof Array) ? [props.condition] : props.condition,
+          offerType: props.offerType as Array<string>,
+          priceFrom: priceFrom?.toString(),
+          priceTo: priceTo?.toString(),
+          location: props.location,
+          sorting: sort,
+        }
+      });
+    }
+
     const showLeftPanelModal = ref(false);
     const showFiltersModalEventHandler = () => showLeftPanelModal.value = true;
+
+    const priceToUpdatedEventHandler = (price: string) => {
+      router.push({
+        name: 'Listing',
+        query: {
+          search: props.search,
+          condition: !(props.condition instanceof Array) ? [props.condition] : props.condition,
+          offerType: props.offerType as Array<string>,
+          priceFrom: priceFrom?.toString(),
+          priceTo: (price === '') ? undefined : (price as unknown as number).toString(),
+          location: props.location
+        }
+      }).catch(() => {});
+    }
+
+    const priceFromUpdatedEventHandler = (price: string) => {
+      router.push({
+        name: 'Listing',
+        query: {
+          search: props.search,
+          condition: !(props.condition instanceof Array) ? [props.condition] : props.condition,
+          offerType: props.offerType as Array<string>,
+          priceFrom: (price === '') ? undefined : (price as unknown as number).toString(),
+          priceTo: priceTo?.toString(),
+          location: props.location
+        }
+      }).catch(() => {});
+    }
+
+    const locationUpdatedEventHandler = (location: string) => {
+      router.push({
+        name: 'Listing',
+        query: {
+          search: props.search,
+          condition: !(props.condition instanceof Array) ? [props.condition] : props.condition,
+          offerType: props.offerType as Array<string>,
+          priceFrom: priceFrom?.toString(),
+          priceTo: priceTo?.toString(),
+          location: location
+        }
+      }).catch(() => {})
+    }
+
+    const bookConditionUpdatedEventHandler = (bookConditions: string[]) => {
+      router.push({
+        name: 'Listing',
+        query: {
+          search: props.search,
+          condition: bookConditions,
+          offerType: props.offerType as Array<string>,
+          priceFrom: priceFrom?.toString(),
+          priceTo: priceTo?.toString(),
+          location: props.location
+        }
+      }).catch(() => {})
+    }
+
+    const offerTypeUpdatedEventHandler = (offerType: string[]) => {
+      router.push({
+        name: 'Listing',
+        query: {
+          search: props.search,
+          condition: !(props.condition instanceof Array) ? [props.condition] : props.condition,
+          offerType: offerType,
+          priceFrom: priceFrom?.toString(),
+          priceTo: priceTo?.toString(),
+          location: props.location
+        }
+      }).catch(() => {})
+    }
 
     return {
       offers,
@@ -100,7 +209,12 @@ export default defineComponent({
       pages,
       updateResultsDueToSorting,
       showLeftPanelModal,
-      showFiltersModalEventHandler
+      showFiltersModalEventHandler,
+      priceToUpdatedEventHandler,
+      priceFromUpdatedEventHandler,
+      locationUpdatedEventHandler,
+      bookConditionUpdatedEventHandler,
+      offerTypeUpdatedEventHandler
     }
   }
 });
