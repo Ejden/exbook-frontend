@@ -126,7 +126,9 @@ export default {
         },
         submitOffer: 'Dodaj ogłoszenie',
         shippingMethods: 'Metody dostawy*',
-        autofill: 'Autouzupełnij'
+        autofill: 'Autouzupełnij',
+        errorFillingBookData: 'Nie znaleziono książki',
+        closeErrorFillingBookData: 'Zamknij'
     },
     home: {
         recommendedOffers: 'Polecane oferty',

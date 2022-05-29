@@ -175,7 +175,7 @@ export default defineComponent({
     ShippingMethods,
     CategoriesSelectableList
   },
-  setup(_, { root }) {
+  setup(_, { root, emit }) {
     const rules = ref<Rules>({
       required: (value: string) => !!value || i18n.t('newOfferForm.required'),
       counter: (value: string, max: number) => {
@@ -236,7 +236,8 @@ export default defineComponent({
         .then(response => {
           offerFormTitle.value = response.data.title;
           offerFormAuthor.value = response.data.author;
-        });
+        })
+        .catch(() => emit('show-book-filling-error-message'));
     }
 
     onMounted(() => {
