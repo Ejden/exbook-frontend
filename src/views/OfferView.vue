@@ -13,7 +13,7 @@
     />
 
     <v-container v-if="offer">
-      <OfferSnippet
+      <offer-snippet
           :offer="offer"
           @itemAddedToBasket="itemAddedToBasketEventHandler"
           @errorOnAddingToBasket="errorOnAddingToBasketEventHandler"
@@ -21,25 +21,25 @@
     </v-container>
 
     <v-container v-if="offer">
-      <OfferDescription
+      <offer-description
           :description="offer.description"
       />
     </v-container>
 
     <v-container v-if="offer">
-      <OtherSellerOffers
+      <other-seller-offers
         :offers="[]"
       />
     </v-container>
 
     <v-container v-if="offer">
-      <OfferDelivery
+      <offer-delivery
         :deliveries="offer.shipping.shippingMethods"
       />
     </v-container>
 
     <v-container v-if="offer">
-      <SellerInfo
+      <seller-info
         :seller="offer.seller"
       />
     </v-container>

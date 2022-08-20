@@ -107,7 +107,7 @@ export async function getListing(
         .then(response => response.data as Page<DetailedOffer>);
 }
 
-export async function getSingleOffer(offerId: string) {
+export async function getSingleOffer(offerId: string): Promise<DetailedOffer> {
     const offerUrl = 'api/listing/' + offerId;
     return axios.get(offerUrl)
         .then(response => response.data as DetailedOffer);

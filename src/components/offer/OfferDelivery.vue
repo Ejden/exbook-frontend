@@ -12,7 +12,7 @@
             </tr>
           </thead>
           <tbody>
-            <OfferDeliveryOption
+            <offer-delivery-option
                 v-for="(delivery, i) in deliveries"
                 :key="i"
                 :name="delivery.name"
