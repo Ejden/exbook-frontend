@@ -344,5 +344,19 @@ export default {
         code: '404',
         title: 'Wygląda na to, że się zgubiłeś...',
         description: 'Nie mogliśmy znaleźć żądanej strony'
+    },
+    months: {
+        january: 'Stycznia',
+        february: 'Lutego',
+        march: 'Marca',
+        april: 'Kwietnia',
+        may: 'Maja',
+        june: 'Czerwca',
+        july: 'Lipca',
+        august: 'Sierpnia',
+        september: 'Września',
+        october: 'Października',
+        november: 'Listopada',
+        december: 'Grudnia'
     }
 }

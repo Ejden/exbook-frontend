@@ -11,7 +11,6 @@ import pl from '@/assets/i18n/messages_pl-PL';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8082/';
-// axios.defaults.baseURL = 'http://192.168.1.100:8082/';
 
 Vue.use(VueI18n);
 
