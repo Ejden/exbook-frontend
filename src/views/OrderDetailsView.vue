@@ -37,6 +37,7 @@
 
         <order-details-info-section
             :shipping="order.shipping"
+            :seller-shipping="order.sellerShippingInfo"
             :order="order"
         />
       </div>

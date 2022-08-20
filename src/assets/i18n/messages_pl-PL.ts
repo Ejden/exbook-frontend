@@ -280,11 +280,13 @@ export default {
             rateBook: 'Oceń książkę',
             received: 'Oznacz jako dostarczone'
         },
-        orderId: 'Identyfikator zamówienia'
+        orderId: 'Identyfikator zamówienia',
+        sellerShippingAddress: 'Adres sprzedawcy'
     },
     soldOrderDetailsPage: {
         status: 'Status:',
         buyer: 'Kupujący:',
+        shippingMethod: 'Metoda dostawy',
         summaryWithShipping: 'Łącznie z dostawą',
         noShippingDetails: 'Brak szczegółów',
         action: {
@@ -294,7 +296,14 @@ export default {
             cancel: 'Anuluj zamówienie',
             returnDelivered: 'Dostarczono zwrot'
         },
-        orderId: 'Identyfikator zamówienia'
+        orderId: 'Identyfikator zamówienia',
+        addressDialog: {
+            title: 'Wpisz adres dostawy',
+            description: 'Pod ten adres kupujący dostarczy twoje książki',
+            accept: 'Zatwierdź',
+            cancel: 'Anuluj'
+        },
+        sellerShippingAddress: 'Adres sprzedawcy'
     },
     myOrdersPage: {
         noOrders: 'Wygląda na to, że nie posiadasz żadnych zamówień o podanych kryteriach',

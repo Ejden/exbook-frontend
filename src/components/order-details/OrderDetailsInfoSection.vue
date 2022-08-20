@@ -1,44 +1,69 @@
 <template>
   <div class="main">
-    <div>
-      <h4>{{ shippingType }}</h4>
-      <div v-if="showAddressDetails" class="address-details">
-        <span>{{ shipping.shippingAddress.firstAndLastName }}</span>
-        <span>{{ shipping.shippingAddress.phoneNumber }}</span>
-        <span>{{ shipping.shippingAddress.email }}</span>
-        <span>{{ shipping.shippingAddress.address }}</span>
-        <span>
-          {{ shipping.shippingAddress.postalCode }},
-           {{ shipping.shippingAddress.city }},
-           {{ shipping.shippingAddress.country}}
-        </span>
+    <div class="buyer-info">
+      <div>
+        <h4>{{ shippingType }}</h4>
+        <div v-if="showAddressDetails" class="address-details">
+          <div>{{ shipping.shippingAddress.firstAndLastName }}</div>
+          <div>{{ shipping.shippingAddress.phoneNumber }}</div>
+          <div>{{ shipping.shippingAddress.email }}</div>
+          <div>{{ shipping.shippingAddress.address }}</div>
+          <div>
+            {{ shipping.shippingAddress.postalCode }},
+             {{ shipping.shippingAddress.city }},
+             {{ shipping.shippingAddress.country}}
+          </div>
+        </div>
+
+        <div v-if="showPickupPointDetails" class="address-details">
+          <div>{{ shipping.pickupPoint.firstAndLastName }}</div>
+          <div>{{ shipping.pickupPoint.phoneNumber }}</div>
+          <div>{{ shipping.pickupPoint.email }}</div>
+          <div>{{ shipping.pickupPoint.pickupPointId }}</div>
+        </div>
+
+        <div v-if="showPersonalDeliveryDetails">{{ $t('orderDetailsPage.noShippingDetails') }}</div>
       </div>
 
-      <div v-if="showPickupPointDetails">
-        <span>{{ shipping.pickupPoint.firstAndLastName }}</span>
-        <span>{{ shipping.pickupPoint.phoneNumber }}</span>
-        <span>{{ shipping.pickupPoint.email }}</span>
-        <span>{{ shipping.pickupPoint.pickupPointId }}</span>
+      <div>
+        <h4>{{ $t('orderDetailsPage.shippingMethod') }}</h4>
+        <span>{{ shipping.methodName }}</span>
       </div>
 
-      <div v-if="showPersonalDeliveryDetails">{{ $t('orderDetailsPage.noShippingDetails') }}</div>
+      <div>
+        <h4>{{ $t('orderDetailsPage.orderId') }}</h4>
+        <span>{{ order.id }}</span>
+      </div>
     </div>
 
-    <div>
-      <h4>{{ $t('orderDetailsPage.shippingMethod') }}</h4>
-      <span>{{ shipping.methodName }}</span>
-    </div>
+    <div class="seller-info">
+      <div v-if="showAddressSellerDetails" class="address-details">
+        <h4>{{ $t('orderDetailsPage.sellerShippingAddress') }}</h4>
+        <div>{{ sellerShipping.address.firstAndLastName }}</div>
+        <div>{{ sellerShipping.address.phoneNumber }}</div>
+        <div>{{ sellerShipping.address.email }}</div>
+        <div>{{ sellerShipping.address.address }}</div>
+        <div>
+          {{ sellerShipping.address.postalCode }},
+          {{ sellerShipping.address.city }},
+          {{ sellerShipping.address.country}}
+        </div>
+      </div>
 
-    <div>
-      <h4>{{ $t('orderDetailsPage.orderId') }}</h4>
-      <span>{{ order.id }}</span>
+      <div v-if="showPickupPointSellerDetails">
+        <h4>{{ $t('orderDetailsPage.sellerShippingAddress') }}</h4>
+        <div>{{ sellerShipping.pickupPoint.firstAndLastName }}</div>
+        <div>{{ sellerShipping.pickupPoint.phoneNumber }}</div>
+        <div>{{ sellerShipping.pickupPoint.email }}</div>
+        <div>{{ sellerShipping.pickupPoint.pickupPointId }}</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from '@vue/composition-api';
-import { Shipping, UserOrderSnippet } from '@/api/OrderApi';
+import { SellerShippingInfo, Shipping, UserOrderSnippet } from '@/api/OrderApi';
 import { ShippingMethodType } from '@/api/CommonTypings';
 import { i18n } from '@/main';
 
@@ -50,6 +75,10 @@ export default defineComponent({
     },
     shipping: {
       type: Object as PropType<Shipping>,
+      required: true
+    },
+    sellerShipping: {
+      type: Object as PropType<SellerShippingInfo | undefined>,
       required: true
     }
   },
@@ -68,12 +97,16 @@ export default defineComponent({
     const showAddressDetails = props.shipping.methodType === ShippingMethodType.ADDRESS_DELIVERY;
     const showPickupPointDetails = props.shipping.methodType === ShippingMethodType.PICKUP_DELIVERY;
     const showPersonalDeliveryDetails = props.shipping.methodType === ShippingMethodType.PERSONAL_DELIVERY;
+    const showAddressSellerDetails = props.sellerShipping?.address !== undefined && props.sellerShipping?.address !== null;
+    const showPickupPointSellerDetails = props.sellerShipping?.pickupPoint !== undefined && props.sellerShipping?.pickupPoint !== null;
 
     return {
       shippingType,
       showAddressDetails,
       showPickupPointDetails,
-      showPersonalDeliveryDetails
+      showPersonalDeliveryDetails,
+      showAddressSellerDetails,
+      showPickupPointSellerDetails
     }
   }
 });
@@ -82,6 +115,7 @@ export default defineComponent({
 <style scoped>
 .main {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 24px;
@@ -90,5 +124,19 @@ export default defineComponent({
 .address-details {
   display: flex;
   flex-direction: column;
+}
+
+.buyer-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 24px;
+}
+
+.seller-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 24px;
 }
 </style>

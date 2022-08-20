@@ -7,6 +7,7 @@ export interface UserOrderSnippet {
     buyer: Buyer;
     seller: Seller;
     shipping: Shipping;
+    sellerShippingInfo?: SellerShippingInfo;
     items: OrderItem[];
     exchangeBooks: ExchangeBook[];
     orderDate: Date;
@@ -54,6 +55,11 @@ export interface PickupPoint {
     phoneNumber: string;
     email: string;
     pickupPointId: string;
+}
+
+export interface SellerShippingInfo {
+    address?: ShippingAddress,
+    pickupPoint?: PickupPoint
 }
 
 export interface ShippingCost {
@@ -132,6 +138,28 @@ export enum OrderType {
     BUY = 'BUY'
 }
 
+export interface AcceptExchangeAddressData {
+    firstAndLastName: string;
+    phoneNumber: string;
+    email: string;
+    address: string;
+    postalCode: string;
+    city: string;
+    country: string;
+}
+
+export interface AcceptExchangePickupPointData {
+    firstAndLastName: string;
+    phoneNumber: string;
+    email: string;
+    pickupPointId: string;
+}
+
+export interface AcceptExchangeData {
+    address?: AcceptExchangeAddressData;
+    pickupPoint?: AcceptExchangePickupPointData;
+}
+
 export function getLatestOrdersSnippets(
     page?: number,
     perPage?: number,
@@ -178,5 +206,9 @@ export function getOrderSnippet(orderId: string): Promise<AxiosResponse<UserOrde
 }
 
 export function changeOrderStatus(orderId: string, newStatus: OrderStatus): Promise<AxiosResponse<UserOrderSnippet>> {
-    return axios.put('api/orders/' + orderId + '/status', { newStatus: newStatus }, { headers: apiHeaders })
+    return axios.put('api/orders/' + orderId + '/status', { newStatus: newStatus }, { headers: apiHeaders });
+}
+
+export function acceptExchange(orderId: string, data: AcceptExchangeData): Promise<AxiosResponse<UserOrderSnippet>> {
+    return axios.patch('api/orders/' + orderId + '/accept', data, { headers: apiHeaders });
 }

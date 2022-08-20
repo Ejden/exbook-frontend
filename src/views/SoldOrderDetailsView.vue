@@ -1,5 +1,11 @@
 <template>
   <v-container v-if="!!order" class="pt-0 pb-0">
+    <sold-order-details-address-dialog
+        :show-dialog="showAddressDialog"
+        @cancel="cancelExchangeEventHandler"
+        @acceptExchangeWithAddress="acceptExchangeWithAddressEventHandler"
+        @acceptExchangeWithPickupPoint="acceptExchangeWithPickupPointEventHandler"
+    />
     <v-container class="container-standard-background margin-top-16 rounded main-container" v-if="!!order">
       <div class="order-details">
         <div class="info-container">
@@ -37,6 +43,7 @@
 
         <sold-order-details-info-section
             :shipping="order.shipping"
+            :seller-shipping="order.sellerShippingInfo"
             :order="order"
         />
       </div>
@@ -73,7 +80,14 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from '@vue/composition-api';
-import { changeOrderStatus, getOrderSnippet, OrderStatus, OrderType, UserOrderSnippet } from '@/api/OrderApi';
+import {
+  acceptExchange,
+  changeOrderStatus,
+  getOrderSnippet,
+  OrderStatus,
+  OrderType,
+  UserOrderSnippet
+} from '@/api/OrderApi';
 import { getMonth } from '@/mixin';
 import { getOrderStatus } from '@/mixin';
 import SoldOrderDetailsOfferItem from '@/components/sold-order-details/SoldOrderDetailsOfferItem.vue';
@@ -81,9 +95,12 @@ import SoldOrderDetailsSummarySnippet from '@/components/sold-order-details/Sold
 import SoldOrderDetailsActions from '@/components/sold-order-details/SoldOrderDetailsActions.vue';
 import SoldOrderDetailsInfoSection from '@/components/sold-order-details/SoldOrderDetailsInfoSection.vue';
 import SoldOrderDetailsExchangeBooks from '@/components/sold-order-details/SoldOrderDetailsExchangeBooks.vue';
+import SoldOrderDetailsAddressDialog from '@/components/sold-order-details/SoldOrderDetailsAddressDialog.vue';
+import { ExchangeAddressEvent, ExchangePickupPointEvent } from '@/components/sold-order-details/@typings';
 
 export default defineComponent({
   components: {
+    SoldOrderDetailsAddressDialog,
     SoldOrderDetailsExchangeBooks,
     SoldOrderDetailsInfoSection,
     SoldOrderDetailsActions, SoldOrderDetailsSummarySnippet, SoldOrderDetailsOfferItem},
@@ -91,6 +108,7 @@ export default defineComponent({
     const order = ref<UserOrderSnippet | undefined>(undefined);
     const buyerName = computed(() => order.value?.buyer.firstName + ' ' + order.value?.buyer.lastName);
     const showExchangeBooks = computed(() => order.value?.orderType === OrderType.EXCHANGE);
+    const showAddressDialog = ref(false);
 
     getOrderSnippet(root.$route.params.orderId)
       .then(response => order.value = response.data);
@@ -109,9 +127,26 @@ export default defineComponent({
 
     const acceptExchangeEventHandler = () => {
       if (order.value !== undefined) {
-        changeOrderStatus(order.value!.id, OrderStatus.ACCEPTED)
-          .then(response => order.value = response.data);
+        showAddressDialog.value = true;
       }
+    };
+
+    const acceptExchangeWithAddressEventHandler = (address: ExchangeAddressEvent) => {
+      if (order.value !== undefined) {
+        acceptExchange(order.value.id, { address })
+            .then(() => location.reload());
+      }
+    };
+
+    const acceptExchangeWithPickupPointEventHandler = (pickupPoint: ExchangePickupPointEvent) => {
+      if (order.value !== undefined) {
+        acceptExchange(order.value.id, { pickupPoint })
+          .then(() => location.reload());
+      }
+    };
+
+    const cancelExchangeEventHandler = () => {
+      showAddressDialog.value = false;
     }
 
     const discardExchangeEventHandler = () => {
@@ -148,11 +183,15 @@ export default defineComponent({
       orderDate,
       getOrderStatus,
       showExchangeBooks,
+      showAddressDialog,
       acceptExchangeEventHandler,
       discardExchangeEventHandler,
       markAsSentEventHandler,
       confirmReturnDeliveredEventHandler,
-      cancelOrderEventHandler
+      cancelOrderEventHandler,
+      cancelExchangeEventHandler,
+      acceptExchangeWithAddressEventHandler,
+      acceptExchangeWithPickupPointEventHandler
     }
   }
 });
