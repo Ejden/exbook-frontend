@@ -48,7 +48,7 @@ interface CreatedOffer {
 }
 
 async function createOffer(offer: NewOfferForm): Promise<AxiosResponse<CreatedOffer>> {
-    return axios.post('api/offers', offer, { withCredentials: true, headers: headers });
+    return axios.post('/api/offers', offer, { withCredentials: true, headers: headers });
 }
 
 export { createOffer, NewOfferForm, CreatedOffer };

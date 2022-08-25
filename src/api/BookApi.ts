@@ -7,5 +7,5 @@ export interface BookInfoSuggestion {
 }
 
 export async function getBookInfoSuggestion(isbn: string): Promise<AxiosResponse<BookInfoSuggestion>> {
-    return axios.get('api/books?isbn=' + isbn);
+    return axios.get('/api/books?isbn=' + isbn);
 }

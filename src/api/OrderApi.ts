@@ -1,6 +1,7 @@
 import { Page } from '@/typings/Page';
 import axios, { AxiosResponse } from 'axios';
 import { apiHeaders, ShippingMethodType } from '@/api/CommonTypings';
+import { buildUrl } from '@/mixin';
 
 export interface UserOrderSnippet {
     id: string;
@@ -165,19 +166,13 @@ export function getLatestOrdersSnippets(
     perPage?: number,
     statusFilters?: OrderStatus[]
 ): Promise<Page<UserOrderSnippet>> {
-    const url = new URL("/api/orders/snippet", axios.defaults.baseURL);
+    const url = buildUrl('/api/orders/snippet', {
+        p: page,
+        size: perPage,
+        status: statusFilters
+    });
 
-    if (page !== undefined) {
-        url.searchParams.append("p", page.toString());
-    }
-    if (perPage !== undefined) {
-        url.searchParams.append("size", perPage.toString());
-    }
-    if (statusFilters !== undefined) {
-        statusFilters.forEach(status => url.searchParams.append("status", status));
-    }
-
-    return axios.get(url.href)
+    return axios.get(url)
         .then(r => r.data as Page<UserOrderSnippet>);
 }
 
@@ -186,29 +181,23 @@ export function getLatestSoldOrdersSnippets(
     perPage?: number,
     statusFilters?: OrderStatus[]
 ): Promise<AxiosResponse<Page<UserOrderSnippet>>> {
-    const url = new URL('api/sale/orders/snippet', axios.defaults.baseURL);
+    const url = buildUrl('/api/sale/orders/snippet', {
+        p: page,
+        size: perPage,
+        status: statusFilters
+    });
 
-    if (page !== undefined) {
-        url.searchParams.append("p", page.toString());
-    }
-    if (perPage !== undefined) {
-        url.searchParams.append("size", perPage.toString());
-    }
-    if (statusFilters !== undefined) {
-        statusFilters.forEach(status => url.searchParams.append("status", status));
-    }
-
-    return axios.get(url.href);
+    return axios.get(url);
 }
 
 export function getOrderSnippet(orderId: string): Promise<AxiosResponse<UserOrderSnippet>> {
-    return axios.get('api/orders/' + orderId);
+    return axios.get('/api/orders/' + orderId);
 }
 
 export function changeOrderStatus(orderId: string, newStatus: OrderStatus): Promise<AxiosResponse<UserOrderSnippet>> {
-    return axios.put('api/orders/' + orderId + '/status', { newStatus: newStatus }, { headers: apiHeaders });
+    return axios.put('/api/orders/' + orderId + '/status', { newStatus: newStatus }, { headers: apiHeaders });
 }
 
 export function acceptExchange(orderId: string, data: AcceptExchangeData): Promise<AxiosResponse<UserOrderSnippet>> {
-    return axios.patch('api/orders/' + orderId + '/accept', data, { headers: apiHeaders });
+    return axios.patch('/api/orders/' + orderId + '/accept', data, { headers: apiHeaders });
 }

@@ -16,6 +16,6 @@ export interface Image {
 }
 
 export function getCategories(): Promise<Categories> {
-    return axios.get('api/categories', { headers: { 'Accept': 'application/vnd.exbook.v1+json'} })
+    return axios.get('/api/categories', { headers: { 'Accept': 'application/vnd.exbook.v1+json'} })
         .then(r => r.data as Categories)
 }

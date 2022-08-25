@@ -10,7 +10,9 @@ import VueI18n from 'vue-i18n';
 import pl from '@/assets/i18n/messages_pl-PL';
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8082/';
+if (process.env.NODE_ENV == 'development') {
+  axios.defaults.baseURL = 'http://localhost:8082/';
+}
 
 Vue.use(VueI18n);
 

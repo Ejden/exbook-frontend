@@ -62,3 +62,32 @@ export function getMonth(month: number): string {
             return ' '
     }
 }
+
+function defaultParamParser(key: string, value: string | number): string {
+    const encodedValue = encodeURIComponent(value);
+    return `${key}=${encodedValue}`;
+}
+
+export function buildUrl(url: string, queryParams: {}): string {
+    let finalUrl = url;
+    let paramConnector = '?';
+
+    Object.keys(queryParams).forEach(key => {
+        const value = Reflect.get(queryParams, key);
+
+        if (value) {
+            const isValueAnArray = Array.isArray(value);
+
+            if (isValueAnArray) {
+                value.forEach(val => {
+                    finalUrl += paramConnector + defaultParamParser(key, val);
+                    paramConnector = '&';
+                });
+            } else {
+                finalUrl += paramConnector + defaultParamParser(key, value);
+                paramConnector = '&';
+            }
+        }
+    });
+    return finalUrl;
+}
