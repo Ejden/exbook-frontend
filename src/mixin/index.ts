@@ -4,7 +4,12 @@ import { OrderStatus } from '@/api/OrderApi';
 import { i18n } from '@/main';
 
 export async function goToHomePage(): Promise<Route> {
-    return router.push('/');
+    if (router.currentRoute.path === '/') {
+        window.location.reload();
+        return new Promise<Route>(resolve => resolve(router.currentRoute));
+    } else {
+        return router.push('/');
+    }
 }
 
 export function getOrderStatus(orderStatus: OrderStatus): string {
@@ -80,8 +85,10 @@ export function buildUrl(url: string, queryParams: {}): string {
 
             if (isValueAnArray) {
                 value.forEach(val => {
-                    finalUrl += paramConnector + defaultParamParser(key, val);
-                    paramConnector = '&';
+                    if (val) {
+                        finalUrl += paramConnector + defaultParamParser(key, val);
+                        paramConnector = '&';
+                    }
                 });
             } else {
                 finalUrl += paramConnector + defaultParamParser(key, value);

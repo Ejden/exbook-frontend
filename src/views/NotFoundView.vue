@@ -1,5 +1,5 @@
 <template>
-  <v-container class="body margin-top-8 rounded container-standard-background">
+  <v-container class="body margin-top-16 rounded container-standard-background">
     <div>
       <h1 class="not-found-text">{{ $t('notFoundPage.code') }}</h1>
     </div>

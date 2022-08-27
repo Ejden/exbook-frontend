@@ -1,54 +1,47 @@
 import { RegisterUserForm, UserInfo, LoginUserForm, register, login, getLoggedUserInfo } from "@/api/UserApi";
-import { VuexModule , Module, Mutation, Action } from "vuex-module-decorators";
-import { LoggedUser } from "@/store/modules/user-store/types/user";
-import router from '@/router';
+import { LoggedUser, UserState, UserStoreAction, UserStoreMutation } from "@/store/modules/user-store/types";
+import { ActionContext } from 'vuex';
+import { IRootState } from '@/store';
+import { goToHomePage } from '@/mixin';
 
-export interface IUserState {
-    loggedUser?: LoggedUser;
-    getLoggedUser?: LoggedUser;
-
-    register(registerForm: RegisterUserForm): void;
-    getUserInfo(): void;
-    setUser(user: UserInfo): void;
+const state: UserState = {
+    loggedUser: undefined
 }
 
-@Module({ name: 'user', namespaced: true, stateFactory: true })
-export default class UserModule extends VuexModule implements IUserState {
-    public loggedUser?: LoggedUser;
-
-    get getLoggedUser() {
-        return this.loggedUser;
+const getters = {
+    getLoggedUser: (state: UserState): LoggedUser | undefined => state.loggedUser,
+    isUserAuthenticated: (state: UserState): boolean => {
+        return state.loggedUser !== undefined && document.cookie.search('Authorization') !== -1;
     }
+}
 
-    @Action
-    public async register(registerForm: RegisterUserForm): Promise<void> {
-        register(registerForm)
-            .then(() => this.login({ username: registerForm.username, password: registerForm.password }));
-    }
-
-    @Action({rawError: true})
-    public async login(loginForm: LoginUserForm): Promise<void> {
-        login(loginForm)
-            .then(() => this.getUserInfo());
-    }
-
-    @Action
-    public async getUserInfo(): Promise<void> {
-        getLoggedUserInfo()
+const actions = {
+    async register(context: ActionContext<UserState, IRootState>, registerForm: RegisterUserForm): Promise<void> {
+        return register(registerForm);
+    },
+    async login(context: ActionContext<UserState, IRootState>, loginForm: LoginUserForm): Promise<void> {
+        return login(loginForm)
+            .then(() => context.dispatch(UserStoreAction.getUserInfo));
+    },
+    async getUserInfo(context: ActionContext<UserState, IRootState>): Promise<void> {
+        return getLoggedUserInfo()
             .then((user: UserInfo) => {
-                this.setUser(user);
+                context.commit(UserStoreMutation.setUser, user);
             });
+    },
+    async logout(context: ActionContext<UserState, IRootState>): Promise<void> {
+        context.commit(UserStoreMutation.clearUser);
+        await goToHomePage();
     }
+}
 
-    @Action
-    public async logout(): Promise<void> {
-        this.clearUser();
-        await router.push({name: 'Home'})
-    }
-
-    @Mutation
-    public setUser(user: UserInfo): void {
-        this.loggedUser = {
+const mutations = {
+    clearUser(state: UserState) {
+        state.loggedUser = undefined;
+        document.cookie = "Authorization= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    },
+    setUser(state: UserState, user: UserInfo) {
+        state.loggedUser = {
             id: user.id,
             email: user.email,
             username: user.username,
@@ -57,10 +50,11 @@ export default class UserModule extends VuexModule implements IUserState {
             img: ''
         };
     }
+}
 
-    @Mutation
-    private clearUser(): void {
-        this.loggedUser = undefined;
-        document.cookie = "Authorization= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-    }
+export default {
+    state,
+    getters,
+    actions,
+    mutations
 }

@@ -1,14 +1,6 @@
 import axios from 'axios';
 import { apiHeaders } from '@/api/CommonTypings';
 
-interface UserApi {
-    register(registerUserForm: RegisterUserForm): Promise<void>;
-
-    login(loginUserForm: LoginUserForm): Promise<void>;
-
-    getLoggedUserInfo(): Promise<UserInfo>;
-}
-
 interface RegisterUserForm {
     email: string;
     username: string;

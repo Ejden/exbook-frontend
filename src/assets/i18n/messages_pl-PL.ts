@@ -158,7 +158,8 @@ export default {
         },
         filtersButtonText: 'Pokaż filtry',
         filtersModalTitle: 'Filtry',
-        refresh: 'Odśwież wyniki'
+        refresh: 'Odśwież wyniki',
+        notFound: 'Nie znaleziono ofert o podanych kryteriach'
     },
     menu: {
         modal: {
@@ -321,7 +322,8 @@ export default {
         password: 'Hasło',
         forgotPassword: 'Zapomniałeś hasła?',
         rememberMe: 'Zapamiętaj mnie',
-        login: 'Zaloguj'
+        login: 'Zaloguj',
+        unauthorizedMsg: 'Błędny login lub hasło'
     },
     registerPage: {
         title: 'Formularz rejestracyjny',
@@ -358,5 +360,10 @@ export default {
         october: 'Października',
         november: 'Listopada',
         december: 'Grudnia'
+    },
+    registerCompleteView: {
+        title: 'Aktywuj konto',
+        firstParagraph: 'Udało się utworzyć nowe konto. W celu ograniczenia liczby użytkowników w procesie developerskim wymagana jest jego aktywacja przez administratora strony.',
+        secondParagraph: 'Skontaktuj się z administratorem strony podając adres email lub login, który podałeś podczas tworzenia konta, aby je aktywować.'
     }
 }

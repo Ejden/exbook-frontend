@@ -19,6 +19,8 @@ import SoldOrderDetailsView from '@/views/SoldOrderDetailsView.vue';
 import MyOrdersView from '@/views/MyOrdersView.vue';
 import SoldOrdersView from '@/views/SoldOrdersView.vue';
 import MyOffersView from '@/views/MyOffersView.vue';
+import AccountRegisterCompleteView from '@/views/AccountRegisterCompleteView.vue';
+import store from '@/store';
 
 Vue.use(VueRouter);
 
@@ -27,37 +29,43 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home,
-        meta: {guest: true}
+        meta: { guest: true }
     },
     {
         path: '/register',
         name: 'Register',
         component: Register,
-        meta: {guest: true}
+        meta: { guest: true }
+    },
+    {
+        path: '/register-complete',
+        name: 'AccountRegisterComplete',
+        component: AccountRegisterCompleteView,
+        meta: { guest: true }
     },
     {
         path: '/login',
         name: 'Login',
         component: Login,
-        meta: {guest: true}
+        meta: { guest: true }
     },
     {
         path: '/add-offer',
         name: 'NewOffer',
         component: NewOffer,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true }
     },
     {
         path: '/offer/:offerId/new',
         name: 'CreatedOffer',
         component: CreatedOffer,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true }
     },
     {
         path: '/offer/:offerId',
         name: 'Offer',
         component: Offer,
-        meta: {requiresAuth: false}
+        meta: { requiresAuth: false }
     },
     {
         path: '/listing',
@@ -74,79 +82,79 @@ const routes = [
             sort: route.query.sort,
             page: route.query.page
         }),
-        meta: {requiresAuth: false}
+        meta: { requiresAuth: false }
     },
     {
         path: '/my-account/order/:orderId',
         name: 'OrderDetails',
         component: OrderDetailsView,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true }
     },
     {
         path: '/my-account/my-orders',
         name: 'MyOrders',
         component: MyOrdersView,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true }
     },
     {
         path: '/sale/orders/:orderId',
         name: 'SoldOrderDetails',
         component: SoldOrderDetailsView,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true }
     },
     {
         path: '/sale/orders',
         name: 'SoldOrders',
         component: SoldOrdersView,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true }
     },
     {
         path: '/sale/offers',
         name: 'MyOffers',
         component: MyOffersView,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true }
     },
     {
         path: '/category/:categoryName',
         name: 'CategoryDetailsView',
         component: CategoryDetailsView,
-        meta: {requiresAuth: false}
+        meta: { requiresAuth: false }
     },
     {
         path: '/error',
         name: 'Error',
         component: Error,
-        meta: {requiresAuth: false}
+        meta: { requiresAuth: false }
     },
     {
         path: '/my-account',
         name: 'MyAccount',
         component: MyAccount,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true, guest: false }
     },
     {
         path: '/checkout',
         name: 'Checkout',
         component: Checkout,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true }
     },
     {
         path: '/transaction',
         name: 'Transaction',
         component: BasketTransactionView,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true }
     },
     {
         path: '/purchase-realised',
         name: 'PurchaseRealised',
         component: PurchaseRealisedView,
-        meta: {requiresAuth: true}
+        meta: { requiresAuth: true }
     },
     {
         path: '*',
         name: 'NotFound',
         component: NotFound,
-        meta: {requiresAuth: false}
+        meta: { requiresAuth: false }
     }
 ];
 
@@ -154,6 +162,15 @@ const router = new VueRouter({
     mode: 'history',
     base: process.env.baseURL,
     routes
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth) && !store.getters.isUserAuthenticated) {
+        store.commit('clearUser');
+        next({ name: 'Login' });
+    } else {
+        next();
+    }
 });
 
 export default router;

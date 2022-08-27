@@ -55,7 +55,6 @@ import OfferDelivery from '../components/offer/OfferDelivery.vue';
 import SellerInfo from '../components/offer/SellerInfo.vue';
 import { DetailedOffer, getSingleOffer } from '@/api/ListingApi';
 import { publishOfferViewEvent } from '@/api/AnalyticsApi';
-import { userModuleStore } from '@/utils/store-accessor';
 import MessagePopup from '@/components/message-popup/MessagePopup.vue';
 
 export default defineComponent({
@@ -75,7 +74,7 @@ export default defineComponent({
     onMounted(() => getSingleOffer(root.$route.params.offerId)
       .then(r => offer.value = r)
       .catch(() => root.$router.push({ name: 'NotFound' }))
-      .then(() => publishOfferViewEvent({ offerId: offer.value!.id, viewer: { userId: userModuleStore.getLoggedUser?.id } }))
+      .then(() => publishOfferViewEvent({ offerId: offer.value!.id, viewer: { userId: root.$store.getters.getLoggedUser?.id } }))
     );
 
     const itemAddedToBasketEventHandler = () => {

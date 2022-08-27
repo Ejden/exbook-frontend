@@ -32,13 +32,17 @@
       />
     </v-card-text>
 
-    <v-card-text>
+    <v-card-text v-if="offers.length !== 0">
       <div v-for="offer in offers" :key="offer.id">
         <offer-row
             :offer="offer"
             class="offer"
         />
       </div>
+    </v-card-text>
+
+    <v-card-text v-else class="not-found-container">
+      <h4>{{ $t('listing.notFound') }}</h4>
     </v-card-text>
   </v-card>
 </template>
@@ -126,6 +130,11 @@ export default defineComponent({
 
 .top-pagination-button {
   margin-top: 0;
+}
+
+.not-found-container {
+  display: flex;
+  justify-content: center;
 }
 
 @media screen and (min-width: 900px) {
