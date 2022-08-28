@@ -21,6 +21,7 @@ import SoldOrdersView from '@/views/SoldOrdersView.vue';
 import MyOffersView from '@/views/MyOffersView.vue';
 import AccountRegisterCompleteView from '@/views/AccountRegisterCompleteView.vue';
 import store from '@/store';
+import PurchaseFailedView from '@/views/PurchaseFailedView.vue';
 
 Vue.use(VueRouter);
 
@@ -148,6 +149,16 @@ const routes = [
         path: '/purchase-realised',
         name: 'PurchaseRealised',
         component: PurchaseRealisedView,
+        meta: { requiresAuth: true }
+    },
+    {
+        path: '/purchase-failed',
+        name: 'PurchaseFailed',
+        component: PurchaseFailedView,
+        props: (route: Route) => ({
+            reason: route.params.reason,
+            allFailed: route.params.allFailed
+        }),
         meta: { requiresAuth: true }
     },
     {

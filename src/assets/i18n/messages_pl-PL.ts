@@ -260,6 +260,12 @@ export default {
         description: 'Szczegóły na temat tego zamówienia możesz znaleźć na swoim koncie',
         goToMyOrders: 'Przejdź do moich zamówień'
     },
+    purchasedFailedPage: {
+        title: 'Błąd',
+        allFailedDescription: 'Wystąpił błąd podczas tworzenia zamówienia.',
+        someFailedDescription: 'Wystąpił błąd podczas tworzenia niektórych twoich zamówień. Wszystkie zamówienia, które nie zostały zrealizowane znajdziesz w koszyku.',
+        button: 'Wróć do koszyka'
+    },
     orderDetailsPage: {
         status: 'Status:',
         seller: 'Sprzedawca:',
