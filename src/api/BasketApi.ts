@@ -98,12 +98,12 @@ export interface AddExchangeBookBody {
 }
 
 export async function getUserBasket(): Promise<Basket> {
-    return axios.get('api/basket')
+    return axios.get('/api/basket')
         .then((response) => response.data as Basket);
 }
 
 export async function addItemToBasket(offerId: String, orderType: OrderType, quantity: number): Promise<Basket> {
-    return axios.put('api/basket',
+    return axios.put('/api/basket',
         {
             offerId: offerId,
             orderType: orderType,
@@ -114,7 +114,7 @@ export async function addItemToBasket(offerId: String, orderType: OrderType, qua
 }
 
 export async function changeItemQuantityInBasket(offerId: string, newQuantity: number, orderType: OrderType): Promise<Basket> {
-    return axios.post('api/basket/' + offerId,
+    return axios.post('/api/basket/' + offerId,
         {
             orderType: orderType,
             newQuantity: newQuantity
@@ -126,14 +126,14 @@ export async function changeItemQuantityInBasket(offerId: string, newQuantity: n
 }
 
 export async function removeItemFromBasket(offerId: string, orderType: OrderType): Promise<Basket> {
-    return axios.delete('api/basket/' + orderType + '/' + offerId, {
+    return axios.delete('/api/basket/' + orderType + '/' + offerId, {
         withCredentials: true,
         headers: acceptHeader
     })
 }
 
 export async function addExchangeBookToBasket(sellerId: string, book: AddExchangeBookBody): Promise<Basket> {
-    return axios.post('api/basket/sellers/' + sellerId + '/books', book, {
+    return axios.post('/api/basket/sellers/' + sellerId + '/books', book, {
         withCredentials: true,
         headers: {
             ...headers
@@ -142,7 +142,7 @@ export async function addExchangeBookToBasket(sellerId: string, book: AddExchang
 }
 
 export async function removeExchangeBookFromBasket(sellerId: string, exchangeBookId: string): Promise<Basket> {
-    return axios.delete('api/basket/sellers/' + sellerId + '/books/' + exchangeBookId, {
+    return axios.delete('/api/basket/sellers/' + sellerId + '/books/' + exchangeBookId, {
         withCredentials: true,
         headers: {
             ...acceptHeader

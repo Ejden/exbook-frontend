@@ -148,23 +148,43 @@ export interface PreviewPurchaseShippingOption {
 
 export interface PurchaseCreationResult {
     result: CreationResult;
+    numberOfCreatedOrders: number;
+    numberOfFailedOrders: number;
+    createdOrders: string[];
+    errorsByOrder: Record<string, OrderCreationError>;
+    purchaseCreationError?: PurchaseCreationError;
 }
 
-export interface UnsuccessfulPurchaseCreationResult extends PurchaseCreationResult {
-    reason: PurchaseNotCreatedReason;
+export interface OrderCreationError {
+    code: OrderCreationErrorReason;
+    userMessage: string;
 }
 
-export interface SuccessfulPurchaseCreationResult extends PurchaseCreationResult {
-    createdOrders: CreatedOrder[];
+export enum OrderCreationErrorReason {
+    NOT_SUFFICIENT_OFFER_QUANTITY = 'NOT_SUFFICIENT_OFFER_QUANTITY',
+    UNKNOWN_ERROR = 'UNKNOWN_ERROR'
+}
+
+export interface PurchaseCreationError {
+    code: PurchaseCreationErrorReason;
+    userMessage: string;
+}
+
+export enum PurchaseCreationErrorReason {
+    EMPTY_DRAFT = 'EMPTY_DRAFT',
+    DRAFT_TOO_OLD = 'DRAFT_TOO_OLD',
+    DELIVERY_INFO_NOT_COMPLETE = 'DELIVERY_INFO_NOT_COMPLETE',
+    UNKNOWN_ERROR = 'UNKNOWN_ERROR'
+}
+
+export enum CreationResult {
+    ALL_ORDERS_CREATED = 'ALL_ORDERS_CREATED',
+    SOME_ORDERS_CREATED = 'SOME_ORDERS_CREATED',
+    NONE_ORDER_CREATED = 'NONE_ORDER_CREATED'
 }
 
 export interface CreatedOrder {
     id: string;
-}
-
-export enum CreationResult {
-    CREATED = 'CREATED',
-    NOT_CREATED = 'NOT_CREATED'
 }
 
 export enum PurchaseNotCreatedReason {
@@ -174,9 +194,9 @@ export enum PurchaseNotCreatedReason {
 }
 
 export async function previewPurchase(requestData: PreviewPurchaseRequestData): Promise<AxiosResponse<DetailedDraftPurchase>> {
-    return axios.put('api/purchase/preview', requestData, { headers: apiHeaders });
+    return axios.put('/api/purchase/preview', requestData, { headers: apiHeaders });
 }
 
 export async function realisePurchase(): Promise<AxiosResponse<PurchaseCreationResult>> {
-    return axios.post('api/purchase/realise', undefined, { headers: acceptHeader })
+    return axios.post('/api/purchase/realise', undefined, { headers: acceptHeader })
 }

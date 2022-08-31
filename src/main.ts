@@ -10,7 +10,21 @@ import VueI18n from 'vue-i18n';
 import pl from '@/assets/i18n/messages_pl-PL';
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8082/';
+if (process.env.NODE_ENV == 'development') {
+  axios.defaults.baseURL = 'http://localhost:8082/';
+}
+axios.interceptors.response.use(response => {
+  return response;
+}, error => {
+  if (error.response.status === 401) {
+    const currentRoute = router.currentRoute.name;
+    store.commit('clearUser');
+    if (currentRoute != 'Login') {
+      router.push({ name: 'Login' });
+    }
+  }
+  return error;
+})
 
 Vue.use(VueI18n);
 

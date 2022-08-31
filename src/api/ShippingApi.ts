@@ -18,5 +18,5 @@ export interface ShippingCost {
 }
 
 export async function getShippingMethods(): Promise<AxiosResponse<ShippingMethods>> {
-    return axios.get('api/shipping', { headers: { 'Accept': 'application/vnd.exbook.v1+json' } });
+    return axios.get('/api/shipping', { headers: { 'Accept': 'application/vnd.exbook.v1+json' } });
 }

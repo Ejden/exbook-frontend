@@ -7,6 +7,7 @@
       <v-card
           class="mx-auto"
           max-width="500"
+          elevation="0"
       >
         <v-card-title class="title font-weight-regular justify-space-between">
           <span>{{ $t('registerPage.title') }}</span>
@@ -44,6 +45,11 @@
               type="password"
               v-model="registerForm.reenteredPassword"
           ></v-text-field>
+
+          <span
+              v-if="showError"
+              class="error-msg"
+          >Nie udało się utworzyć konta. Pamiętaj aby użyć złożonego hasła.</span>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -52,7 +58,8 @@
           <v-btn
               @click="submit"
               block
-              color="accent"
+              elevation="0"
+              color="primary"
           >{{ $t('registerPage.register') }}
           </v-btn>
         </v-card-text>
@@ -64,14 +71,14 @@
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api';
 import { RegisterUserForm } from '@/api/UserApi';
-import { userModuleStore } from '@/utils/store-accessor';
+import router from '@/router';
 
 interface RegisterForm extends RegisterUserForm {
   reenteredPassword: string;
 }
 
 export default defineComponent({
-  setup() {
+  setup(_, { root }) {
     const registerForm = ref<RegisterForm | undefined>({
       email: '',
       username: '',
@@ -83,8 +90,9 @@ export default defineComponent({
     const showError = ref<boolean>(false);
     const submit = () => {
       if (registerForm.value?.password === registerForm.value?.reenteredPassword) {
-        userModuleStore.register(registerForm.value as RegisterUserForm)
+        root.$store.dispatch('register', registerForm.value as RegisterUserForm)
             .then(() => showError.value = false)
+            .then(() => router.push({ name: 'AccountRegisterComplete' }))
             .catch(() => showError.value = true);
       } else {
         console.log('Password validation failed')
@@ -127,5 +135,9 @@ input {
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   padding: 10px;
   border-radius: 30px;
+}
+
+.error-msg {
+  color: red;
 }
 </style>

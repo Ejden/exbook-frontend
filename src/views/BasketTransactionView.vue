@@ -41,10 +41,14 @@
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api';
 import {
+  CreationResult,
   DetailedDraftPurchase,
   previewPurchase,
-  PreviewPurchaseOrderData, PreviewPurchasePickupPointData, PreviewPurchaseShippingAddressData,
-  PreviewPurchaseShippingData, realisePurchase
+  PreviewPurchaseOrderData,
+  PreviewPurchasePickupPointData,
+  PreviewPurchaseShippingAddressData,
+  PreviewPurchaseShippingData,
+  realisePurchase
 } from '@/api/TransactionApi';
 import router from '@/router';
 import BasketTransactionGroup from '@/components/transaction/BasketTransactionGroup.vue';
@@ -63,7 +67,7 @@ export default defineComponent({
     const { loading, enableLoading, disableLoading } = loadingButton();
 
     const detailedDraftPurchase = ref<DetailedDraftPurchase | undefined>(undefined);
-    const pickedShippingMethodEventHandler = (event : PickedShippingMethodEvent) => {
+    const pickedShippingMethodEventHandler = (event: PickedShippingMethodEvent) => {
       enableLoading();
 
       if (detailedDraftPurchase.value !== undefined) {
@@ -103,7 +107,41 @@ export default defineComponent({
 
     const makePurchaseEventHandler = () => {
       realisePurchase()
-        .then(() => router.push({ name: 'PurchaseRealised' }));
+          .then((result) => {
+            if (result.status !== 200) {
+              router.push({ name: 'PurchaseFailed', params: { allFailed: 'true' }});
+              return;
+            }
+            if (result.data.result === CreationResult.ALL_ORDERS_CREATED) {
+              router.push({ name: 'PurchaseRealised' });
+              return;
+            }
+
+            let reason = '';
+            let allFailed = false;
+            if (result.data.result === CreationResult.SOME_ORDERS_CREATED) {
+              let firstError = Object.values(result.data.errorsByOrder)[0];
+              reason = firstError.userMessage;
+              allFailed = false;
+            }
+            if (result.data.result === CreationResult.NONE_ORDER_CREATED) {
+              allFailed = true;
+              if (result.data.purchaseCreationError !== undefined && result.data.purchaseCreationError !== null) {
+                reason = result.data.purchaseCreationError.userMessage;
+              } else {
+                let firstError = Object.values(result.data.errorsByOrder)[0];
+                reason = firstError.userMessage;
+              }
+            }
+
+            router.push({
+              name: 'PurchaseFailed',
+              params: {
+                reason,
+                allFailed: allFailed.toString()
+              }
+            })
+          });
     }
 
     return {

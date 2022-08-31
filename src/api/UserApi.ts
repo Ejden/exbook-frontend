@@ -1,14 +1,6 @@
 import axios from 'axios';
 import { apiHeaders } from '@/api/CommonTypings';
 
-interface UserApi {
-    register(registerUserForm: RegisterUserForm): Promise<void>;
-
-    login(loginUserForm: LoginUserForm): Promise<void>;
-
-    getLoggedUserInfo(): Promise<UserInfo>;
-}
-
 interface RegisterUserForm {
     email: string;
     username: string;
@@ -31,46 +23,21 @@ interface UserInfo {
     img: string;
 }
 
-class UserClient implements UserApi {
-    public async getLoggedUserInfo(): Promise<UserInfo> {
-        return axios.get('api/me', { withCredentials: true })
-            .then((r) => r.data as UserInfo);
-    }
-
-    public async login(loginUserForm: LoginUserForm): Promise<void> {
-        return axios.post(
-            'api/auth/login',
-            loginUserForm,
-            { withCredentials: true, headers: {'Content-Type': 'application/json'}}
-        );
-    }
-
-    public async register(registerUserForm: RegisterUserForm): Promise<void> {
-        return axios.post('api/auth/signup', {
-            email: registerUserForm.email,
-            username: registerUserForm.username,
-            firstName: registerUserForm.firstName,
-            lastName: registerUserForm.lastName,
-            password: registerUserForm.password
-        }, {headers: {'Content-Type': 'application/json'}});
-    }
-}
-
 async function getLoggedUserInfo(): Promise<UserInfo> {
-    return axios.get('api/me', { withCredentials: true })
+    return axios.get('/api/me', { withCredentials: true })
         .then((r) => r.data as UserInfo);
 }
 
 async function login(loginUserForm: LoginUserForm): Promise<void> {
     return axios.post(
-        'api/auth/login',
+        '/api/auth/login',
         loginUserForm,
         { withCredentials: true, headers: {'Content-Type': 'application/json'}}
     );
 }
 
 async function register(registerUserForm: RegisterUserForm): Promise<void> {
-    return axios.post('api/signup', {
+    return axios.post('/api/signup', {
         email: registerUserForm.email,
         username: registerUserForm.username,
         firstName: registerUserForm.firstName,

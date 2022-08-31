@@ -39,12 +39,11 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from '@vue/composition-api';
-import { userModuleStore } from '@/utils/store-accessor';
 import { MenuLink } from './typings/MenuLink';
 import { i18n } from '@/main';
 
 export default defineComponent({
-  setup() {
+  setup(_, { root }) {
     const menuLinks = ref<MenuLink[]>([
       {
         name: i18n.t('menu.modal.myAccount') as string,
@@ -68,7 +67,7 @@ export default defineComponent({
       }
     ]);
 
-    const user = computed(() => userModuleStore.getLoggedUser);
+    const user = computed(() => root.$store.getters.getLoggedUser);
 
     const isUserAuthenticated = computed(() => user.value !== undefined);
 
@@ -80,7 +79,7 @@ export default defineComponent({
     const userAvatarName = computed(() => isUserAuthenticated.value ?
         user.value!.firstName[0].toUpperCase() + user.value!.lastName[0].toUpperCase() : 'G');
 
-    const logout = () => userModuleStore.logout();
+    const logout = () => root.$store.dispatch('logout');
 
     return {
       menuLinks,

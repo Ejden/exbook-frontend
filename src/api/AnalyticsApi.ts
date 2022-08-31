@@ -10,5 +10,5 @@ export interface OfferViewEventViewer {
 }
 
 export async function publishOfferViewEvent(event: OfferViewEvent): Promise<void> {
-    await axios.post("api/analytics/offer-view", event);
+    await axios.post("/api/analytics/offer-view", event);
 }

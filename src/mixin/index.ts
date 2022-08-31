@@ -4,7 +4,12 @@ import { OrderStatus } from '@/api/OrderApi';
 import { i18n } from '@/main';
 
 export async function goToHomePage(): Promise<Route> {
-    return router.push('/');
+    if (router.currentRoute.path === '/') {
+        window.location.reload();
+        return new Promise<Route>(resolve => resolve(router.currentRoute));
+    } else {
+        return router.push('/');
+    }
 }
 
 export function getOrderStatus(orderStatus: OrderStatus): string {
@@ -61,4 +66,35 @@ export function getMonth(month: number): string {
         default:
             return ' '
     }
+}
+
+function defaultParamParser(key: string, value: string | number): string {
+    const encodedValue = encodeURIComponent(value);
+    return `${key}=${encodedValue}`;
+}
+
+export function buildUrl(url: string, queryParams: {}): string {
+    let finalUrl = url;
+    let paramConnector = '?';
+
+    Object.keys(queryParams).forEach(key => {
+        const value = Reflect.get(queryParams, key);
+
+        if (value) {
+            const isValueAnArray = Array.isArray(value);
+
+            if (isValueAnArray) {
+                value.forEach(val => {
+                    if (val) {
+                        finalUrl += paramConnector + defaultParamParser(key, val);
+                        paramConnector = '&';
+                    }
+                });
+            } else {
+                finalUrl += paramConnector + defaultParamParser(key, value);
+                paramConnector = '&';
+            }
+        }
+    });
+    return finalUrl;
 }

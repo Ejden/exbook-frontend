@@ -30,7 +30,7 @@
 
       <div>
         <v-icon class="mr-5 search-button" @click="openSearch">fas fa-search</v-icon>
-        <v-icon v-on:click="$router.push('/checkout')">fas fa-shopping-basket</v-icon>
+        <v-icon v-if="isUserAuthenticated" v-on:click="$router.push('/checkout')">fas fa-shopping-basket</v-icon>
         <menu-modal/>
       </div>
     </v-container>
@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import { computed, defineComponent, ref } from '@vue/composition-api';
 import MenuModal from '@/components/navbar/MenuModal.vue';
 
 export default defineComponent({
@@ -74,13 +74,16 @@ export default defineComponent({
     const closeSearch = () => {
       showFullSearchBar.value = false;
     }
+    const isUserAuthenticated = computed(() => root.$store.getters.isUserAuthenticated);
+
 
     return {
       searchText,
       search,
       openSearch,
       closeSearch,
-      showFullSearchBar
+      showFullSearchBar,
+      isUserAuthenticated
     }
   }
 });
