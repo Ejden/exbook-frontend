@@ -26,11 +26,11 @@ interface Book {
 
 interface Images {
     thumbnail: Image | null;
-    otherImages: Image[];
+    allImages: Image[];
 }
 
 interface Image {
-    raw: string;
+    url: string;
 }
 
 interface ShippingMethod {

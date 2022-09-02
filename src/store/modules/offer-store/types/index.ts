@@ -23,11 +23,12 @@ interface Book {
 
 interface Images {
     thumbnail: Image | null;
-    otherImages: Image[];
+    allImages: Image[];
+    rawFiles: File[];
 }
 
 interface Image {
-    raw: string;
+    url: string;
 }
 
 interface ShippingMethod {
@@ -46,6 +47,16 @@ interface PossibleOfferType {
     buyAbility: boolean;
 }
 
+interface NewOfferCreationResult {
+    result: OfferCreationStatus
+}
+
+enum OfferCreationStatus {
+    CREATED = 'CREATED',
+    VALIDATION_ERROR = 'VALIDATION_ERROR',
+    ERROR = 'ERROR'
+}
+
 export {
     OfferStoreState,
     OfferForm,
@@ -54,5 +65,7 @@ export {
     Image,
     ShippingMethod,
     Money,
-    PossibleOfferType
+    PossibleOfferType,
+    NewOfferCreationResult,
+    OfferCreationStatus
 };

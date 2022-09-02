@@ -13,14 +13,21 @@
               <span>{{ $t('newOfferForm.addImagesDescription') }}</span>
             </div>
           </div>
+
+          <image-slider
+              :images="allImages"
+              :thumbnail="thumbnail"
+          />
+
           <v-file-input
-            v-model="pictures"
+            v-model="allImagesRawFiles"
             class="mt-5"
-            accept="image/png, image/jpeg, image/bmp"
+            accept="image/png, image/jpeg, image/bmp, image/jpg"
             :placeholder="$t('newOfferForm.offersImages')"
             outlined
-            counter
             multiple
+            prepend-icon="mdi-camera"
+            @change="onPictureAdd"
           ></v-file-input>
         </v-card-text>
 
@@ -164,6 +171,9 @@ import { Category } from '@/api/CategoryApi';
 import { Store } from 'vuex';
 import { i18n } from '@/main';
 import { getBookInfoSuggestion } from '@/api/BookApi';
+import ImageSlider from '@/components/new-offer/ImageSlider.vue';
+import { uploadImages } from '@/api/ImageApi';
+import { Image } from '@/store/modules/offer-store/types';
 
 interface Rules {
   required: any;
@@ -172,6 +182,7 @@ interface Rules {
 
 export default defineComponent({
   components: {
+    ImageSlider,
     ShippingMethods,
     CategoriesSelectableList
   },
@@ -183,7 +194,6 @@ export default defineComponent({
         return value.length <= max || 'Max ' + max + ' characters';
       }
     });
-    const pictures = ref([]);
     const conditions = [
       {
         condition: 'NEW',
@@ -209,6 +219,7 @@ export default defineComponent({
     const selectedCondition = ref('');
     const price = ref('0.00');
     const offerTypes = root.$store.getters.offerTypes;
+    const imagesUrls = ref<string[]>([]);
 
     const pushCategoryFromChildTreeToForm = (payload: Category) => {
       root.$store.commit('updateSelectedCategoriesInNewOfferForm', payload);
@@ -228,7 +239,10 @@ export default defineComponent({
       offerFormPrice,
       offerFormLocation,
       offerFormShippingMethods,
-      initialStock
+      initialStock,
+      allImages,
+      thumbnail,
+      allImagesRawFiles
     } = offerModifiers(root.$store);
 
     const autofillForm = () => {
@@ -244,9 +258,28 @@ export default defineComponent({
       updateSelectedShippingMethods(undefined);
     });
 
+    const onPictureAdd = (images: File[]) => {
+      if (images.length === 0) {
+        allImages.value = [];
+        thumbnail.value = null;
+      }
+      images.forEach(image =>
+          uploadImages(image)
+              .then(result => {
+                imagesUrls.value.push(result.data.url);
+              })
+          .then(() => {
+            allImages.value = imagesUrls.value.map(image => {
+              return { url: image };
+            });
+            thumbnail.value = { url: imagesUrls.value[0] };
+          })
+      );
+
+    }
+
     return {
       rules,
-      pictures,
       conditions,
       selectedCondition,
       price,
@@ -263,7 +296,12 @@ export default defineComponent({
       offerFormLocation,
       offerFormShippingMethods,
       initialStock,
-      autofillForm
+      allImages,
+      thumbnail,
+      autofillForm,
+      onPictureAdd,
+      imagesUrls,
+      allImagesRawFiles
     }
   }
 });
@@ -319,6 +357,21 @@ function offerModifiers(store: Store<any>) {
     set: (value: number) => store.commit('updateInitialStock', value)
   });
 
+  const allImages = computed({
+    get: () => store.getters.newOfferForm.images.allImages,
+    set: (value: Image[]) => store.commit('updateAllImages', value)
+  });
+
+  const thumbnail = computed({
+    get: () => store.getters.newOfferForm.images.thumbnail,
+    set: (value: Image | null) => store.commit('updateThumbnailImage', value)
+  });
+
+  const allImagesRawFiles = computed({
+    get: () => store.getters.newOfferForm.images.rawFiles,
+    set: (value: File[]) => store.commit('updateImageRawFiles', value)
+  });
+
   return {
     offerFormIsbn,
     offerFormTitle,
@@ -329,7 +382,10 @@ function offerModifiers(store: Store<any>) {
     offerFormPrice,
     offerFormLocation,
     offerFormShippingMethods,
-    initialStock
+    initialStock,
+    allImages,
+    thumbnail,
+    allImagesRawFiles
   }
 }
 </script>

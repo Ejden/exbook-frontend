@@ -12,8 +12,6 @@
           <v-carousel-item
               v-for="(picture, i) in pictures" :key="i"
               :src="picture.url"
-              reverse-transition="fade-transition"
-              transition="fade-transition"
               class="image"
           />
         </v-carousel>
@@ -120,7 +118,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, computed } from '@vue/composition-api';
-import { Book, BookCondition, DetailedOffer, Image, OfferType } from '@/api/ListingApi';
+import { Book, BookCondition, DetailedOffer, OfferType } from '@/api/ListingApi';
 import { addItemToBasket, OrderType } from '@/api/BasketApi';
 import { i18n } from '@/main';
 
@@ -168,17 +166,7 @@ export default defineComponent({
       }
     ]);
 
-    const pictures = computed(() => {
-      if (props.offer.images.thumbnail === undefined) {
-        return [{
-          url: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
-        } as Image];
-      }
-      let pics = [];
-      pics.push(props.offer.images.thumbnail);
-
-      return pics;
-    });
+    const pictures = computed(() => props.offer.images.allImages);
 
     const canBuy = computed(() => {
       return props.offer.type !== 'EXCHANGE_ONLY';

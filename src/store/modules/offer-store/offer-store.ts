@@ -1,8 +1,16 @@
 import router from '@/router';
-import { NewOfferForm, CreatedOffer, createOffer } from '@/api/OfferApi';
+import { CreatedOffer, createOffer, NewOfferForm } from '@/api/OfferApi';
 import { ActionContext } from 'vuex';
 import { IRootState } from '@/store';
-import { OfferStoreState, PossibleOfferType, ShippingMethod } from '@/store/modules/offer-store/types';
+import {
+    Image,
+    NewOfferCreationResult,
+    OfferCreationStatus,
+    OfferForm,
+    OfferStoreState,
+    PossibleOfferType,
+    ShippingMethod
+} from '@/store/modules/offer-store/types';
 import { AxiosResponse } from 'axios';
 
 const availableOfferTypes: PossibleOfferType[] = [
@@ -34,7 +42,8 @@ const state: OfferStoreState = {
         description: '',
         images: {
             thumbnail: null,
-            otherImages: []
+            allImages: [],
+            rawFiles: []
         },
         category: '',
         type: availableOfferTypes[0],
@@ -60,10 +69,25 @@ function parseToShippingMethod(shippingMethod: ShippingMethod) {
     };
 }
 
+function validateOffer(offerForm: OfferForm): NewOfferCreationResult | null {
+    if (!offerForm.images.thumbnail) {
+        return { result: OfferCreationStatus.VALIDATION_ERROR };
+    }
+    if (offerForm.images.allImages.length === 0) {
+        return { result: OfferCreationStatus.VALIDATION_ERROR };
+    }
+
+    return null;
+}
+
 const actions = {
-    async addOffer(context: ActionContext<OfferStoreState, IRootState>) {
+    async addOffer(context: ActionContext<OfferStoreState, IRootState>): Promise<NewOfferCreationResult> {
         const form = context.state.newOfferForm;
-        const price = (form.price === undefined || form.price.trim().length === 0) ? undefined : { amount: form.price, currency: 'PLN' }
+        const price = (form.price === undefined || form.price.trim().length === 0) ? undefined : { amount: form.price, currency: 'PLN' };
+        const validationResult = validateOffer(form);
+        if (validationResult !== null) {
+            return validationResult;
+        }
 
         const body: NewOfferForm = {
             book: {
@@ -74,8 +98,8 @@ const actions = {
             },
             description: form.description,
             images: {
-                thumbnail: null,
-                otherImages: []
+                thumbnail: form.images.thumbnail,
+                allImages: form.images.allImages
             },
             category: form.category,
             type: form.type.type,
@@ -85,13 +109,15 @@ const actions = {
             initialStock: form.initialStock
         };
 
-        console.log(body);
         createOffer(body)
             .then((response: AxiosResponse<CreatedOffer>) => {
                 context.commit('clearNewOfferForm');
                 router.push('offer/' + response.data.id + '/new');
+                return { result: OfferCreationStatus.CREATED };
             })
             .catch(() => router.push('error'));
+
+        return Promise.resolve({ result: OfferCreationStatus.ERROR });
     }
 }
 
@@ -103,7 +129,8 @@ const mutations = {
         state.newOfferForm.book.condition = '';
         state.newOfferForm.description = '';
         state.newOfferForm.images.thumbnail = null;
-        state.newOfferForm.images.otherImages = [];
+        state.newOfferForm.images.allImages = [];
+        state.newOfferForm.images.rawFiles = [];
         state.newOfferForm.category = '';
         state.newOfferForm.type = availableOfferTypes[0];
         state.newOfferForm.price = '';
@@ -143,6 +170,15 @@ const mutations = {
     },
     updateInitialStock(state: OfferStoreState, initialStock: number) {
         state.newOfferForm.initialStock = initialStock;
+    },
+    updateAllImages(state: OfferStoreState, images: Array<Image>) {
+        state.newOfferForm.images.allImages = images;
+    },
+    updateThumbnailImage(state: OfferStoreState, image: Image) {
+        state.newOfferForm.images.thumbnail = image;
+    },
+    updateImageRawFiles(state: OfferStoreState, images: File[]) {
+        state.newOfferForm.images.rawFiles = images;
     }
 }
 

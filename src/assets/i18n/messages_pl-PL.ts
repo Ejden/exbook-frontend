@@ -128,7 +128,8 @@ export default {
         shippingMethods: 'Metody dostawy*',
         autofill: 'Autouzupełnij',
         errorFillingBookData: 'Nie znaleziono książki',
-        closeErrorFillingBookData: 'Zamknij'
+        closeErrorFillingBookData: 'Zamknij',
+        addImages: 'Dodaj zdjęcia'
     },
     home: {
         recommendedOffers: 'Polecane oferty',

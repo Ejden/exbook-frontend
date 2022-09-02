@@ -30,7 +30,8 @@ export default defineComponent({
     NewOfferForm
   },
   setup(_, { root }) {
-    const createOffer = () => root.$store.dispatch('addOffer');
+    const createOffer = () => root.$store.dispatch('addOffer')
+        .then(result => { console.log(result)});
     const errorPopupVisible = ref(false);
 
     const showErrorPopup = () => {
@@ -55,6 +56,7 @@ export default defineComponent({
 
 .new-offer-form {
   flex-basis: 67%;
+  max-width: 67%;
 }
 
 .new-offer-tips {
@@ -69,6 +71,10 @@ export default defineComponent({
 @media only screen and (max-width: 768px){
   .main {
     flex-direction: column;
+  }
+
+  .new-offer-form {
+    max-width: 100%;
   }
 }
 </style>
