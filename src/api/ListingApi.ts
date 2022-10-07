@@ -39,8 +39,8 @@ export enum BookCondition {
 }
 
 export interface Images {
-    thumbnail?: Image;
-    otherImages: Image[];
+    thumbnail: Image;
+    allImages: Image[];
 }
 
 export interface Image {
