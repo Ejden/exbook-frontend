@@ -85,12 +85,15 @@ export default defineComponent({
 <style scoped>
 .thumbnail {
   height: 100px;
+  width: 150px;
   margin-right: 1rem;
 }
 
 .image {
+  width: 100%;
   height: 100%;
-  border-radius: 5pt 0 0 5pt;
+  border-radius: 5pt;
+  object-fit: cover;
 }
 
 .offer {

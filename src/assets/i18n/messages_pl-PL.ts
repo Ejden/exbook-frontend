@@ -308,7 +308,7 @@ export default {
         addressDialog: {
             title: 'Wpisz adres dostawy',
             description: 'Pod ten adres kupujący dostarczy twoje książki',
-            accept: 'Zatwierdź',
+            accept: 'Zaakceptuj',
             cancel: 'Anuluj'
         },
         sellerShippingAddress: 'Adres sprzedawcy'

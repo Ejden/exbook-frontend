@@ -100,6 +100,10 @@ export default defineComponent({
       date += getMonth(d.getMonth() + 1) + ' ';
       date += d.getFullYear() + ' ';
       date += d.getHours() + ':';
+      const minutes = d.getMinutes();
+      if (minutes < 10) {
+        date += '0';
+      }
       date += d.getMinutes();
       return date;
     });

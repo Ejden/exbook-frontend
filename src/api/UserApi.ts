@@ -36,7 +36,7 @@ async function login(loginUserForm: LoginUserForm): Promise<void> {
     );
 }
 
-async function register(registerUserForm: RegisterUserForm): Promise<void> {
+async function register(registerUserForm: RegisterUserForm): Promise<any> {
     return axios.post('/api/signup', {
         email: registerUserForm.email,
         username: registerUserForm.username,

@@ -76,11 +76,11 @@ export default defineComponent({
     },
     orderType: {
       type: String as PropType<OrderType>,
-      required: true
+      required: false
     }
   },
   setup(props, { emit }) {
-    const showExchangeButtons = props.orderType === OrderType.EXCHANGE;
+    const showExchangeButtons = props.orderType == OrderType.EXCHANGE;
 
     const acceptExchange = () => {
       emit('acceptExchange');

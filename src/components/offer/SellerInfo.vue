@@ -5,7 +5,7 @@
     <v-card-text class="self-container">
       <span class="id">{{ $t('offer.sellerInfo.userId') }} {{ seller.id }}</span>
       <span class="username">{{ $t('offer.sellerInfo.username') }} {{ seller.username }}</span>
-      <span class="grade">{{ $t('offer.sellerInfo.userGrade') }} {{ seller.grade }}</span>
+<!--      <span class="grade">{{ $t('offer.sellerInfo.userGrade') }} {{ seller.grade }}</span>-->
     </v-card-text>
   </v-card>
 </template>

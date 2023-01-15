@@ -52,6 +52,7 @@
 
       <div class="order-actions">
         <sold-order-details-actions
+            v-if="order"
             :order-type="order.orderType"
             :actions="order.availableActions.sellerActions"
             @acceptExchange="acceptExchangeEventHandler"
@@ -65,6 +66,7 @@
 
     <v-container class="margin-top-16 container-standard-background mobile-actions">
       <sold-order-details-actions
+          v-if="order"
           class="margin-top-16"
           :order-type="order.orderType"
           :actions="order.availableActions.sellerActions"

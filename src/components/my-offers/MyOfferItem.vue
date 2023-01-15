@@ -32,15 +32,15 @@
 
 
     <div class="actions">
-      <v-btn
-          class="button"
-          elevation="0"
-          text
-          color="#1976d2"
-          large
-      >
-        {{ $t('myOffersPage.edit') }}
-      </v-btn>
+<!--      <v-btn-->
+<!--          class="button"-->
+<!--          elevation="0"-->
+<!--          text-->
+<!--          color="#1976d2"-->
+<!--          large-->
+<!--      >-->
+<!--        {{ $t('myOffersPage.edit') }}-->
+<!--      </v-btn>-->
       <v-btn
           class="button"
           elevation="0"
@@ -109,12 +109,15 @@ export default defineComponent({
 
 <style scoped>
 .thumbnail {
+  width: 200px;
   height: 130px;
   margin-right: 1rem;
 }
 
 .image {
+  width: 100%;
   height: 100%;
+  object-fit: cover;
   border-radius: 5pt 0 0 5pt;
 }
 
