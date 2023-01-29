@@ -25,7 +25,7 @@
           </v-chip-group>
         </div>
 
-        <span v-if="hasPrice" class="price"> {{ offer.price.amount }} <span style="font-size: 1rem; font-weight:500">zł</span></span>
+        <span v-if="hasPrice" class="price"> {{ price }} <span style="font-size: 1rem; font-weight:500">zł</span></span>
         <span v-else class="price">{{ $t('home.free') }}</span>
       </div>
     </div>
@@ -97,11 +97,19 @@ export default defineComponent({
     });
 
     const hasPrice = props.offer.type !== OfferType.EXCHANGE_ONLY;
+    let price = '';
+    if (hasPrice) {
+      price = (Math.round(props.offer.price!!.amount * 100)/100).toFixed(2);
+    } else {
+      price = '0.00';
+    }
+
 
     return {
       goToOffer,
       offerTypes,
-      hasPrice
+      hasPrice,
+      price
     }
   }
 });
@@ -156,5 +164,21 @@ export default defineComponent({
 
 .button:before {
   background: transparent;
+}
+
+@media screen and (max-width: 600px) {
+  .offer {
+    flex-direction: column;
+  }
+
+  .actions {
+    margin: auto;
+  }
+
+  .thumbnail {
+    width: 150px;
+    height: 100px;
+    margin-right: 1rem;
+  }
 }
 </style>
