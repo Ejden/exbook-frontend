@@ -16,7 +16,7 @@ const getters = {
 }
 
 const actions = {
-    async register(context: ActionContext<UserState, IRootState>, registerForm: RegisterUserForm): Promise<void> {
+    async register(context: ActionContext<UserState, IRootState>, registerForm: RegisterUserForm): Promise<any> {
         return register(registerForm);
     },
     async login(context: ActionContext<UserState, IRootState>, loginForm: LoginUserForm): Promise<void> {

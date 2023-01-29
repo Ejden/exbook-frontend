@@ -50,11 +50,11 @@ export default defineComponent({
         url: '/my-account',
         loginRequired: true
       },
-      {
-        name: i18n.t('menu.modal.messages') as string,
-        url: '/messages',
-        loginRequired: true
-      },
+      // {
+      //   name: i18n.t('menu.modal.messages') as string,
+      //   url: '/messages',
+      //   loginRequired: true
+      // },
       {
         name: i18n.t('menu.modal.login') as string,
         url: '/login',

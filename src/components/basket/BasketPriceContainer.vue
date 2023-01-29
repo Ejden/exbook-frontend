@@ -15,6 +15,7 @@
         color="primary"
         elevation="0"
         :loading="loading"
+        :disabled="!canGoToSummaryPage"
         @click="pickDeliveryEventHandler"
     >{{ $t('basket.pickShipping') }}</v-btn>
   </div>
@@ -30,6 +31,9 @@ export default defineComponent({
       type: Object as PropType<Money>
     },
     loading: {
+      type: Boolean
+    },
+    canGoToSummaryPage: {
       type: Boolean
     }
   },

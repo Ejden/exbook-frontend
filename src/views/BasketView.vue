@@ -42,6 +42,7 @@
         <basket-price-container
             :total-cost="basket.totalOffersCost"
             :loading="nextStepButtonLoading"
+            :can-go-to-summary-page="basket.canProceedToSummaryPage"
             @pickDelivery="pickDeliveryEventHandler"
         />
       </v-container>

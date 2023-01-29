@@ -14,6 +14,7 @@ export interface Basket {
     buyer: Buyer;
     itemsGroups: ItemsGroup[];
     totalOffersCost: Money;
+    canProceedToSummaryPage: boolean;
 }
 
 export interface Buyer {

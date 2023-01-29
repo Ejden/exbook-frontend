@@ -21,17 +21,17 @@
           <h2 class="book-title">{{ offer.book.title }}</h2>
           <div style="display: flex; align-items: center; flex-wrap: wrap">
             <span>{{ $t('offer.snippet.from') }} <strong>{{ offer.seller.username }}</strong></span>
-            <v-rating
-              color="warning"
-              background-color="grey"
-              dense
-              size="20"
-              class="ml-1"
-              half-increments
-              length="5"
-              readonly
-              :value="offer.seller.grade"
-            />
+<!--            <v-rating-->
+<!--              color="warning"-->
+<!--              background-color="grey"-->
+<!--              dense-->
+<!--              size="20"-->
+<!--              class="ml-1"-->
+<!--              half-increments-->
+<!--              length="5"-->
+<!--              readonly-->
+<!--              :value="offer.seller.grade"-->
+<!--            />-->
           </div>
         </div>
 
@@ -240,6 +240,8 @@ export default defineComponent({
   overflow: hidden;
   flex-grow: 2;
   max-width: 60%;
+  width: 60%;
+  height: 100%;
   margin-right: 1rem;
 }
 
@@ -250,7 +252,9 @@ export default defineComponent({
 }
 
 .image {
-  width: content-box;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .price-block {
@@ -278,9 +282,14 @@ export default defineComponent({
   .images-carousel {
     max-width: 100%;
     margin-right: 0;
+    width: 100%;
   }
 
   .book-title {
+    margin-top: 16px;
+  }
+
+  .offer-button-block {
     margin-top: 16px;
   }
 }

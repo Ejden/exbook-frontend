@@ -1,4 +1,4 @@
-import { Page } from '@/typings/Page';
+import { Page } from '@/api/typings/Page';
 import axios, { AxiosResponse } from 'axios';
 import { apiHeaders, ShippingMethodType } from '@/api/CommonTypings';
 import { buildUrl } from '@/mixin';

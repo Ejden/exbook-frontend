@@ -47,7 +47,7 @@ import { defineComponent, ref } from '@vue/composition-api';
 import { getListing, DetailedOffer } from '@/api/ListingApi';
 import LeftPanel from '../components/listing/leftpanel/LeftPanel.vue';
 import OfferListing from '../components/listing/offerlisting/OfferListing.vue';
-import { Pageable } from '@/typings/Page';
+import { Pageable } from '@/api/typings/Page';
 import LeftPanelModal from '@/components/listing/leftpanel/LeftPanelModal.vue';
 import router from '@/router';
 

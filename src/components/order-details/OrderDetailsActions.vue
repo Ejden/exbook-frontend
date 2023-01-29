@@ -12,35 +12,35 @@
       {{ $t('orderDetailsPage.action.received') }}
     </v-btn>
 
-    <v-btn
-        class="button"
-        elevation="0"
-        text
-        color="primary"
-        large
-    >
-      {{ $t('orderDetailsPage.action.rateSeller') }}
-    </v-btn>
+<!--    <v-btn-->
+<!--        class="button"-->
+<!--        elevation="0"-->
+<!--        text-->
+<!--        color="primary"-->
+<!--        large-->
+<!--    >-->
+<!--      {{ $t('orderDetailsPage.action.rateSeller') }}-->
+<!--    </v-btn>-->
 
-    <v-btn
-        class="button"
-        elevation="0"
-        text
-        color="primary"
-        large
-    >
-      {{ $t('orderDetailsPage.action.rateOffer') }}
-    </v-btn>
+<!--    <v-btn-->
+<!--        class="button"-->
+<!--        elevation="0"-->
+<!--        text-->
+<!--        color="primary"-->
+<!--        large-->
+<!--    >-->
+<!--      {{ $t('orderDetailsPage.action.rateOffer') }}-->
+<!--    </v-btn>-->
 
-    <v-btn
-        class="button"
-        elevation="0"
-        text
-        color="primary"
-        large
-    >
-      {{ $t('orderDetailsPage.action.rateBook') }}
-    </v-btn>
+<!--    <v-btn-->
+<!--        class="button"-->
+<!--        elevation="0"-->
+<!--        text-->
+<!--        color="primary"-->
+<!--        large-->
+<!--    >-->
+<!--      {{ $t('orderDetailsPage.action.rateBook') }}-->
+<!--    </v-btn>-->
 
     <v-btn
         class="button"

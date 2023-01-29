@@ -84,12 +84,15 @@ export default defineComponent({
 
 <style scoped>
 .thumbnail {
+  width: 200px;
   height: 100%;
   margin-right: 1rem;
 }
 
 .image {
+  width: 100%;
   height: 100%;
+  object-fit: cover;
   border-radius: 5pt 0 0 5pt;
 }
 
@@ -121,6 +124,7 @@ export default defineComponent({
 
 @media screen and (max-width: 900px) {
   .thumbnail {
+    width: 100px;
     height: 80px;
   }
 

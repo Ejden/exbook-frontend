@@ -3,7 +3,7 @@
     <div class="main">
       <v-img
           :src="item.offer.images.thumbnail.url"
-          max-height="80"
+          max-height="50"
           max-width="80"
           class="image image-link"
           @click="goToOffer"

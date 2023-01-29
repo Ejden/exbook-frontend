@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import { Page } from '@/typings/Page';
+import { Page } from '@/api/typings/Page';
 import { buildUrl } from '@/mixin';
 
 export interface DetailedOffer {

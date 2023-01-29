@@ -23,8 +23,7 @@ axios.interceptors.response.use(response => {
       router.push({ name: 'Login' });
     }
   }
-  return error;
-})
+});
 
 Vue.use(VueI18n);
 

@@ -17,39 +17,45 @@
           <v-text-field
               :label="$t('registerPage.firstname')"
               v-model="registerForm.firstName"
+              :rules="[rules.required]"
           />
 
           <v-text-field
               :label="$t('registerPage.lastname')"
               v-model="registerForm.lastName"
+              :rules="[rules.required]"
           />
 
           <v-text-field
               :label="$t('registerPage.username')"
               v-model="registerForm.username"
+              :rules="[rules.required]"
           />
 
           <v-text-field
               :label="$t('registerPage.email')"
               v-model="registerForm.email"
+              :rules="[rules.required]"
           ></v-text-field>
 
           <v-text-field
               :label="$t('registerPage.password')"
               type="password"
               v-model="registerForm.password"
+              :rules="[rules.required]"
           ></v-text-field>
 
           <v-text-field
               :label="$t('registerPage.confirmPassword')"
               type="password"
               v-model="registerForm.reenteredPassword"
+              :rules="[rules.required]"
           ></v-text-field>
 
           <span
               v-if="showError"
               class="error-msg"
-          >Nie udało się utworzyć konta. Pamiętaj aby użyć złożonego hasła.</span>
+          >Nie udało się utworzyć konta. Sprawdź poprawność pól.</span>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -72,9 +78,15 @@
 import { defineComponent, ref } from '@vue/composition-api';
 import { RegisterUserForm } from '@/api/UserApi';
 import router from '@/router';
+import { i18n } from '@/main';
 
 interface RegisterForm extends RegisterUserForm {
   reenteredPassword: string;
+}
+
+interface Rules {
+  required: any;
+  counter: any;
 }
 
 export default defineComponent({
@@ -87,22 +99,41 @@ export default defineComponent({
       password: '',
       reenteredPassword: ''
     });
+    const rules = ref<Rules>({
+      required: (value: string) => !!value || i18n.t('newOfferForm.required'),
+      counter: (value: string, max: number) => {
+        if (value == null) return true;
+        return value.length <= max || 'Max ' + max + ' characters';
+      }
+    });
     const showError = ref<boolean>(false);
+    const formCorrect = (): boolean => {
+      if (registerForm.value?.email.trim() == '') return false;
+      if (registerForm.value?.username.trim() == '') return false;
+      if (registerForm.value?.firstName.trim() == '') return false;
+      if (registerForm.value?.lastName.trim() == '') return false;
+      if (registerForm.value?.password.trim() == '') return false;
+      if (registerForm.value?.reenteredPassword.trim() == '') return false;
+      return true;
+    };
     const submit = () => {
-      if (registerForm.value?.password === registerForm.value?.reenteredPassword) {
+      if (formCorrect()) {
         root.$store.dispatch('register', registerForm.value as RegisterUserForm)
-            .then(() => showError.value = false)
-            .then(() => router.push({ name: 'AccountRegisterComplete' }))
+            .then(() => {
+              showError.value = false;
+              router.push({ name: 'AccountRegisterComplete' });
+            })
             .catch(() => showError.value = true);
       } else {
-        console.log('Password validation failed')
+        showError.value = true;
       }
     }
 
     return {
       registerForm,
       showError,
-      submit
+      submit,
+      rules
     }
   }
 })
